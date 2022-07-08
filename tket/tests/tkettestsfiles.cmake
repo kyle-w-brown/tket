@@ -34,6 +34,11 @@ set(TEST_SOURCES
     ${TKET_TESTS_DIR}/WeightSubgrMono/GraphTheoretic/test_FilterUtils.cpp
     ${TKET_TESTS_DIR}/WeightSubgrMono/GraphTheoretic/test_GeneralStructs.cpp
     ${TKET_TESTS_DIR}/WeightSubgrMono/GraphTheoretic/test_NeighboursData.cpp
+    ${TKET_TESTS_DIR}/WeightSubgrMono/InitPlacement/test_InitialPlacementProblems.cpp
+    ${TKET_TESTS_DIR}/WeightSubgrMono/InitPlacement/test_MonteCarloCompleteTargetSolution.cpp
+    ${TKET_TESTS_DIR}/WeightSubgrMono/InitPlacement/test_PrunedTargetEdges.cpp
+    ${TKET_TESTS_DIR}/WeightSubgrMono/InitPlacement/test_WeightedBinaryTree.cpp
+    ${TKET_TESTS_DIR}/WeightSubgrMono/InitPlacement/test_WeightedSquareGrid.cpp
     ${TKET_TESTS_DIR}/WeightSubgrMono/Searching/test_NodesRawData.cpp
     ${TKET_TESTS_DIR}/WeightSubgrMono/Searching/test_NodesRawDataTraversals.cpp
     ${TKET_TESTS_DIR}/WeightSubgrMono/SolvingProblems/test_CubicLattice.cpp

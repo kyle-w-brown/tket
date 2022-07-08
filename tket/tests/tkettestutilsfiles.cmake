@@ -18,6 +18,11 @@
 set(TESTUTILS_SOURCES
     ${TKET_TESTS_DIR}/tests_main.cpp
     ${TKET_TESTS_DIR}/testutil.cpp
+    ${TKET_TESTS_DIR}/WeightSubgrMono/InitPlacement/PlacementCostModelInterface.cpp
+    ${TKET_TESTS_DIR}/WeightSubgrMono/InitPlacement/TestUtilsIQP.cpp
+    ${TKET_TESTS_DIR}/WeightSubgrMono/InitPlacement/TestWeightedGraphData.cpp
+    ${TKET_TESTS_DIR}/WeightSubgrMono/InitPlacement/WeightedBinaryTree.cpp
+    ${TKET_TESTS_DIR}/WeightSubgrMono/InitPlacement/WeightedSquareGrid.cpp
     ${TKET_TESTS_DIR}/WeightSubgrMono/TestUtils/CheckedSolution.cpp
     ${TKET_TESTS_DIR}/WeightSubgrMono/TestUtils/FixedArchitectures.cpp
     ${TKET_TESTS_DIR}/WeightSubgrMono/TestUtils/GraphGeneration.cpp

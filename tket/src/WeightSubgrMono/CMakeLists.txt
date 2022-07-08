@@ -33,6 +33,14 @@ add_library(tket-${COMP}
   GraphTheoretic/NearNeighboursData.cpp
   GraphTheoretic/NeighboursData.cpp
   GraphTheoretic/VertexRelabelling.cpp
+  InitPlacement/EndToEndIQP.cpp
+  InitPlacement/FastRandomBits.cpp
+  InitPlacement/InputStructs.cpp
+  InitPlacement/MonteCarloCompleteTargetSolution.cpp
+  InitPlacement/MonteCarloManager.cpp
+  InitPlacement/PrunedTargetEdges.cpp
+  InitPlacement/SolutionJumper.cpp
+  InitPlacement/UtilsIQP.cpp
   Reducing/DerivedGraphsReducer.cpp
   Reducing/DistancesReducer.cpp
   Reducing/HallSetReduction.cpp

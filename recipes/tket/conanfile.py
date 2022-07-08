@@ -80,6 +80,7 @@ class TketConan(ConanFile):
             "DomainInitialising",
             "EndToEndWrappers",
             "GraphTheoretic",
+            "InitPlacement",
             "Reducing",
             "Searching",
             "WeightPruning",
