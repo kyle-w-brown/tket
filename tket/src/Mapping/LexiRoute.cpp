@@ -20,8 +20,7 @@
 namespace tket {
 
 LexiRoute::LexiRoute(
-    const ArchitecturePtr& _architecture,
-    MappingFrontier_ptr& _mapping_frontier)
+    const ArchitecturePtr& _architecture, MappingFrontierPtr& _mapping_frontier)
     : architecture_(_architecture), mapping_frontier_(_mapping_frontier) {
   // set initial logical->physical labelling
   for (const Qubit& qb : this->mapping_frontier_->circuit_.all_qubits()) {

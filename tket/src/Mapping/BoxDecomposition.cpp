@@ -18,8 +18,7 @@
 namespace tket {
 
 BoxDecomposition::BoxDecomposition(
-    const ArchitecturePtr &_architecture,
-    MappingFrontier_ptr &_mapping_frontier)
+    const ArchitecturePtr &_architecture, MappingFrontierPtr &_mapping_frontier)
     : architecture_(_architecture), mapping_frontier_(_mapping_frontier) {}
 
 bool BoxDecomposition::solve() {
@@ -56,7 +55,7 @@ bool BoxDecomposition::solve() {
 BoxDecompositionRoutingMethod::BoxDecompositionRoutingMethod(){};
 
 std::pair<bool, unit_map_t> BoxDecompositionRoutingMethod::routing_method(
-    MappingFrontier_ptr &mapping_frontier,
+    MappingFrontierPtr &mapping_frontier,
     const ArchitecturePtr &architecture) const {
   BoxDecomposition bd(architecture, mapping_frontier);
   bool modified = bd.solve();

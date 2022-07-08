@@ -33,7 +33,7 @@ class TokenSwappingTester : public RoutingMethod {
    *
    */
   std::pair<bool, unit_map_t> routing_method(
-      MappingFrontier_ptr& /*mapping_frontier*/,
+      MappingFrontierPtr& /*mapping_frontier*/,
       const ArchitecturePtr& /*architecture*/) const {
     Node node0("test_node", 0), node1("test_node", 1), node2("test_node", 2);
     return {true, {{node0, node1}, {node1, node2}, {node2, node0}}};

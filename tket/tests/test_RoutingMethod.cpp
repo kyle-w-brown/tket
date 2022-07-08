@@ -15,7 +15,7 @@ SCENARIO("Test RoutingMethod default methods.") {
       {{Node("t", 1), Node("t", 0)}, {Node("t", 2), Node("t", 1)}});
   ArchitecturePtr shared_arc = std::make_shared<Architecture>(arc);
   Circuit circ(3);
-  MappingFrontier_ptr mf = std::make_shared<MappingFrontier>(circ);
+  MappingFrontierPtr mf = std::make_shared<MappingFrontier>(circ);
   unit_map_t empty;
   std::pair<bool, unit_map_t> rm_return = rm.routing_method(mf, shared_arc);
   REQUIRE(!rm_return.first);
@@ -120,8 +120,8 @@ SCENARIO("Test RoutingMethodCircuit checking criteria") {
   c.add_op<unsigned>(OpType::CX, {0, 1});
   circ3.add_op<unsigned>(OpType::CX, {0, 2});
   circ3.add_op<unsigned>(OpType::CX, {2, 1});
-  MappingFrontier_ptr mf2 = std::make_shared<MappingFrontier>(c);
-  MappingFrontier_ptr mf3 = std::make_shared<MappingFrontier>(circ3);
+  MappingFrontierPtr mf2 = std::make_shared<MappingFrontier>(c);
+  MappingFrontierPtr mf3 = std::make_shared<MappingFrontier>(circ3);
 
   Architecture arc(
       {{Node("t", 1), Node("t", 0)}, {Node("t", 2), Node("t", 1)}});
@@ -155,7 +155,7 @@ SCENARIO("Test RoutingMethodCircuit::routing_method") {
     c.add_op<unsigned>(OpType::CX, {0, 1});
     c.add_op<unsigned>(OpType::CX, {0, 1});
 
-    MappingFrontier_ptr mf = std::make_shared<MappingFrontier>(c);
+    MappingFrontierPtr mf = std::make_shared<MappingFrontier>(c);
     Architecture arc(
         {{Node("t", 1), Node("t", 0)}, {Node("t", 2), Node("t", 1)}});
     ArchitecturePtr shared_arc = std::make_shared<Architecture>(arc);
@@ -173,7 +173,7 @@ SCENARIO("Test RoutingMethodCircuit::routing_method") {
     c.add_op<unsigned>(OpType::CX, {0, 1});
     c.add_op<unsigned>(OpType::CX, {0, 1});
 
-    MappingFrontier_ptr mf = std::make_shared<MappingFrontier>(c);
+    MappingFrontierPtr mf = std::make_shared<MappingFrontier>(c);
     Architecture arc(
         {{Node("t", 1), Node("t", 0)}, {Node("t", 2), Node("t", 1)}});
     ArchitecturePtr shared_arc = std::make_shared<Architecture>(arc);
@@ -191,7 +191,7 @@ SCENARIO("Test RoutingMethodCircuit::routing_method") {
     c.add_op<unsigned>(OpType::CX, {0, 1});
     c.add_op<unsigned>(OpType::CX, {0, 1});
 
-    MappingFrontier_ptr mf = std::make_shared<MappingFrontier>(c);
+    MappingFrontierPtr mf = std::make_shared<MappingFrontier>(c);
     Architecture arc(
         {{Node("t", 1), Node("t", 0)}, {Node("t", 2), Node("t", 1)}});
     ArchitecturePtr shared_arc = std::make_shared<Architecture>(arc);
@@ -234,7 +234,7 @@ SCENARIO("Test RoutingMethodCircuit produces correct map") {
   partial_map.insert({Qubit(1), Node(1)});
   // We leave q[2] unplaced
   pl.place_with_map(c, partial_map, maps);
-  MappingFrontier_ptr mf = std::make_shared<MappingFrontier>(c, maps);
+  MappingFrontierPtr mf = std::make_shared<MappingFrontier>(c, maps);
 
   std::pair<bool, unit_map_t> res = rmc.routing_method(mf, shared_arc);
 

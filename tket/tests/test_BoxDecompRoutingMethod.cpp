@@ -47,7 +47,7 @@ SCENARIO("Decompose boxes") {
         {qubits[3], nodes[3]}};
     circ.rename_units(rename_map);
     Circuit circ_copy(circ);
-    MappingFrontier_ptr mf = std::make_shared<MappingFrontier>(circ);
+    MappingFrontierPtr mf = std::make_shared<MappingFrontier>(circ);
     BoxDecomposition bd(shared_arc, mf);
     bd.solve();
     const auto u = tket_sim::get_unitary(circ);
@@ -72,7 +72,7 @@ SCENARIO("Decompose boxes") {
         {qubits[2], nodes[2]},
         {qubits[3], nodes[3]}};
     circ.rename_units(rename_map);
-    MappingFrontier_ptr mf = std::make_shared<MappingFrontier>(circ);
+    MappingFrontierPtr mf = std::make_shared<MappingFrontier>(circ);
     BoxDecomposition bd(shared_arc, mf);
     bd.solve();
     std::vector<Command> commands = mf->circuit_.get_commands();
@@ -103,7 +103,7 @@ SCENARIO("Decompose boxes") {
         {qubits[2], nodes[2]},
         {qubits[3], nodes[3]}};
     circ.rename_units(rename_map);
-    MappingFrontier_ptr mf = std::make_shared<MappingFrontier>(circ);
+    MappingFrontierPtr mf = std::make_shared<MappingFrontier>(circ);
     MappingManager mm(shared_arc);
     std::vector<RoutingMethodPtr> vrm = {
 

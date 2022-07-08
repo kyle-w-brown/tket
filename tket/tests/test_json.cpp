@@ -433,7 +433,7 @@ SCENARIO("Test RoutingMethod serializations") {
   c.add_op<unsigned>(OpType::CX, {0, 1});
 
   MappingFrontier mf(c);
-  MappingFrontier_ptr mf_sp = std::make_shared<MappingFrontier>(mf);
+  MappingFrontierPtr mf_sp = std::make_shared<MappingFrontier>(mf);
   CHECK(!loaded_rm_j.routing_method(mf_sp, std::make_shared<SquareGrid>(2, 2))
              .first);
 

@@ -36,7 +36,7 @@ class LexiLabellingMethod : public RoutingMethod {
    *
    */
   std::pair<bool, unit_map_t> routing_method(
-      MappingFrontier_ptr& mapping_frontier,
+      MappingFrontierPtr& mapping_frontier,
       const ArchitecturePtr& architecture) const override;
 
   nlohmann::json serialize() const override;

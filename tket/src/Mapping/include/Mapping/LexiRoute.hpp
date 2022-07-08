@@ -43,7 +43,7 @@ class LexiRoute {
    */
   LexiRoute(
       const ArchitecturePtr& _architecture,
-      MappingFrontier_ptr& _mapping_frontier);
+      MappingFrontierPtr& _mapping_frontier);
 
   /**
    * When called, LexiRoute::solve will modify the Circuit held in
@@ -171,7 +171,7 @@ class LexiRoute {
   // Architecture all new physical operations must respect
   ArchitecturePtr architecture_;
   //   Contains circuit for finding SWAP from and non-routed/routed boundary
-  MappingFrontier_ptr& mapping_frontier_;
+  MappingFrontierPtr& mapping_frontier_;
   //   Map between UnitID and UnitID they interact with at boundary
   unit_map_t interacting_uids_;
   //   Map between original circuit UnitID and new UnitID due to dynamic

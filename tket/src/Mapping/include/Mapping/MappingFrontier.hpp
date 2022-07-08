@@ -206,6 +206,6 @@ struct MappingFrontier {
   UnitID get_qubit_from_circuit_uid(const UnitID& uid);
 };
 
-typedef std::shared_ptr<MappingFrontier> MappingFrontier_ptr;
+typedef std::shared_ptr<MappingFrontier> MappingFrontierPtr;
 
 }  // namespace tket

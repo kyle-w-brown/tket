@@ -46,7 +46,7 @@ SCENARIO("Reorder circuits") {
         {qubits[3], nodes[3]}};
     circ.rename_units(rename_map);
     Circuit circ_copy(circ);
-    MappingFrontier_ptr mf = std::make_shared<MappingFrontier>(circ);
+    MappingFrontierPtr mf = std::make_shared<MappingFrontier>(circ);
     mf->advance_frontier_boundary(shared_arc);
     MultiGateReorder mr(shared_arc, mf);
     mr.solve(20, 20);
@@ -87,7 +87,7 @@ SCENARIO("Reorder circuits") {
         {qubits[3], nodes[3]}};
     circ.rename_units(rename_map);
     Circuit circ_copy(circ);
-    MappingFrontier_ptr mf = std::make_shared<MappingFrontier>(circ);
+    MappingFrontierPtr mf = std::make_shared<MappingFrontier>(circ);
     mf->advance_frontier_boundary(shared_arc);
     MultiGateReorder mr(shared_arc, mf);
     mr.solve(20, 20);
@@ -133,7 +133,7 @@ SCENARIO("Reorder circuits") {
     circ.rename_units(rename_map);
     Circuit circ_copy(circ);
 
-    MappingFrontier_ptr mf = std::make_shared<MappingFrontier>(circ);
+    MappingFrontierPtr mf = std::make_shared<MappingFrontier>(circ);
     mf->advance_frontier_boundary(shared_arc);
     MultiGateReorder mr(shared_arc, mf);
     mr.solve(20, 20);
@@ -180,7 +180,7 @@ SCENARIO("Reorder circuits") {
     circ.rename_units(rename_map);
     Circuit circ_copy(circ);
 
-    MappingFrontier_ptr mf = std::make_shared<MappingFrontier>(circ);
+    MappingFrontierPtr mf = std::make_shared<MappingFrontier>(circ);
     mf->advance_frontier_boundary(shared_arc);
     MultiGateReorder mr(shared_arc, mf);
     mr.solve(20, 20);
@@ -225,7 +225,7 @@ SCENARIO("Reorder circuits with limited search space") {
         {qubits[3], nodes[3]}};
     circ.rename_units(rename_map);
     Circuit circ_copy(circ);
-    MappingFrontier_ptr mf = std::make_shared<MappingFrontier>(circ);
+    MappingFrontierPtr mf = std::make_shared<MappingFrontier>(circ);
     mf->advance_frontier_boundary(shared_arc);
     MultiGateReorder mr(shared_arc, mf);
     mr.solve(3, 3);
@@ -273,7 +273,7 @@ SCENARIO("Test MultiGateReorderRoutingMethod") {
         {qubits[3], nodes[3]}};
     circ.rename_units(rename_map);
     Circuit circ_copy(circ);
-    MappingFrontier_ptr mf = std::make_shared<MappingFrontier>(circ);
+    MappingFrontierPtr mf = std::make_shared<MappingFrontier>(circ);
     mf->advance_frontier_boundary(shared_arc);
     MultiGateReorderRoutingMethod mrrm;
 
@@ -298,7 +298,7 @@ SCENARIO("Test MultiGateReorderRoutingMethod") {
     // Test with limits
     Circuit circ2(circ_copy);
 
-    MappingFrontier_ptr mf2 = std::make_shared<MappingFrontier>(circ2);
+    MappingFrontierPtr mf2 = std::make_shared<MappingFrontier>(circ2);
     mf2->advance_frontier_boundary(shared_arc);
     MultiGateReorderRoutingMethod mrrm2(4, 4);
 
@@ -353,7 +353,7 @@ SCENARIO("Test MappingManager with MultiGateReorderRoutingMethod") {
         {qubits[2], nodes[2]},
         {qubits[3], nodes[3]}};
     circ.rename_units(rename_map);
-    MappingFrontier_ptr mf = std::make_shared<MappingFrontier>(circ);
+    MappingFrontierPtr mf = std::make_shared<MappingFrontier>(circ);
     MappingManager mm(shared_arc);
     // MultiGateReorderRoutingMethod should first commute the last two gates
     // then only one swap is needed.

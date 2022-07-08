@@ -25,7 +25,7 @@ class LexiRouteRoutingMethod : public RoutingMethod {
    * Checking and Routing methods redefined using LexiRoute. Only circuit depth,
    * corresponding to lookahead, is a required parameter.
    *
-   * @param _max_depth Number of layers of gates checked inr outed subcircuit.
+   * @param _max_depth Number of layers of gates checked in routed subcircuit.
    */
   LexiRouteRoutingMethod(unsigned _max_depth = 100);
 
@@ -39,7 +39,7 @@ class LexiRouteRoutingMethod : public RoutingMethod {
    *
    */
   std::pair<bool, unit_map_t> routing_method(
-      MappingFrontier_ptr& mapping_frontier,
+      MappingFrontierPtr& mapping_frontier,
       const ArchitecturePtr& architecture) const override;
 
   /**

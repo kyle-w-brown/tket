@@ -16,7 +16,7 @@
 namespace tket {
 
 std::pair<bool, unit_map_t> LexiLabellingMethod::routing_method(
-    MappingFrontier_ptr& mapping_frontier,
+    MappingFrontierPtr& mapping_frontier,
     const ArchitecturePtr& architecture) const {
   LexiRoute lr(architecture, mapping_frontier);
   return {lr.solve_labelling(), {}};
