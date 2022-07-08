@@ -89,3 +89,23 @@ This is a pretty good ratio, showing (at least) that the naive method of just tr
 Disappointingly, the main WSM routine does not improve on the MCCT solution at all in these tests (not because the WSM routines are bad, but because the MCCT seems to be ALREADY optimal for the new WSM problem produced).
 
 However, we must stress that many more tests and experiments need to be done. The final result will probably be much better than this.
+
+
+COMMENT ON PARTIAL WSM ASSIGNMENTS EXTENSION
+
+One main idea was to use extension of partial solutions, i.e. add a callback to the main WSM solver, so that when the search node becomes nogood (further extension of the partial solution is impossible), the caller has the option of extending it to a full solution. This is because the internal main WSM-phase is solving a WSM problem with reduced target graph, but the earlier MCCT-phase involved a COMPLETE target graph. Thus, ANY partial assignment extends to a full assignment (as long as there is no target vertex clash).
+
+[Notice how similar this is to graph colouring with unlimited colours, and Travelling Salesperson, rather than standard subgraph monomorphism. WSM seems to be quite powerful, in that it generalises BOTH standard subgraph monomorphism AND Travelling Salesperson, so I suspect it might be widely applicable, as a heuristic component for other problems].
+
+To save time, we probably wouldn't extend EVERY partial solution, but maybe only some, according to some heuristic (such as, rough estimates for the final scalar product, given the number of PV, p-edges, and total p-weight so far).
+
+Unfortunately, my crude extension algorithm seemed to be very poor (prioritising unassigned PV with high edge weight sum; assigning to TV with low edge weight sum). It seemed to be worse than just trying random assignments. Maybe it was wrong somehow, but it seems like we need a better extension algorithm to make this worthwhile. Maybe just crudely doing yet more random jumping is the way to go. (I.e., a cut-down version of MCCT on each extended partial solution).
+
+
+COMMENT ON PARTIAL PLACEMENTS
+
+Currently, if you only want to place some qubits, and other qubits have already been placed, there's no good way to tell the IQP routine that some target vertices are forbidden. The only way is to remove those vertices completely from the pattern and target graphs, but that's unsatisfactory because it also removes edges.
+
+A better try is to modify MCCT and the main WSM routines to RESTRICT domains (i.e., specify at the start, for each PV, a SUBSET of TV within which Domain(PV) must lie).
+
+This would actually be very easy to do, but I'm out of time. Definitely you should try this in future if you want to use IQP to place the PV in multiple chunks, rather than all at once.

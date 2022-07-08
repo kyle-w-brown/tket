@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-Version 0.31.
+Version 0.4.
 
 BASIC PROBLEM:
 
@@ -98,6 +98,9 @@ FURTHER COMMENTS:
 
 
 NOTABLE CHANGES FROM PREVIOUS VERSIONS:
+
+Version 0.31 -> 0.4:
+- The InitPlacement code has been added. This is like an initial proof-of-concept showing how to use a WSM formulation to get reasonable initial qubit placements in a real scenario. Preliminary results are very encouraging but far more testing and experimentation should be done.
 
 Version 0.3 -> 0.31:
 - Refactor: internally relabels vertices if necessary (and converts them back again at the end - no visible difference for the user), to make them lie in {0,1,2,...,N}. This allows std::vector instead of std::map in some places. This simple change increases speed by >10% !
