@@ -46,10 +46,7 @@ bool DistancesReducer::check(std::pair<VertexWSM, VertexWSM> assignment) {
 
 ReductionResult DistancesReducer::reduce(
     std::pair<VertexWSM, VertexWSM> assignment, DomainsAccessor& accessor,
-    std::set<VertexWSM>&) {
-
-  TemporaryRefactorCode();
-  boost::dynamic_bitset<> work_bitset;
+    boost::dynamic_bitset<>& work_bitset) {
 
   auto result = ReductionResult::SUCCESS;
 
