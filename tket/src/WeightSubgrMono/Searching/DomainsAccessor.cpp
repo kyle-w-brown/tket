@@ -18,7 +18,6 @@
 
 #include "Utils/Assert.hpp"
 #include "WeightSubgrMono/Common/GeneralUtils.hpp"
-#include "WeightSubgrMono/Common/SetIntersection.hpp"
 #include "WeightSubgrMono/Searching/NodesRawData.hpp"
 
 #include "WeightSubgrMono/Common/TemporaryRefactorCode.hpp"

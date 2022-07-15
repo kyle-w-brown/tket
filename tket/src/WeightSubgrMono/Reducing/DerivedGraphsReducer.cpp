@@ -15,7 +15,6 @@
 #include "WeightSubgrMono/Reducing/DerivedGraphsReducer.hpp"
 
 #include "Utils/Assert.hpp"
-#include "WeightSubgrMono/Common/SetIntersection.hpp"
 #include "WeightSubgrMono/GraphTheoretic/FilterUtils.hpp"
 #include "WeightSubgrMono/GraphTheoretic/NeighboursData.hpp"
 #include "WeightSubgrMono/Searching/DomainsAccessor.hpp"
