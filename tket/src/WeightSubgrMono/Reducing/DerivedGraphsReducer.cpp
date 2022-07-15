@@ -20,8 +20,6 @@
 #include "WeightSubgrMono/GraphTheoretic/NeighboursData.hpp"
 #include "WeightSubgrMono/Searching/DomainsAccessor.hpp"
 
-#include "WeightSubgrMono/Common/TemporaryRefactorCode.hpp"
-
 
 namespace tket {
 namespace WeightedSubgraphMonomorphism {
