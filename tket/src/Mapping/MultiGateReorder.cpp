@@ -196,6 +196,7 @@ bool MultiGateReorder::solve(unsigned max_depth, unsigned max_size) {
        this->mapping_frontier_->linear_boundary->get<TagKey>()) {
     copy.insert({pair.first, pair.second});
   }
+  // std::vector<std::pair<node_vector_t, Op_ptr>> cassed_operations_ = this->mapping_frontier_->passed_operations_;
   // Get a subcircuit only for iterating vertices
   Subcircuit circ =
       this->mapping_frontier_->get_frontier_subcircuit(max_depth, max_size);
@@ -231,6 +232,7 @@ bool MultiGateReorder::solve(unsigned max_depth, unsigned max_size) {
   }
   // Return the quantum boundary to its original setting
   this->mapping_frontier_->set_linear_boundary(copy);
+  // this->mapping_frontier_->passed_operations_ = copy_passed_operations_;
   return modification_made;
 }
 

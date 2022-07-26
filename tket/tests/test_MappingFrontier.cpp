@@ -56,6 +56,10 @@ SCENARIO("Test MappingFrontier initialisation, advance_frontier_boundary.") {
     MappingFrontier mf(m);
     mf.advance_frontier_boundary(shared_arc);
 
+    for(auto x : mf->passed_operations_){
+        std::cout << x.second->get_command_str(x.first) << std::endl;
+    }
+
     VertPort vp0 = mf.linear_boundary->get<TagKey>().find(nodes[0])->second;
     VertPort vp1 = mf.linear_boundary->get<TagKey>().find(nodes[1])->second;
     VertPort vp2 = mf.linear_boundary->get<TagKey>().find(nodes[2])->second;

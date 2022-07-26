@@ -18,10 +18,10 @@ namespace tket {
 
 // Methods for "LazySynthesisTableau"
 void LazySynthesisTableau::add_qubit(const Qubit& qubit){
-  this->clifford.add_qubit(qb);
-  this->rx_pauli.insert({qb, QubitPauliTensor(qb, Pauli::X)});
-  this->rz_pauli.insert({qb, QubitPauliTensor(qb, Pauli::Z)});
-  this->dependencies.insert({qb, {}});
+  this->clifford_.add_qubit(qb);
+  this->rx_pauli_.insert({qb, QubitPauliTensor(qb, Pauli::X)});
+  this->rz_pauli_.insert({qb, QubitPauliTensor(qb, Pauli::Z)});
+  this->dependencies_.insert({qb, {}});
 }
 
 void LazySynthesisTableau::update_gadgets(const unit_vector_t& unitids, const Op_ptr& op_ptr){
@@ -31,88 +31,91 @@ void LazySynthesisTableau::update_gadgets(const unit_vector_t& unitids, const Op
   switch (type) {
         case OpType::S: {
           Qubit q(args[0]);
-          if(this->dependencies.count(q) == 0){
+          if(this->dependencies_.count(q) == 0){
             throw LazySynthesisError("LazySynthesisTableau object does not contain given Qubit.")
           }
-          rx_pauli[q] = i_ * rz_pauli[q] * rx_pauli[q];
+          this->rx_pauli_[q] = i_ * this->rz_pauli__[q] * this->rx_pauli_[q];
           break;
         }
         case OpType::V: {
           Qubit q(args[0]);
-          if(this->dependencies.count(q) == 0){
+          if(this->dependencies_.count(q) == 0){
             throw LazySynthesisError("LazySynthesisTableau object does not contain given Qubit.");
           }
-          rz_pauli[q] = i_ * rx_pauli[q] * rz_pauli[q];
+          this->rz_pauli_[q] = i_ * this->rx_pauli_[q] * this->rz_pauli_[q];
           break;
         }
         case OpType::Z: {
           Qubit q(args[0]);
-          if(this->dependencies.count(q) == 0){
+          if(this->dependencies_.count(q) == 0){
             throw LazySynthesisError("LazySynthesisTableau object does not contain given Qubit.");
           }
-          rx_pauli[q] = -1. * rx_pauli[q];
+          this->rx_pauli_[q] = -1. * this->rx_pauli_[q];
           break;
         }
         case OpType::X: {
           Qubit q(args[0]);
-          if(this->dependencies.count(q) == 0){
+          if(this->dependencies_.count(q) == 0){
             throw LazySynthesisError("LazySynthesisTableau object does not contain given Qubit.");
           }
-          rz_pauli[q] = -1. * rz_pauli[q];
+          this->rz_pauli_[q] = -1. * this->rz_pauli_[q];
           break;
         }
         case OpType::Sdg: {
           Qubit q(args[0]);
-          if(this->dependencies.count(q) == 0){
+          if(this->dependencies_.count(q) == 0){
             throw LazySynthesisError("LazySynthesisTableau object does not contain given Qubit.");
           }
-          rx_pauli[q] = -i_ * rz_pauli[q] * rx_pauli[q];
+          this->rx_pauli_[q] = -i_ * this->rz_pauli_[q] * this->rx_pauli_[q];
           break;
         }
         case OpType::Vdg: {
           Qubit q(args[0]);
-          if(this->dependencies.count(q) == 0){
+          if(this->dependencies_.count(q) == 0){
             throw LazySynthesisError("LazySynthesisTableau object does not contain given Qubit.");
           }
-          rz_pauli[q] = -i_ * rx_pauli[q] * rz_pauli[q];
+          this->rz_pauli_[q] = -i_ * this->rx_pauli_[q] * this->rz_pauli_[q];
           break;
         }
         case OpType::CX: {
           Qubit q_ctrl(args[0]);
-          if(this->dependencies.count(q_ctrl) == 0){
+          if(this->dependencies_.count(q_ctrl) == 0){
             throw LazySynthesisError("LazySynthesisTableau object does not contain given Qubit.");
           }
           Qubit q_trgt(args[1]);
-          if(this->dependencies.count(q_trgt) == 0){
+          if(this->dependencies_.count(q_trgt) == 0){
             throw LazySynthesisError("LazySynthesisTableau object does not contain given Qubit.");
           }
-          rx_pauli[q_ctrl] = rx_pauli[q_ctrl] * rx_pauli[q_trgt];
-          rz_pauli[q_trgt] = rz_pauli[q_ctrl] * rz_pauli[q_trgt];
+          this->rx_pauli_[q_ctrl] = this->rx_pauli_[q_ctrl] * this->rx_pauli_[q_trgt];
+          this->rz_pauli_[q_trgt] = this->rz_pauli_[q_ctrl] * this->rz_pauli_[q_trgt];
           break;
         }
         default: {
           throw BadOpType(type);
         }
   }
-  clifford.add_op(op_ptr, args);
+  this->clifford_.add_op(op_ptr, args);
 }
 
+
+// TODO overload + operator to do this, purely for fun
 void LazySynthesisTableau::merge_tableau(const LazySynthesisTableau& merge){
   // first check there are no overlapping keys in dependencies which would prevent a merge
+  // TODO: overload some intersection operator 
   for(const Qubit& q : merge.depencies){
-    if(std::find(q, this->depencies.begin(), this->dependencie.end()) == this->dependencies.end()){
+    if(std::find(q, this->dependencies_.begin(), this->dependencies_.end()) == this->dependencies_.end()){
       throw LazySynthesisError("Tableau to be merged has overlapping qubits.");
     }
   }
   // merge dependencies maps
-  this->dependencies.insert(merge.dependencies.begin(), merge.dependencies.end());
+  this->dependencies_.insert(merge.dependencies_.begin(), merge.dependencies_.end());
   // merge rz_paulis
-  this->rz_paulis.insert(merge.rz_paulis.begin(), merge.rz_paulis.end());
+  this->this->rz_pauli_.insert(merge.rz_pauli_.begin(), merge.rz_pauli_.end());
   // merge rz_paulis
-  this->rx_paulis.insert(merge.rx_paulis.begin(), merge.rx_paulis.end());
+  this->rx_pauli_.insert(merge.rx_pauli_.begin(), merge.rx_pauli_.end());
   // append Clifford circuit
   // TODO: We don't want to relabel qubits, and all qubit should be unique, double check this 
-  this->clifford.append(merge.clifford);
+  this->clifford_.append(merge.clifford_);
 }
 
 
@@ -120,37 +123,199 @@ std::pair<QubitPauliTensor, Expr> LazySynthesisTableau::extract_qubit_pauli_tens
   OpType type = op_ptr->get_type();
   switch (type) {
     case OpType::Rz {
-      return {rz_pauli[q], op_ptr->get_params()[0]};
+      return {this->rz_pauli_[q], op_ptr->get_params()[0]};
     }
     case OpType::Rx {
-      return {rx_pauli[q], op_ptr->get_params()[0]};
+      return {this->rx_pauli_[q], op_ptr->get_params()[0]};
     }
     default: {
       throw BadOpType(type);
     }
   }
 }
- 
-// std::vector<std::pair<QubitPauliTensor, Expr>> LazySynthesisTableau::extract_qubit(const Qubit& qubit){
-//   // Chatting to Will, it's possible to remove a Qubit from a Tableau with 3/4 Pauli gadgets.
-//   // We may find that this is a useful result at times
-//   // Worth adding and experimenting with
-// }
 
 
 Circuit LazySynthesisTableau::expel_clifford(){
-  this->rz_pauli = {};
-  this->rx_pauli = {};
-  this->dependencies = {};
-  return this->clifford;
+  this->rz_pauli_ = {};
+  this->rx_pauli_ = {};
+  this->dependencies_ = {};
+  return this->clifford_;
 }
 
-LazyAASRoutingMethod::LazyAASRoutingMethod(){};
+LazyAASRoutingMethod::LazyAASRoutingMethod(){}
 
-std::pair<bool, unit_map_t> LazyAASRoutingMethod::routing_method(
-    MappingFrontierPtr& mapping_frontier,
-    const ArchitecturePtr& architecture) const {
 
+bool LazyAASRoutingMethod::update_from_mapping_frontier(MappingFrontierPtr& mapping_frontier, const ArchitecturePtr& architecture, bool allow_non_adjacent_cx){
+  bool modified = false;
+  for (auto it =
+           mapping_frontier_->linear_boundary->get<TagKey>().begin();
+       it != mapping_frontier_->linear_boundary->get<TagKey>().end();
+       ++it) {
+        Edge e0 = this->mapping_frontier_->circuit_.get_nth_out_edge(
+            it->second.first, it->second.second);
+        Vertex v0 = this->mapping_frontier_->circuit_.target(e0);
+        Op_ptr op = this->mapping_frontier_->circuit_.get_Op_ptr_from_Vertex(v0);
+        OpType type = op->get_type();
+        // for a first implementation, only support:
+        // S, V, Z, X, Sdg, Vdg, CX, Rz, Rx
+        // And throw error if this isn't supported
+        // Can extend this range of operations once we've benchmarked etc
+        switch (type) {
+          case OpType::S:
+          case OpType::V:
+          case OpType::Z:
+          case OpType::X:
+          case OpType::Sdg:
+          case OpType::Vdg: {
+            for(const LazySynthesisTableau& t : this->tableau_){
+              if(t->dependencies_.count(it->first) != 0){
+                t->update_gadgets({it->first}, op);
+                modified = true;
+                break;
+              }
+            }
+          }
+          case OpType::Rz:
+          case OpType::Rx:{
+            for(const LazySynthesisTableau& t : this->tableau_){
+              if(t->dependencies_.count(it->first) != 0){
+                std::pair<QubitPauliTensor, Expr> qpt_e = t->extract_qubit_pauli_tensor(it->first, op);
+                modified = true;
+
+                /*
+                do some things with the qubit pauli tensor i.e. the routing bit...
+                */
+                break;
+              }
+            }
+          }
+          case OpType::CX {
+            auto jt = it;
+            ++jt;
+            while(jt != mapping_frontier_->linear_boundary->get<TagKey>().end()){
+              Edge e1 = this->mapping_frontier_->circuit_.get_nth_out_edge(
+                  jt->second.first, jt->second.second);
+              Vertex v1 = this->mapping_frontier_->circuit_.target(e1);
+              if(v0 == v1) {
+                // TODO: currently we always amend a tableau if we hit a CX gate
+                // change this condition in future
+                modified = true;
+
+                Qubit qubit0(it->first);
+                Qubit qubit1(jt->first);
+
+                // We assume that in outer mapping loop, non architecture permitted gates will always be present at the frontier
+                // We update the tableau for operations that would be missed in this model
+                // TODO: this means reiterating over the same vertices often - can we update RV3 structure to advance and update data structures
+                // held by internal Routing Method?
+                // probably yeah though likely some solid plumbing - leave for future
+                if(!architecture->valid_operation({Node(qubit0), Node(qubit1)}) && !allow_non_adjacent_cx) break;
+
+                unsigned port0 = it->second.second;
+                unsigned port1 = jt->second.second;
+
+                auto kt = this->tableau_.begin();
+                while(kt != this->tableau_.end() && kt->dependencies_.count(q0) != 1) ++kt;
+                
+                auto lt = this->tableau_.end();
+                while(lt != this->tableau_.end() && lt->dependencies_.count(q1) != 1) ++lt;
+
+                auto update_cx_gadget = [&kt, &op, &qubit0, &qubit1, &port0, &port1]() {
+                  // => qubit0 is control
+                  if(port0 < port1){
+                    kt->update_gadgets({qubit0, qubit1}, op);
+                  }
+                  // => qubit1 is control
+                  else{
+                    kt->update_gadgets({qubit1, qubit0}, op);
+                  }
+                };
+
+                if(kt == this->tableau_.end()){
+                  // => neither qubit in a tableau
+                  if(lt == this->tableau_.end()){
+                    // TODO: think about several options:
+                    // ignore gate and route as usual
+                    // For now:
+                    // make a new tableau
+                    LazySynthesisTableau lst;
+                    lst.add_qubit(qubit0);
+                    lst.add_qubit(qubit1);
+                    kt = this->tableau_.insert(lst);
+                    update_cx_gadget();
+                  }
+                  // => q1 is in tableau, q0 isn't
+                  else{
+                    // TODO: think about several options:
+                    // remove q1 from tableau via gadgets and make a new tableau
+                    // remove q1 from tableau via gadgets and route gate as usual
+                    // if q1 is control, codiagonalise circuit s.t. gate can commute through to start and route as usual
+                    // For now:
+                    // Add new qubit, update tableau
+                    lt->add_qubit(q0);
+                    update_cx_gadget();
+                  }
+                }
+                else{
+                  // => q0 is in tableau, q1 isn't
+                  if(lt == this->tableau_.end()){
+                    // TODO: think about several options:
+                    // remove q0 from tableau via gadgets and make a new tableau
+                    // remove q0 from tableau via gadgets and route gate as usual
+                    // if q0 is control, codiagonalise circuit s.t. gate can commute through to start and route as usual
+                    // For now:
+                    // Add new qubit, update tableau
+                    kt->add_qubit(q1);
+                    update_cx_gadget();
+                  }
+                  else{
+                    // => both qubits in same tableau, so just add gate
+                    if(lt == kt){
+                      update_cx_gadget();
+                    }
+                    // => qubits are in different tableau
+                    else{
+                      // TODO: think about several options: 
+                      // remove one qubit from tableau with gadgets and add to other
+                      // remove both qubits from tableau with gadgets and make new tableau
+                      // remove both qubits from tableau with gadgets and route as normal
+                      // For now:
+                      // merge tableau and add gate
+                      kt->merge_tableau(*lt);
+                      update_cx_gadget();
+                      // remove merged tableau
+                      this->tableau_.erase(lt);
+                    }
+                  }
+                }
+              }
+              ++jt;
+            }
+          }
+          default: {
+            throw BadOpType(type);
+          }
+        }   
+    }  
+}
+
+// TODO:
+// Helper method, code taken from MappingFrontier.cpp 
+// make accessible without copying 
+std::shared_ptr<unit_frontier_t> frontier_convert_vertport_to_edge(
+    const Circuit& circuit,
+    const std::shared_ptr<unit_vertport_frontier_t>& u_frontier) {
+  // make empty unit_frontier_t object
+  std::shared_ptr<unit_frontier_t> output_frontier =
+      std::make_shared<unit_frontier_t>();
+  // iterate through u_frontier, convert VertPort to Edge and insert
+  for (const std::pair<UnitID, VertPort>& pair : u_frontier->get<TagKey>()) {
+    output_frontier->insert(
+        {pair.first,
+         circuit.get_nth_out_edge(pair.second.first, pair.second.second)});
+  }
+  return output_frontier;
+}
 /*
 
 n.b.  in the below the term "tableau" is used as it presents a common data structure for which the below might be done.
@@ -184,7 +349,7 @@ There is a (metaphorically kind of?) continuous set of choices that can be made.
 so probably some decision making is required as to what physical qubit path to "fan out" along
 * At any point in a "fan out" we can replace the "fan out" operation with a SWAP gate, based on the interaction graph of all other "tableau"
 * Note that a SWAP operation could also be utilised to avoid "fan out" gates on Qubit in other "tableau"
-Or to summarise, the decision made here should attempt to be "optimal" for all known "tableau"
+Or to summarise, the decision made here should attempt to be "optima l" for all known "tableau"
 
 6) 
 It is (highly) possible that the end of the Circuit is reached without some Tableau synthesised i.e. we have some final Clifford operator tagged on the end of the Circuit.
@@ -195,20 +360,38 @@ operators with an effect we can fix when sampling bit strings.
 */
 
 
+std::pair<bool, unit_map_t> LazyAASRoutingMethod::routing_method(
+    MappingFrontierPtr& mapping_frontier,
+    const ArchitecturePtr& architecture) const {
 
-        
-  for (auto it =
-           mapping_frontier_->linear_boundary->get<TagKey>().begin();
-       it != mapping_frontier_->linear_boundary->get<TagKey>().end();
-       ++it) {
+    bool modified = this->update_from_mapping_frontier(mapping_frontier, architecture, true);
+    // => that there is at least one tableau so we need to start checking
+
+    if(this->tableau_.size() > 0){
+      
+      
+      // std::shared_ptr<unit_vertport_frontier_t> linear_boundary = mapping_frontier_->linear_boundary;
+      // std::shared_ptr<unit_frontier_t> l_frontier_edges = frontier_convert_vertport_to_edge(mapping_frontier->circuit_,);
+      // CutFrontier next_cut =
+      //     this->circuit_.next_cut(l_frontier_edges, this->boolean_boundary);
+          
+      
 
 
-       }
+      // get next slice of gates from edges
+      // update tableau
+      // 
+      // 
+      // repeat until
+
     }
+          
+}
+
 
 nlohmann::json LazyAASRoutingMethod::serialize() const {
   nlohmann::json j;
-  j["name"] = " LazyAASRoutingMethod";
+  j["name"] = "LazyAASRoutingMethod";
   return j;
 }
 

@@ -258,6 +258,7 @@ void MappingFrontier::advance_next_2qb_slice(unsigned max_advance) {
 void MappingFrontier::advance_frontier_boundary(
     const ArchitecturePtr& architecture) {
   bool boundary_updated = false;
+  this->passed_operations_.clear();
   do {
     // next_cut.slice vertices in_edges from this->linear_boundary
     boundary_updated = false;
@@ -324,13 +325,15 @@ void MappingFrontier::advance_frontier_boundary(
           extra_bool_uid_port_set.insert({bit, port_target});
         }
       }
-
+      Op_ptr op = this->circuit_.get_Op_ptr_from_Vertex(vert);
       if (nodes.size() == 0 ||
           this->valid_boundary_operation(
-              architecture, this->circuit_.get_Op_ptr_from_Vertex(vert),
+              architecture, op,
               nodes)) {
         // if no valid operation, boundary not updated and while loop terminates
         boundary_updated = true;
+        // std::pair<node_vector_t, Op_ptr> operation = {nodes, op};
+        this->passed_operations_.push_back({nodes, op});
         // update linear UnitID (Qubits&Quantum edges, Bits&Classical edges)
         for (const UnitID& uid : l_uids) {
           Edge replacement_edge =

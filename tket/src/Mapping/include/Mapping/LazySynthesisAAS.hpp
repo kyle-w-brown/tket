@@ -20,33 +20,29 @@ namespace tket {
 
 
 class LazySynthesisTableau {
-  public:
+ public:
   
   LazySynthesisTableau() {};
 
-  add_qubit(const Qubit& qubit);
+  void add_qubit(const Qubit& qubit);
   
 
+  void update_gadgets(const unit_vector_t& unitids, const Op_ptr& op_ptr);
+  /*
+  TODO: Will has some ideas for an optimal number (I believe Will said 3/4 but WIP) of pauli gadgets that need to be inserted
+  to allow a qubit removal from a tableau
+  This is a degree of freedom that could provide gains in the future
+  remove_qubit(const Qubtit& qubit);
+  */
 
 
 
-  protected;
+ protected:
 
-  Circuit clifford;
-  std::map<Qubit, QubitPauliTensor> rx_pauli;
-  std::map<Qubit, QubitPauliTensor> rz_pauli;
-  std::map<Qubit, std::set<Qubit>> dependencies;
-}
-
-
-
-class LazyArchitectureAwareSynthesis {
-  public: 
-
-  LazyArchitectureAwareSynthesis();
-
-
-
+  Circuit clifford_;
+  std::map<Qubit, QubitPauliTensor> rx_pauli_;
+  std::map<Qubit, QubitPauliTensor> rz_pauli_;
+  std::map<Qubit, std::set<Qubit>> dependencies_;
 }
 
 
@@ -69,6 +65,10 @@ class LazyAASRoutingMethod : public RoutingMethod {
   nlohmann::json serialize() const override;
 
   static LexiRouteRoutingMethod deserialize(const nlohmann::json& j);
+ private:
+
+  bool update_from_mapping_frontier(MappingFrontierPtr& mapping_frontier, const ArchitecturePtr& architecture);
+  std::set<LazySynthesisTableau> tableau_;
 };
 
 JSON_DECL(LazyAASRoutingMethod);

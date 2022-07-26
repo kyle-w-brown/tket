@@ -64,6 +64,10 @@ struct MappingFrontier {
 
   std::shared_ptr<unit_bimaps_t> bimaps_;
 
+  // each time advance_frontier_boundary is called, it assigns all the vertice it passes
+  // as the entries in passed_operations_
+  std::vector<std::pair<node_vector_t, Op_ptr>> passed_operations_;
+
   MappingFrontier(Circuit& _circuit);
 
   MappingFrontier(Circuit& _circuit, std::shared_ptr<unit_bimaps_t> _bimaps);
@@ -78,6 +82,7 @@ struct MappingFrontier {
    * @param max_advance maximum number of cuts checked before terminating
    */
   void advance_next_2qb_slice(unsigned max_advance);
+
 
   /**
    * mapping_frontier data members updated to reflect
