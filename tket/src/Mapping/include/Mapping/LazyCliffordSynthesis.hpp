@@ -18,42 +18,42 @@
 
 namespace tket {
 
+class LazyCliffordSynthesisError : public std::logic_error {
+ public:
+  explicit LazyCliffordSynthesisError(const std::string& message)
+      : std::logic_error(message) {}
+};
 
 class LazySynthesisTableau {
  public:
-  
-  LazySynthesisTableau() {};
+  LazySynthesisTableau(){};
 
-  void add_qubit(const Qubit& qubit);
-  
+  void add_qubit(const Qubit& qubit, const Edge& edge);
 
   void update_gadgets(const unit_vector_t& unitids, const Op_ptr& op_ptr);
   /*
-  TODO: Will has some ideas for an optimal number (I believe Will said 3/4 but WIP) of pauli gadgets that need to be inserted
-  to allow a qubit removal from a tableau
-  This is a degree of freedom that could provide gains in the future
-  remove_qubit(const Qubtit& qubit);
+  TODO: Will has some ideas for an optimal number (I believe Will said 3/4
+  but WIP) of pauli gadgets that need to be inserted to allow a qubit removal
+  from a tableau This is a degree of freedom that could provide gains in the
+  future remove_qubit(const Qubtit& qubit);
   */
 
-
-
  protected:
-
-  Circuit clifford_;
-  std::map<Qubit, QubitPauliTensor> rx_pauli_;
-  std::map<Qubit, QubitPauliTensor> rz_pauli_;
+  UnitaryTableau tableau_;
   std::map<Qubit, std::set<Qubit>> dependencies_;
+
+  // LST consumes vertices as it's passed them, store and replace later
+  std::map<Qubit, Edge> q_in_hole;
+  VertexSet verts;
 }
 
-
-
-class LazyAASRoutingMethod : public RoutingMethod {
+class LazyCliffordRoutingMethod : public RoutingMethod {
  public:
   /**
    *
    *
    */
-  LazyAASRoutingMethod();
+  LazyCliffordRoutingMethod();
 
   /**
    *
@@ -65,12 +65,15 @@ class LazyAASRoutingMethod : public RoutingMethod {
   nlohmann::json serialize() const override;
 
   static LexiRouteRoutingMethod deserialize(const nlohmann::json& j);
- private:
 
-  bool update_from_mapping_frontier(MappingFrontierPtr& mapping_frontier, const ArchitecturePtr& architecture);
+ private:
+  bool update_from_mapping_frontier(
+      MappingFrontierPtr& mapping_frontier,
+      const ArchitecturePtr& architecture);
   std::set<LazySynthesisTableau> tableau_;
+  std::set<Qubit> tableau_qubits_;
 };
 
-JSON_DECL(LazyAASRoutingMethod);
+JSON_DECL(LazyCliffordRoutingMethod);
 
 }  // namespace tket
