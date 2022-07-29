@@ -132,6 +132,18 @@ class UnitaryTableau {
       const UnitaryTableau& first, const UnitaryTableau& second);
 
   /**
+   * Extends held SymplecticTableau with adjoint SymplecticTableau
+   * by inserting new rows to back of x & z matrices. Extends qubits_
+   * with new entries.
+   * Will throw an exception if tableaux have any overlapping qubits.
+   *
+   * @param first first tableau
+   * @param second second tableau
+   */
+  static UnitaryTableau add_disjoint_tableaux(
+      const UnitaryTableau& first, const UnitaryTableau& second);
+
+  /**
    * Gives the UnitaryTableau corresponding to the inverse (dagger) or transpose
    * unitary. This is distinct from simply transposing the binary matrix
    * representation. Takes time O(N^3) for N qubits.

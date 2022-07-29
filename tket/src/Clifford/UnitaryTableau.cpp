@@ -461,6 +461,57 @@ UnitaryTableau UnitaryTableau::compose(
   return result;
 }
 
+UnitaryTableau UnitaryTableau::add_disjoint_tableaux(
+    const UnitaryTableau& first, const UnitaryTableau& second) {
+  std::set<Qubit> first_qbs = first.get_qubits();
+  std::set<Qubit> second_qbs = second.get_qubits();
+  // check there are no overlapping qubits
+  std::vector<Qubit> common_qubits;
+  std::set_intersection(
+      first_qbs.begin(), first_qbs.end(), second_qbs.begin(), second_qbs.end(),
+      std::back_inserter(common_qubits));
+  if (common_qubits.size() > 0) {
+    throw std::invalid_argument(
+        "Tableau to be added have overlapping qubits and so aren't disjoint.")
+  }
+  // make new QubitPauliTensor rows
+  std::vector<QubitPauliTensor> rows;
+
+  UnitaryTableau result = UnitaryTableau({});
+  unsigned qir = 0;
+  // For each qubit in each first tableau, get the x and z QubitPauliTensor
+  for (const Qubit& q : first_qbs) {
+    rows.push_back(first.get_xrow(q));
+    rows.push_back(first.get_zrow(q));
+    result.qubits_.insert({q, qir});
+    ++qir;
+  }
+
+  // For each qubit in second tableau, get the x and z QubitPauliTensor
+  for (const Qubit& q : second_qbs) {
+    rows.push_back(first.get_xrow(q));
+    rows.push_back(first.get_zrow(q));
+    result.qubits_.insert({q, qir});
+    ++qir;
+  }
+
+  // Combine row lists and convert to PauliStablisers
+  PauliStabiliserList all_rows;
+  for (const QubitPauliTensor& row : rows) {
+    TKET_ASSERT(row.coeff == 1. || row.coeff == -1.);
+    std::vector<Pauli> ps(nqb, Pauli::I);
+    for (const std::pair<const Qubit, Pauli>& p : row.string.map) {
+      unsigned q = result.qubits_.left.at(p.first);
+      ps[q] = p.second;
+    }
+    all_rows.push_back(PauliStabiliser(ps, row.coeff == 1.));
+  }
+  // Make SymplecticTableau from rows, update result tab_ attribute
+  result.tab_ = SymplecticTableau(all_rows);
+
+  return result;
+}
+
 static const std::map<
     std::pair<BoolPauli, BoolPauli>, std::pair<BoolPauli, BoolPauli>>&
 invert_cell_map() {
