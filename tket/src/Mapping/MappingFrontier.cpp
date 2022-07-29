@@ -327,13 +327,10 @@ void MappingFrontier::advance_frontier_boundary(
       }
       Op_ptr op = this->circuit_.get_Op_ptr_from_Vertex(vert);
       if (nodes.size() == 0 ||
-          this->valid_boundary_operation(
-              architecture, op,
-              nodes)) {
+          this->valid_boundary_operation(architecture, op, nodes)) {
         // if no valid operation, boundary not updated and while loop terminates
         boundary_updated = true;
-        // std::pair<node_vector_t, Op_ptr> operation = {nodes, op};
-        this->passed_operations_.push_back({nodes, op});
+        this->passed_operations_.push_back({nodes, op, vert});
         // update linear UnitID (Qubits&Quantum edges, Bits&Classical edges)
         for (const UnitID& uid : l_uids) {
           Edge replacement_edge =
