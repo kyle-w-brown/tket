@@ -196,7 +196,8 @@ bool MultiGateReorder::solve(unsigned max_depth, unsigned max_size) {
        this->mapping_frontier_->linear_boundary->get<TagKey>()) {
     copy.insert({pair.first, pair.second});
   }
-  std::vector<std::pair<node_vector_t, Op_ptr>> copy_passed_operations_ = this->mapping_frontier_->passed_operations_;
+  std::vector<std::pair<node_vector_t, Op_ptr>> copy_passed_operations_ =
+      this->mapping_frontier_->passed_operations_;
   // Get a subcircuit only for iterating vertices
   Subcircuit circ =
       this->mapping_frontier_->get_frontier_subcircuit(max_depth, max_size);
