@@ -56,8 +56,9 @@ SCENARIO("Test MappingFrontier initialisation, advance_frontier_boundary.") {
     MappingFrontier mf(m);
     mf.advance_frontier_boundary(shared_arc);
 
-    std::vector<std::pair<node_vector_t, Op_ptr>> passed_operations = mf.passed_operations_;
-    
+    std::vector<std::pair<node_vector_t, Op_ptr>> passed_operations =
+        mf.passed_operations_;
+
     REQUIRE(passed_operations[0].first[0] == Node(0));
     REQUIRE(passed_operations[0].second->get_type() == OpType::X);
     REQUIRE(passed_operations[1].first[0] == Node(3));
