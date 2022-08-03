@@ -16,22 +16,39 @@
 
 namespace tket {
 
-
-void LazySynthesisTableau::add_qubit(const Qubit& qubit, const Edge& edge) 
-    // merge tableaux
-    // if there are overlapping qubits this method will throw an error, so don't check first
-    this->tableau_ = UnitaryTableau::add_disjoint_tableaux(this->tableau_, UnitaryTableau({qb}));
-    // add new entry to dependencies
-    this->dependencies_.insert({qb, {}});
-    // add new entry to qubit edge map
-    this->q_in_hole.insert({qubit, edge});
-    // no change to held pauli gadgets or vertices
+QubitPauliTensor LazySynthesisTableau::extract_qubit_pauli_tensor(
+    const Qubit& qubit, Op_ptr op_ptr) {
+  OpType type = op_ptr->get_type();
+  switch (type) {
+    case OpType::Rz {
+      return this->tableau_.get_zrow(qubit);
+    } case OpType::Rx {
+      return this->tableau_.get_xrow(qubit);
+    } default: {
+      throw BadOpType(type);
+    }
+  }
 }
 
-void LazySynthesisTableau::merge_tableaux(const LazySynthesisTableau& merge){
+void LazySynthesisTableau::add_qubit(const Qubit& qubit, const Edge& edge) {
   // merge tableaux
-  // if there are overlapping qubits this method will throw an error, so don't check first
-  this->tableau_ = UnitaryTableau::add_disjoint_tableaux(this->tableau_, merge.tableau_);
+  // if there are overlapping qubits this method will throw an error, so don't
+  // check first
+  this->tableau_ = UnitaryTableau::add_disjoint_tableaux(
+      this->tableau_, UnitaryTableau({qb}));
+  // add new entry to dependencies
+  this->dependencies_.insert({qb, {}});
+  // add new entry to qubit edge map
+  this->q_in_hole.insert({qubit, edge});
+  // no change to held pauli gadgets or vertices
+}
+
+void LazySynthesisTableau::merge_tableaux(const LazySynthesisTableau& merge) {
+  // merge tableaux
+  // if there are overlapping qubits this method will throw an error, so don't
+  // check first
+  this->tableau_ =
+      UnitaryTableau::add_disjoint_tableaux(this->tableau_, merge.tableau_);
   // merge dependencies maps
   this->dependencies_.insert(
       merge.dependencies_.begin(), merge.dependencies_.end());
@@ -40,7 +57,9 @@ void LazySynthesisTableau::merge_tableaux(const LazySynthesisTableau& merge){
   // merge verts
   this->verts.insert(merge.verts.begin(), merge.verts.end());
   // merge pauli gadgets
-  this->pauli_gadgets_.insert(this->pauli_gadgets_.end(), merge.pauli_gadgets_.begin(), merge.pauli_gadgets_.end());
+  this->pauli_gadgets_.insert(
+      this->pauli_gadgets_.end(), merge.pauli_gadgets_.begin(),
+      merge.pauli_gadgets_.end());
 }
 
 void LazySynthesisTableau::update_gadgets(
@@ -86,15 +105,12 @@ void LazySynthesisTableau::update_gadgets(
       break;
     }
     case OpType::Y {
-      Qubit q(operation.nodes[0]);
-      if (this->dependencies_.count(q) == 0) {
+      Qubit q(operation.nodes[0]); if (this->dependencies_.count(q) == 0) {
         throw LazySynthesisError(
             "LazySynthesisTableau object does not contain given Qubit.");
-      }
-      this->tableau_.apply_pauli_at_end(QubitPauliTensor(q, Pauli::Y), 2);
+      } this->tableau_.apply_pauli_at_end(QubitPauliTensor(q, Pauli::Y), 2);
       break;
-    }
-    case OpType::H: {
+    } case OpType::H: {
       Qubit q(operation.nodes[0]);
       if (this->dependencies_.count(q) == 0) {
         throw LazySynthesisError(

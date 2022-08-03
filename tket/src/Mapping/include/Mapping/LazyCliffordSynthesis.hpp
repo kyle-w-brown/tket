@@ -37,10 +37,13 @@ class LazySynthesisTableau {
   from a tableau This is a degree of freedom that could provide gains in the
   future remove_qubit(const Qubtit& qubit);
   */
-
+ void decompose_pauli_gadgets(MappingFrontierPtr& mapping_frontier, const ArchitecturePtr& architecture);
+ 
  protected:
   UnitaryTableau tableau_;
   std::map<Qubit, std::set<Qubit>> dependencies_;
+
+  std::vector<QubitPauliTensor> pauli_gadgets_;
 
   // LST consumes vertices as it's passed them, store and replace later
   std::map<Qubit, Edge> q_in_hole;
@@ -67,10 +70,16 @@ class LazyCliffordRoutingMethod : public RoutingMethod {
   static LexiRouteRoutingMethod deserialize(const nlohmann::json& j);
 
  private:
+
   bool update_from_mapping_frontier(
       MappingFrontierPtr& mapping_frontier,
       const ArchitecturePtr& architecture);
-  std::set<LazySynthesisTableau> tableau_;
+
+  bool update_from_passed_operations(
+      MappingFrontierPtr& mapping_frontier,
+      const ArchitecturePtr& architecture);
+      
+  std::set<LazySynthesisTableau> tableaux_;
   std::set<Qubit> tableau_qubits_;
 };
 
