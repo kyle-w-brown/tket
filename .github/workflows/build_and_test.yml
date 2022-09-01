@@ -156,29 +156,29 @@ jobs:
       with:
         fetch-depth: '0'
     - uses: uraimo/run-on-arch-action@v2
-        name: Run commands
-        id: runcmd
-        with:
-          arch: aarch64
-          distro: ubuntu20.04
+      name: Run commands
+      id: runcmd
+      with:
+        arch: aarch64
+        distro: ubuntu20.04
 
-          run: |
-            uname -a
-            echo ::set-output name=uname::$(uname -a)
-            sudo apt update
-            sudo apt install -y doxygen graphviz
-            cd tket && doxygen
-            pip install conan
-            conan_cmd=/home/runner/.local/bin/conan
-            ${conan_cmd} profile new tket --detect
-            ${conan_cmd} profile update settings.compiler.libcxx=libstdc++11 tket
-            ${conan_cmd} profile update options.tklog:shared=True tket
-            ${conan_cmd} profile update options.tket:shared=True tket
-            echo "CONAN_CMD=${conan_cmd}" >> $GITHUB_ENV
-            ${CONAN_CMD} remote add tket-libs https://quantinuumsw.jfrog.io/artifactory/api/conan/tket1-libs
-            ${CONAN_CMD} create --profile=tket recipes/tket
+        run: |
+          uname -a
+          echo ::set-output name=uname::$(uname -a)
+          sudo apt update
+          sudo apt install -y doxygen graphviz
+          cd tket && doxygen
+          pip install conan
+          conan_cmd=/home/runner/.local/bin/conan
+          ${conan_cmd} profile new tket --detect
+          ${conan_cmd} profile update settings.compiler.libcxx=libstdc++11 tket
+          ${conan_cmd} profile update options.tklog:shared=True tket
+          ${conan_cmd} profile update options.tket:shared=True tket
+          echo "CONAN_CMD=${conan_cmd}" >> $GITHUB_ENV
+          ${CONAN_CMD} remote add tket-libs https://quantinuumsw.jfrog.io/artifactory/api/conan/tket1-libs
+          ${CONAN_CMD} create --profile=tket recipes/tket
 
     - name: Get the output
-        # Echo the `uname` output parameter from the `runcmd` step
-        run: |
-          echo "The uname output was ${{ steps.runcmd.outputs.uname }}"
+      # Echo the `uname` output parameter from the `runcmd` step
+      run: |
+        echo "The uname output was ${{ steps.runcmd.outputs.uname }}"
