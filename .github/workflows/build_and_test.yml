@@ -160,7 +160,7 @@ jobs:
       id: runcmd
       with:
         arch: aarch64
-        distro: ubuntu20.04
+        distro: ubuntu-20.04
 
         run: |
           uname -a
