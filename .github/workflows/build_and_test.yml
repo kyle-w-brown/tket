@@ -160,13 +160,13 @@ jobs:
       id: runcmd
       with:
         arch: aarch64
-        distro: ubuntu-20.04
+        distro: ubuntu20.04
 
         run: |
           uname -a
           echo ::set-output name=uname::$(uname -a)
-          sudo apt update
-          sudo apt install -y doxygen graphviz
+          # sudo apt update
+          # sudo apt install -y doxygen graphviz
           cd tket && doxygen
           pip install conan
           conan_cmd=/home/runner/.local/bin/conan
