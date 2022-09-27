@@ -13,6 +13,7 @@
 # limitations under the License.
 
 cmake_minimum_required(VERSION 3.24.1)
+
 project(tket LANGUAGES CXX)
 
 find_program(CCACHE_PROGRAM ccache)
@@ -21,6 +22,14 @@ if(CCACHE_PROGRAM)
 endif()
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
+if(NOT CMAKE_BUILD_TYPE) # Release/Debug
+    set(CMAKE_BUILD_TYPE Release)
+endif()
+
+if(NOT TKET_SHARED) # True/False
+    set(TKET_SHARED True)
+endif()
 
 if(NOT CONAN_EXPORTED)
     # not building with conan: generate conanbuildinfo.cmake
@@ -59,7 +68,10 @@ if(NOT CONAN_EXPORTED)
         REMOTE
             conan-center
             tket-libs
-        SETTINGS ${settings})
+        SETTINGS ${settings}
+        OPTIONS
+            tklog:shared=True
+            tket:shared=${TKET_SHARED})
 endif()
 
 include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
