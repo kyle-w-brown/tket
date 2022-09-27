@@ -15,9 +15,6 @@
 cmake_minimum_required(VERSION 3.16.0)
 project(tket)
 
-set(CMAKE_CXX_STANDARD 20)
-set(CMAKE_CXX_EXTENSIONS OFF)
-
 find_program(CCACHE_PROGRAM ccache)
 if(CCACHE_PROGRAM)
     set_property(GLOBAL PROPERTY RULE_LAUNCH_COMPILE "${CCACHE_PROGRAM}")
@@ -25,9 +22,43 @@ endif()
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-find_file(CONANBUILDINFO_FILE conanbuildinfo.cmake HINTS ${CMAKE_BINARY_DIR})
-include(${CONANBUILDINFO_FILE})
+if(NOT CONAN_EXPORTED)
+    # not building with conan: generate conanbuildinfo.cmake
+    if(NOT EXISTS "${CMAKE_BINARY_DIR}/conan.cmake")
+      message(STATUS "Downloading conan.cmake from https://github.com/conan-io/cmake-conan")
+      file(DOWNLOAD "https://raw.githubusercontent.com/conan-io/cmake-conan/0.18.1/conan.cmake"
+                    "${CMAKE_BINARY_DIR}/conan.cmake"
+                    TLS_VERIFY ON)
+    endif()
+    include(${CMAKE_BINARY_DIR}/conan.cmake)
+    # Make sure to use conanfile.py to define dependencies, to stay consistent
+    conan_cmake_configure(
+        REQUIRES
+            boost/1.80.0
+            symengine/0.9.0@tket/stable
+            eigen/3.4.0
+            nlohmann_json/3.11.2
+            tklog/0.1.2@tket/stable
+            tkassert/0.1.1@tket/stable
+            tkrng/0.1.2@tket/stable
+            tktokenswap/0.1.2@tket/stable
+            tkwsm/0.2.1@tket/stable
+        GENERATORS cmake_find_package)
+    conan_cmake_autodetect(settings)
+    conan_cmake_install(
+        PATH_OR_REFERENCE ../../../recipes/tket
+        BUILD missing
+        REMOTE
+            conan-center
+            tket-libs
+        SETTINGS ${settings})
+endif()
+
+include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
 conan_basic_setup()
+
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_EXTENSIONS OFF)
 
 IF (WIN32)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /WX /EHsc")
