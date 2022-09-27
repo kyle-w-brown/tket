@@ -34,6 +34,11 @@ if(NOT CONAN_EXPORTED)
 
     conan_check(VERSION 1.52.0 REQUIRED)
 
+    conan_add_remote(
+        NAME tket-libs
+        URL https://quantinuumsw.jfrog.io/artifactory/api/conan/tket1-libs
+        VERIFY_SSL True)
+
     # Make sure to use conanfile.py to define dependencies, to stay consistent
     conan_cmake_configure(
         REQUIRES
