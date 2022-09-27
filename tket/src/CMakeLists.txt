@@ -31,6 +31,9 @@ if(NOT CONAN_EXPORTED)
                     TLS_VERIFY ON)
     endif()
     include(${CMAKE_BINARY_DIR}/conan.cmake)
+
+    conan_check(VERSION 1.52.0 REQUIRED)
+
     # Make sure to use conanfile.py to define dependencies, to stay consistent
     conan_cmake_configure(
         REQUIRES
