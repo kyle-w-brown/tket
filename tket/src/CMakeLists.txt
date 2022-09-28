@@ -108,6 +108,10 @@ ELSEIF(UNIX)
     set(CMAKE_INSTALL_RPATH "\${ORIGIN}")
 ENDIF()
 
+if(TKET_SHARED STREQUAL "True")
+    set(BUILD_SHARED_LIBS "TRUE")
+endif()
+
 # if you add new modules here make sure that it is added at the right position
 # this list corresponds to a topological sorting of the dependency graph of the different modules
 list(APPEND TKET_COMPS
@@ -127,9 +131,9 @@ list(APPEND TKET_COMPS
     Converters
     Placement
     ArchAwareSynth
-    Mapping    
+    Mapping
     MeasurementSetup
-    Transformations    
+    Transformations
     Predicates
     )
 
