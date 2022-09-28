@@ -65,9 +65,6 @@ if(NOT CONAN_EXPORTED)
     conan_cmake_install(
         PATH_OR_REFERENCE ../../../recipes/tket
         BUILD missing
-        REMOTE
-            conan-center
-            tket-libs
         SETTINGS ${settings}
         OPTIONS
             tklog:shared=True
