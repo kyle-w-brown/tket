@@ -140,4 +140,9 @@ list(APPEND TKET_COMPS
 foreach(COMP ${TKET_COMPS})
     set(TKET_${COMP}_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/${COMP}/include)
     add_subdirectory(${COMP})
+    file(GLOB TKET_${COMP}_PUBLIC_HEADERS ${COMP}/include/${COMP}/*.hpp)
+    set_target_properties(tket-${COMP} PROPERTIES PUBLIC_HEADER "${TKET_${COMP}_PUBLIC_HEADERS}")
+    install(TARGETS tket-${COMP}
+        LIBRARY DESTINATION lib
+        PUBLIC_HEADER DESTINATION include/${COMP})
 endforeach()
