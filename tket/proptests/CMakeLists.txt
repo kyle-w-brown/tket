@@ -42,4 +42,31 @@ add_executable(proptest
     proptest.cpp
 )
 
-target_link_libraries(proptest PRIVATE ${CONAN_LIBS})
+target_link_libraries(proptest PRIVATE
+    tklog
+    tkassert
+    tkrng
+    tktokenswap
+    tkwsm
+    symengine
+    tket-Utils
+    tket-OpType
+    tket-Clifford
+    tket-Ops
+    tket-Graphs
+    tket-Gate
+    tket-PauliGraph
+    tket-Circuit
+    tket-Architecture
+    tket-Simulation
+    tket-Diagonalisation
+    tket-Characterisation
+    tket-ZX
+    tket-Converters
+    tket-Placement
+    tket-ArchAwareSynth
+    tket-Mapping
+    tket-MeasurementSetup
+    tket-Transformations
+    tket-Predicates
+    rapidcheck)
