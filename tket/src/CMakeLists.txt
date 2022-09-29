@@ -49,7 +49,7 @@ if(NOT CONAN_EXPORTED)
         VERIFY_SSL True)
     conan_cmake_autodetect(settings)
     conan_cmake_install(
-        PATH_OR_REFERENCE ../../../recipes/tket
+        PATH_OR_REFERENCE ${CMAKE_CURRENT_SOURCE_DIR}/../../recipes/tket
         BUILD missing
         SETTINGS ${settings}
         OPTIONS
