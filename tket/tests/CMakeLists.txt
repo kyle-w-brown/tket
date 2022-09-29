@@ -12,11 +12,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-cmake_minimum_required(VERSION 3.16.0)
-project(tket-tests)
+cmake_minimum_required(VERSION 3.24.1)
 
-set(CMAKE_CXX_STANDARD 20)
-set(CMAKE_CXX_EXTENSIONS OFF)
+project(tket-tests LANGUAGES CXX)
 
 find_program(CCACHE_PROGRAM ccache)
 if(CCACHE_PROGRAM)
@@ -25,9 +23,13 @@ endif()
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-find_file(CONANBUILDINFO_FILE conanbuildinfo.cmake HINTS ${CMAKE_BINARY_DIR})
-include(${CONANBUILDINFO_FILE})
-conan_basic_setup()
+if(CONAN_EXPORTED)
+    include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
+    conan_basic_setup()
+endif()
+
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_EXTENSIONS OFF)
 
 IF (WIN32)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /WX /EHsc")
