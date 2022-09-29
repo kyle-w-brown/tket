@@ -27,8 +27,12 @@ if(NOT CMAKE_BUILD_TYPE) # Release/Debug
     set(CMAKE_BUILD_TYPE Release)
 endif()
 
+if(NOT TKLOG_SHARED) # True/False
+    set(TKLOG_SHARED False)
+endif()
+
 if(NOT TKET_SHARED) # True/False
-    set(TKET_SHARED True)
+    set(TKET_SHARED False)
 endif()
 
 if(NOT CONAN_EXPORTED)
@@ -53,7 +57,7 @@ if(NOT CONAN_EXPORTED)
         BUILD missing
         SETTINGS ${settings}
         OPTIONS
-            tklog:shared=True
+            tklog:shared=${TKLOG_SHARED}
             tket:shared=${TKET_SHARED})
 endif()
 
