@@ -35,6 +35,19 @@ if(NOT TKET_SHARED) # True/False
     set(TKET_SHARED False)
 endif()
 
+if(NOT TKET_COVERAGE) # True/False
+    set(TKET_COVERAGE False)
+endif()
+
+if(CONAN_EXPORTED)
+    if(TKET_WITH_TESTS OR TKET_WITH_PROPTESTS OR TKET_COVERAGE)
+        message(FATAL_ERROR
+            "When building with conan, these variables should be unset (or set
+            to False): TKET_WITH_TESTS; TKET_WITH_PROPTESTS; TKET_COVERAGE."
+            )
+    endif()
+endif()
+
 if(NOT CONAN_EXPORTED)
     # not building with conan: generate conanbuildinfo.cmake
     if(NOT EXISTS "${CMAKE_BINARY_DIR}/conan.cmake")
@@ -54,11 +67,27 @@ if(NOT CONAN_EXPORTED)
     conan_cmake_autodetect(settings)
     conan_cmake_install(
         PATH_OR_REFERENCE ${CMAKE_CURRENT_SOURCE_DIR}/../../recipes/tket
-        BUILD missing
         SETTINGS ${settings}
+        BUILD missing
         OPTIONS
             tklog:shared=${TKLOG_SHARED}
             tket:shared=${TKET_SHARED})
+
+    if(TKET_WITH_TESTS)
+        conan_cmake_install(
+            PATH_OR_REFERENCE catch2/3.1.0@
+            SETTINGS ${settings}
+            BUILD missing
+            GENERATOR deploy)
+    endif()
+
+    if(TKET_WITH_PROPTESTS)
+        conan_cmake_install(
+            PATH_OR_REFERENCE rapidcheck/cci.20220514@
+            SETTINGS ${settings}
+            BUILD missing
+            GENERATOR deploy)
+    endif()
 endif()
 
 include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
@@ -76,14 +105,15 @@ if(CMAKE_CXX_COMPILER_ID MATCHES "(Apple)?Clang")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Winconsistent-missing-override -Wloop-analysis")
 endif()
 
-set(PROFILE_COVERAGE no CACHE BOOL "Build library with profiling for test coverage")
-IF (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
-    IF (PROFILE_COVERAGE)
+IF (TKET_COVERAGE)
+    IF (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
         set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -fprofile-arcs -ftest-coverage")
         # Bug in gcc 10: https://gcc.gnu.org/bugzilla/show_bug.cgi?id=95353
         IF (CMAKE_CXX_COMPILER_VERSION VERSION_LESS 11)
             set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-stringop-overflow")
         ENDIF()
+    ELSE()
+        message(FATAL_ERROR "TKET_COVERAGE only supported with GNU compiler.")
     ENDIF()
 ENDIF()
 
@@ -137,3 +167,44 @@ foreach(COMP ${TKET_COMPS})
         PUBLIC_HEADER DESTINATION include/${COMP})
 endforeach()
 
+if(TKET_WITH_TESTS)
+    set(TKET_TESTS_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../tests)
+
+    include(${TKET_TESTS_DIR}/tkettestutilsfiles.cmake)
+    include(${TKET_TESTS_DIR}/tkettestsfiles.cmake)
+
+    add_executable(test_tket ${TESTUTILS_SOURCES} ${TEST_SOURCES})
+
+    foreach(COMP ${TKET_COMPS})
+        target_include_directories(test_tket PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/${COMP}/include)
+        target_link_libraries(test_tket PRIVATE tket-${COMP})
+    endforeach()
+    target_include_directories(test_tket PRIVATE ${CMAKE_BINARY_DIR}/catch2/include)
+
+    target_link_directories(test_tket PRIVATE ${CMAKE_BINARY_DIR}/catch2/lib)
+    if(${CMAKE_BUILD_TYPE} MATCHES "Release")
+        set(CATCH2MAIN_LIB "Catch2Main")
+        set(CATCH2_LIB "Catch2")
+    else()
+        set(CATCH2MAIN_LIB "Catch2Maind")
+        set(CATCH2_LIB "Catch2d")
+    endif()
+    target_link_libraries(test_tket
+        PRIVATE ${CATCH2MAIN_LIB}
+        PRIVATE ${CATCH2_LIB})
+    install(TARGETS test_tket DESTINATION bin)
+    install(FILES ${TKET_TESTS_DIR}/test_circuits/lexiroute_circuit.json DESTINATION bin)
+endif()
+
+if(TKET_WITH_PROPTESTS)
+    set(TKET_PROPTESTS_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../proptests)
+    add_executable(proptest ${TKET_PROPTESTS_DIR}/ComparisonFunctions.cpp ${TKET_PROPTESTS_DIR}/proptest.cpp)
+    foreach(COMP ${TKET_COMPS})
+        target_include_directories(proptest PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/${COMP}/include)
+        target_link_libraries(proptest PRIVATE tket-${COMP})
+    endforeach()
+    target_include_directories(proptest PRIVATE ${CMAKE_BINARY_DIR}/rapidcheck/include)
+    target_link_directories(proptest PRIVATE ${CMAKE_BINARY_DIR}/rapidcheck/lib)
+    target_link_libraries(proptest PRIVATE rapidcheck)
+    install(TARGETS proptest DESTINATION bin)
+endif()
