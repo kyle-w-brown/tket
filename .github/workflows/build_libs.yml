@@ -147,7 +147,7 @@ jobs:
     - uses: actions/checkout@v3
     - name: set up container
       run: |
-        docker create --name linux_build -i -v /:/host quay.io/pypa/manylinux2014_x86_64:latest /bin/bash
+        docker create --name linux_build -i -v /:/host quay.io/pypa/manylinux_2_28_x86_64:latest /bin/bash
         docker cp ./libs/${{ matrix.lib }} linux_build:/
         docker cp ./.github/workflows/linuxbuildlib linux_build:/
     - name: determine whether to upload package
