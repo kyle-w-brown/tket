@@ -47,6 +47,7 @@ PACKAGES="b2/4.9.2@ \
 for PACKAGE in ${PACKAGES}
 do
     echo "Installing:" ${PACKAGE} "..."
+    ${CONAN_CMD} remove -f ${PACKAGE} || true
     ${CONAN_CMD} install ${PACKAGE} --profile=tket -s build_type=Release --build=missing --update -r=conan-center
 done
 
