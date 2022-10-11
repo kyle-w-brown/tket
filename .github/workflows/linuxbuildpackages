@@ -16,16 +16,21 @@
 
 set -evu
 
-pip install conan
+# Choose a Python to install conan
+export PYBIN=/opt/python/cp310-cp310/bin
+
+${PYBIN}/pip install conan
+
+export CONAN_CMD=${PYBIN}/conan
 
 export CONAN_REVISIONS_ENABLED=1
 
 cd /tket
 
-conan profile new tket --detect
+${CONAN_CMD} profile new tket --detect
 
-conan remote clean
-conan remote add conan-center https://center.conan.io --force
+${CONAN_CMD} remote clean
+${CONAN_CMD} remote add conan-center https://center.conan.io --force
 
 # Edit this list as required:
 PACKAGES="b2/4.9.2@ \
@@ -42,18 +47,18 @@ PACKAGES="b2/4.9.2@ \
 for PACKAGE in ${PACKAGES}
 do
     echo "Installing:" ${PACKAGE} "..."
-    conan install ${PACKAGE} --profile=tket -s build_type=Release --build=missing --update -r=conan-center
+    ${CONAN_CMD} install ${PACKAGE} --profile=tket -s build_type=Release --build=missing --update -r=conan-center
 done
 
-conan remote remove conan-center
-conan remote add tket-libs https://quantinuumsw.jfrog.io/artifactory/api/conan/tket1-libs
+${CONAN_CMD} remote remove conan-center
+${CONAN_CMD} remote add tket-libs https://quantinuumsw.jfrog.io/artifactory/api/conan/tket1-libs
 
-conan user -p ${JFROG_ARTIFACTORY_TOKEN_2} -r tket-libs ${JFROG_ARTIFACTORY_USER_2}
+${CONAN_CMD} user -p ${JFROG_ARTIFACTORY_TOKEN_2} -r tket-libs ${JFROG_ARTIFACTORY_USER_2}
 
 for PACKAGE in ${PACKAGES}
 do
     echo "Uploading:" ${PACKAGE} "..."
-    conan upload ${PACKAGE} --all -r=tket-libs
+    ${CONAN_CMD} upload ${PACKAGE} --all -r=tket-libs
 done
 
 echo "Done."
