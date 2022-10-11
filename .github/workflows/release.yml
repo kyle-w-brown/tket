@@ -7,7 +7,7 @@ on:
       - edited
   push:
     branches:
-      - test-pep600
+      - test-pep600.1
       - 'wheel/**'
 
 jobs:
