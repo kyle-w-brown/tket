@@ -13,54 +13,54 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  build:
-    name: Build
-    strategy:
-      matrix:
-        os: ['ubuntu-22.04', 'macos-11', 'macos-12', 'windows-2022']
-    runs-on: ${{ matrix.os }}
-    env:
-      CONAN_REVISIONS_ENABLED: 1
-    steps:
+  # build:
+  #   name: Build
+  #   strategy:
+  #     matrix:
+  #       os: ['ubuntu-22.04', 'macos-11', 'macos-12', 'windows-2022']
+  #   runs-on: ${{ matrix.os }}
+  #   env:
+  #     CONAN_REVISIONS_ENABLED: 1
+  #   steps:
 
-    - uses: actions/checkout@v3
+  #   - uses: actions/checkout@v3
 
-    - name: Install conan
-      uses: turtlebrowser/get-conan@v1.1
+  #   - name: Install conan
+  #     uses: turtlebrowser/get-conan@v1.1
 
-    - name: Set up conan
-      shell: bash
-      run: ./.github/workflows/conan-setup
+  #   - name: Set up conan
+  #     shell: bash
+  #     run: ./.github/workflows/conan-setup
 
-    - name: authenticate to repository
-      run: conan user -p ${{ secrets.JFROG_ARTIFACTORY_TOKEN_2 }} -r tket-libs ${{ secrets.JFROG_ARTIFACTORY_USER_2 }}
+  #   - name: authenticate to repository
+  #     run: conan user -p ${{ secrets.JFROG_ARTIFACTORY_TOKEN_2 }} -r tket-libs ${{ secrets.JFROG_ARTIFACTORY_USER_2 }}
 
-    - name: Install and upload packages
-      shell: bash
-      run: ./.github/workflows/build-external-packages
+  #   - name: Install and upload packages
+  #     shell: bash
+  #     run: ./.github/workflows/build-external-packages
 
-  build_macos_arm64:
-    name: Build on MacOS ARM64
-    runs-on: ['self-hosted', 'macOS', 'ARM64']
-    env:
-      CONAN_REVISIONS_ENABLED: 1
-    steps:
+  # build_macos_arm64:
+  #   name: Build on MacOS ARM64
+  #   runs-on: ['self-hosted', 'macOS', 'ARM64']
+  #   env:
+  #     CONAN_REVISIONS_ENABLED: 1
+  #   steps:
 
-    - uses: actions/checkout@v3
+  #   - uses: actions/checkout@v3
 
-    - name: Set up conan
-      shell: bash
-      run: ./.github/workflows/conan-setup
+  #   - name: Set up conan
+  #     shell: bash
+  #     run: ./.github/workflows/conan-setup
 
-    - name: authenticate to repository
-      run: conan user -p ${{ secrets.JFROG_ARTIFACTORY_TOKEN_2 }} -r tket-libs ${{ secrets.JFROG_ARTIFACTORY_USER_2 }}
+  #   - name: authenticate to repository
+  #     run: conan user -p ${{ secrets.JFROG_ARTIFACTORY_TOKEN_2 }} -r tket-libs ${{ secrets.JFROG_ARTIFACTORY_USER_2 }}
 
-    - name: Install and upload packages
-      shell: bash
-      run: ./.github/workflows/build-external-packages
+  #   - name: Install and upload packages
+  #     shell: bash
+  #     run: ./.github/workflows/build-external-packages
 
-    - name: unauthenticate
-      run: conan user -c
+  #   - name: unauthenticate
+  #     run: conan user -c
 
   build_manylinux:
     name: Build on manylinux
