@@ -14,8 +14,11 @@ jobs:
   build_Linux_wheels:
     name: Build manylinux
     runs-on: ubuntu-22.04
+    strategy:
+      matrix:
+        manylinux: ['manylinux2014_x86_64', 'manylinux_2_28_x86_64']
     env:
-      PY_VERS: cp38-cp38 cp39-cp39 cp310-cp310
+      PY_VERS: cp310-cp310
     steps:
     - uses: actions/checkout@v3
       with:
@@ -23,7 +26,7 @@ jobs:
     - run: git fetch --depth=1 origin +refs/tags/*:refs/tags/*
     - name: Set up container
       run: |
-        docker create --name linux_build -i -v /:/host quay.io/pypa/manylinux_2_28_x86_64:latest /bin/bash
+        docker create --name linux_build -i -v /:/host quay.io/pypa/${{ matrix.manylinux }}:latest /bin/bash
         docker cp . linux_build:/tket/
     - name: Run build
       run: |
@@ -36,32 +39,3 @@ jobs:
       with:
         name: Linux_wheels
         path: wheelhouse/
-
-  test_linux_wheels:
-    name: Test linux wheels
-    needs: build_Linux_wheels
-    runs-on: ubuntu-22.04
-    strategy:
-      matrix:
-        python-version: ['3.8', '3.9', '3.10']
-    steps:
-      - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v4
-        with:
-          python-version: ${{ matrix.python-version }}
-      - name: Download wheels
-        uses: actions/download-artifact@v3
-        with:
-          name: Linux_wheels
-          path: wheelhouse/
-      - name: Install wheel
-        run: pip install wheelhouse/${{ matrix.python-version }}.*/pytket-*.whl
-      - uses: actions/checkout@v3
-        with:
-            path: tket
-      - name: Setup tests
-        run: |
-          cd tket/pytket/tests
-          pip install -r requirements.txt
-      - name: Run tests
-        run: cd tket/pytket/tests && pytest --ignore=simulator/ --doctest-modules
