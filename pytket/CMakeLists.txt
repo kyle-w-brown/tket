@@ -12,20 +12,49 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-cmake_minimum_required(VERSION 3.16.0)
-project(pytket)
+cmake_minimum_required(VERSION 3.24.1)
 
-set (CMAKE_CXX_STANDARD 20)
-set(CMAKE_CXX_EXTENSIONS OFF)
+project(pytket LANGUAGES CXX)
 
 find_program(CCACHE_PROGRAM ccache)
 if(CCACHE_PROGRAM)
     set_property(GLOBAL PROPERTY RULE_LAUNCH_COMPILE "${CCACHE_PROGRAM}")
 endif()
 
-find_file(CONANBUILDINFO_FILE conanbuildinfo.cmake HINTS ${CMAKE_BINARY_DIR})
-include(${CONANBUILDINFO_FILE})
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
+if(NOT CONAN_EXPORTED)
+    # not building with conan: generate conanbuildinfo.cmake
+    if(NOT EXISTS "${CMAKE_BINARY_DIR}/conan.cmake")
+      message(STATUS "Downloading conan.cmake from https://github.com/conan-io/cmake-conan")
+      file(DOWNLOAD "https://raw.githubusercontent.com/conan-io/cmake-conan/0.18.1/conan.cmake"
+                    "${CMAKE_BINARY_DIR}/conan.cmake"
+                    TLS_VERIFY ON)
+    endif()
+    include(${CMAKE_BINARY_DIR}/conan.cmake)
+
+    conan_check(VERSION 1.52.0 REQUIRED)
+
+    conan_add_remote(
+        NAME tket-libs
+        URL https://quantinuumsw.jfrog.io/artifactory/api/conan/tket1-libs
+        VERIFY_SSL True)
+    conan_cmake_autodetect(settings)
+    conan_cmake_install(
+        PATH_OR_REFERENCE ${CMAKE_CURRENT_SOURCE_DIR}
+        BUILD missing
+        SETTINGS ${settings}
+        BUILD missing
+        OPTIONS
+            tklog:shared=True
+            tket:shared=True)
+endif()
+
+include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
 conan_basic_setup(NO_OUTPUT_DIRS)
+
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_EXTENSIONS OFF)
 
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_BINARY_DIR}")
 find_package(pybind11 REQUIRED)

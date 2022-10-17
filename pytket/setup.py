@@ -160,29 +160,6 @@ class CMakeBuild(build_ext):
         )
         if not os.path.exists(self.build_temp):
             os.makedirs(self.build_temp)
-        conan_cmd = os.getenv("CONAN_CMD", default="conan")
-        conan_tket_profile = os.getenv("CONAN_TKET_PROFILE", default="tket")
-        install_cmd = [
-            conan_cmd,
-            "install",
-            "--profile=" + conan_tket_profile,
-            "--build=missing",
-            "-o",
-            "tket:shared=True",
-            extsource,
-        ]
-        if platform.system() == "Darwin" and platform.processor() == "arm":
-            install_cmd.extend(
-                [
-                    "-o",
-                    "boost:without_fiber=True",
-                    "-o",
-                    "boost:without_json=True",
-                    "-o",
-                    "boost:without_nowide=True",
-                ]
-            )
-        subprocess.check_call(install_cmd, cwd=self.build_temp, env=env)
 
         subprocess.check_call(
             ["cmake", extsource] + cmake_args, cwd=self.build_temp, env=env
