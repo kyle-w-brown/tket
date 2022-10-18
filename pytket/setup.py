@@ -144,10 +144,6 @@ class CMakeBuild(build_ext):
             "-DPYTHON_EXECUTABLE=" + sys.executable,
         ]
 
-        tket_lib_dir = os.environ.get("TKET_LIB_FILES", default=None)
-        if tket_lib_dir:
-            cmake_args.append("-DTKET_LIB_FILES=" + tket_lib_dir)
-
         if platform.system() == "Windows":
             cmake_args += [
                 "-DCMAKE_LIBRARY_OUTPUT_DIRECTORY_{}={}".format(
