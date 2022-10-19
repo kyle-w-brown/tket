@@ -167,6 +167,22 @@ foreach(COMP ${TKET_COMPS})
         PUBLIC_HEADER DESTINATION include/${COMP})
 endforeach()
 
+if(TKLOG_SHARED)
+    find_library(TKLOG_LIB NAMES tklog PATHS CONAN_PKG_LIBS_TKLOG)
+    install(FILES ${TKLOG_LIB} DESTINATION lib)
+endif()
+
+if(TKET_SHARED)
+    list(APPEND TKET_DEPS
+        ${CONAN_LIBS_SYMENGINE}
+        ${CONAN_LIBS_TKLOG}
+        ${CONAN_LIBS_TKASSERT}
+        ${CONAN_LIBS_TKRNG}
+        ${CONAN_LIBS_TKTOKENSWAP}
+        ${CONAN_LIBS_TKWSM}
+        )
+endif()
+
 if(TKET_WITH_TESTS)
     set(TKET_TESTS_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../tests)
 
@@ -179,8 +195,12 @@ if(TKET_WITH_TESTS)
         target_include_directories(test_tket PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/${COMP}/include)
         target_link_libraries(test_tket PRIVATE tket-${COMP})
     endforeach()
-    target_include_directories(test_tket PRIVATE ${CMAKE_BINARY_DIR}/catch2/include)
 
+    if(TKET_SHARED)
+        target_link_libraries(test_tket PRIVATE ${TKET_DEPS})
+    endif()
+
+    target_include_directories(test_tket PRIVATE ${CMAKE_BINARY_DIR}/catch2/include)
     target_link_directories(test_tket PRIVATE ${CMAKE_BINARY_DIR}/catch2/lib)
     if(${CMAKE_BUILD_TYPE} MATCHES "Release")
         set(CATCH2MAIN_LIB "Catch2Main")
@@ -203,6 +223,11 @@ if(TKET_WITH_PROPTESTS)
         target_include_directories(proptest PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/${COMP}/include)
         target_link_libraries(proptest PRIVATE tket-${COMP})
     endforeach()
+
+    if(TKET_SHARED)
+        target_link_libraries(proptest PRIVATE ${TKET_DEPS})
+    endif()
+
     target_include_directories(proptest PRIVATE ${CMAKE_BINARY_DIR}/rapidcheck/include)
     target_link_directories(proptest PRIVATE ${CMAKE_BINARY_DIR}/rapidcheck/lib)
     target_link_libraries(proptest PRIVATE rapidcheck)
