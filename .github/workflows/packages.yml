@@ -19,8 +19,6 @@ jobs:
       matrix:
         os: ['ubuntu-22.04', 'macos-11', 'macos-12', 'windows-2022']
     runs-on: ${{ matrix.os }}
-    env:
-      CONAN_REVISIONS_ENABLED: 1
     steps:
 
     - uses: actions/checkout@v3
@@ -44,8 +42,6 @@ jobs:
   build_macos_arm64:
     name: Build on MacOS ARM64
     runs-on: ['self-hosted', 'macOS', 'ARM64']
-    env:
-      CONAN_REVISIONS_ENABLED: 1
     steps:
 
     - uses: actions/checkout@v3
