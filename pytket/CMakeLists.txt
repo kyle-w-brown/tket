@@ -25,13 +25,8 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 if(NOT CONAN_EXPORTED)
     # not building with conan: generate conanbuildinfo.cmake
-    if(NOT EXISTS "${CMAKE_BINARY_DIR}/conan.cmake")
-      message(STATUS "Downloading conan.cmake from https://github.com/conan-io/cmake-conan")
-      file(DOWNLOAD "https://raw.githubusercontent.com/conan-io/cmake-conan/0.18.1/conan.cmake"
-                    "${CMAKE_BINARY_DIR}/conan.cmake"
-                    TLS_VERIFY ON)
-    endif()
-    include(${CMAKE_BINARY_DIR}/conan.cmake)
+
+    include(${CMAKE_CURRENT_SOURCE_DIR}/../../conan.cmake)
 
     conan_check(VERSION 1.52.0 REQUIRED)
 
