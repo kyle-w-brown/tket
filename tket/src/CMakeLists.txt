@@ -93,6 +93,8 @@ endif()
 include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
 conan_basic_setup()
 
+file(WRITE ${CMAKE_BINARY_DIR}/tk_ver.txt ${CONAN_PACKAGE_VERSION})
+
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
