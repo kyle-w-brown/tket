@@ -10,3 +10,4 @@ conan profile update options.tklog:shared=True tket
 conan profile update options.tket:shared=True tket
 conan remote clean
 conan remote add tket-libs https://quantinuumsw.jfrog.io/artifactory/api/conan/tket1-libs
+conan config set general.revisions_enabled=1
