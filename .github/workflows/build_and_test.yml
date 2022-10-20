@@ -8,9 +8,6 @@ on:
   push:
     branches:
       - develop
-  schedule:
-    # 03:00 every Saturday morning
-    - cron: '0 3 * * 6'
 
 concurrency:
   group: ${{ github.head_ref || github.run_id }}
@@ -111,9 +108,6 @@ jobs:
     - name: Set up conan
       shell: bash
       run: ./.github/workflows/conan-setup
-    - name: set option to run full test suite
-      if: github.event_name == 'schedule'
-      run: conan profile update options.tket-tests:full=True tket
     - name: normalize line endings in conanfile and src directory
       if: matrix.os == 'windows-2022'
       # This is necessary to ensure consistent revisions across platforms.
@@ -139,12 +133,6 @@ jobs:
       run: |
         conan create --profile=tket recipes/pybind11
         ./.github/workflows/check-tket-reqs  ${{ needs.check_changes.outputs.tket_ver }}
-    - name: Install runtime test requirements
-      if: matrix.os == 'ubuntu-22.04' && (needs.check_changes.outputs.tket_changed == 'true' || needs.check_changes.outputs.tket_tests_changed == 'true') && github.event_name == 'schedule'
-      run: |
-        sudo apt install texlive texlive-latex-extra latexmk
-        mkdir -p ~/texmf/tex/latex
-        wget http://mirrors.ctan.org/graphics/pgf/contrib/quantikz/tikzlibraryquantikz.code.tex -P ~/texmf/tex/latex
     - name: Build and run tket tests
       if: needs.check_changes.outputs.tket_changed == 'true' || needs.check_changes.outputs.tket_tests_changed == 'true'
       run: conan create --profile=tket recipes/tket-tests
@@ -234,7 +222,7 @@ jobs:
     name: Build and test (MacOS M1)
     runs-on: ['self-hosted', 'macOS', 'ARM64']
     needs: check_changes
-    if: github.event_name == 'push' || github.event_name == 'schedule' || github.event.pull_request.head.repo.full_name == github.repository
+    if: github.event_name == 'push' || github.event.pull_request.head.repo.full_name == github.repository
     steps:
     - uses: actions/checkout@v3
     - name: Set up conan
@@ -243,9 +231,6 @@ jobs:
         ./.github/workflows/conan-setup
         export CC=`which conan`
         echo "CONAN_CMD=${CC}" >> $GITHUB_ENV
-    - name: set option to run full test suite
-      if: github.event_name == 'schedule'
-      run: conan profile update options.tket-tests:full=True tket
     - name: Remove tket package from cache
       run: conan remove -f 'tket/*'
     - name: Build tket
@@ -290,23 +275,6 @@ jobs:
       run: |
         eval "$(pyenv init -)"
         pyenv shell tket-3.9
-        cd pytket/tests
-        pip install -r requirements.txt
-        pytest --ignore=simulator/ --doctest-modules
-    - name: Build pytket (3.10)
-      if: github.event_name == 'schedule'
-      run: |
-        eval "$(pyenv init -)"
-        pyenv shell tket-3.10
-        PKG_CONFIG_PATH="$(brew --prefix openblas)"/lib/pkgconfig pip install -U scipy
-        cd pytket
-        pip uninstall -y pytket
-        pip install -e . -v
-    - name: Test pytket (3.10)
-      if: github.event_name == 'schedule'
-      run: |
-        eval "$(pyenv init -)"
-        pyenv shell tket-3.10
         cd pytket/tests
         pip install -r requirements.txt
         pytest --ignore=simulator/ --doctest-modules
