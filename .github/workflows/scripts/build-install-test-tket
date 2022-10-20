@@ -1,0 +1,55 @@
+#!/usr/bin/env bash
+
+set -e
+
+if [ -z "${TKET_SRC_DIR}" ]; then
+    echo "TKET_SRC_DIR is empty: exiting."
+    exit 1
+fi
+
+if [ -z "${TKET_BUILD_DIR}" ]; then
+    echo "TKET_BUILD_DIR is empty: exiting."
+    exit 1
+fi
+
+if [ -z "${TKET_INSTALL_DIR}" ]; then
+    echo "TKET_INSTALL_DIR is empty: exiting."
+    exit 1
+fi
+
+if [ -z "${TKET_BUILD_N_THREADS}" ]; then
+    TKET_BUILD_N_THREADS=1
+fi
+
+if [ "${TKET_RUN_LONG_TESTS}" ]; then
+    TKET_RUN_TESTS=1
+fi
+
+echo "TKET_SRC_DIR: '${TKET_SRC_DIR}'"
+echo "TKET_BUILD_DIR: '${TKET_BUILD_DIR}'"
+echo "TKET_INSTALL_DIR: '${TKET_INSTALL_DIR}'"
+echo "TKET_BUILD_N_THREADS: '${TKET_BUILD_N_THREADS}'"
+echo "TKET_RUN_TESTS: '${TKET_RUN_TESTS}'"
+echo "TKET_RUN_LONG_TESTS: '${TKET_RUN_LONG_TESTS}'"
+
+
+mkdir -p ${TKET_BUILD_DIR}
+mkdir -p ${TKET_INSTALL_DIR}
+
+cmake \
+    -DCMAKE_INSTALL_PREFIX=${TKET_INSTALL_DIR} \
+    -DTKET_SHARED=True -DTKLOG_SHARED=True \
+    -DTKET_WITH_TESTS=True -DTKET_WITH_PROPTESTS=True \
+    -S ${TKET_SRC_DIR} -B ${TKET_BUILD_DIR}
+cmake --build ${TKET_BUILD_DIR} -j ${TKET_BUILD_N_THREADS}
+cmake --install ${TKET_BUILD_DIR}
+
+if [ "$TKET_RUN_TESTS" ]; then
+    cd ${TKET_INSTALL_DIR}/bin
+    if [ "$TKET_RUN_LONG_TESTS" ]; then
+        LD_LIBRARY_PATH=../lib ./test_tket "[long],~[long]"
+    else
+        LD_LIBRARY_PATH=../lib ./test_tket
+    fi
+    LD_LIBRARY_PATH=../lib ./proptest
+fi
