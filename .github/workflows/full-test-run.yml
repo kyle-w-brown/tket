@@ -1,0 +1,103 @@
+name: Full test run
+
+on:
+  push:
+    branches:
+      - 'run-full-tests/**'
+  schedule:
+    # 03:00 every Saturday morning
+    - cron: '0 3 * * 6'
+
+jobs:
+  build_test_tket:
+    name: Build and test (tket)
+    strategy:
+      matrix:
+        os: ['ubuntu-22.04', 'macos-12', 'windows-2022']
+    runs-on: ${{ matrix.os }}
+    env:
+      TKET_SRC_DIR: ./tket/src
+      TKET_BUILD_DIR: ~/tmp/tket-build
+      TKET_INSTALL_DIR: ~/tmp/tket-install
+      TKET_RUN_LONG_TESTS: 1
+    steps:
+    - uses: actions/checkout@v3
+    - name: Get current time
+      uses: josStorer/get-current-time@v2.0.2
+      id: current_time
+      with:
+        format: YYYYMMDDHHmmss
+    - name: Use ccache
+      uses: hendrikmuhs/ccache-action@v1.2.3
+      with:
+        key: ${{ github.job }}-${{ runner.os }}-ccache-${{ steps.current_time.outputs.formattedTime }}
+        restore-keys: |
+          ${{ github.job }}-${{ runner.os }}-ccache-
+    - name: Select Python 3.10
+      # otherwise turtlebrowser/get-conan@v1.1 fails on macos-12
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
+    - name: Install conan
+      uses: turtlebrowser/get-conan@v1.1
+      with:
+        version: '1.53.0'
+    - name: Install runtime test requirements
+      if: matrix.os == 'ubuntu-22.04'
+      run: |
+        sudo apt update
+        sudo apt install texlive texlive-latex-extra latexmk
+        mkdir -p ~/texmf/tex/latex
+        wget http://mirrors.ctan.org/graphics/pgf/contrib/quantikz/tikzlibraryquantikz.code.tex -P ~/texmf/tex/latex
+    - name: Build and test tket
+      shell: bash
+      run: ./.github/workflows/scripts/build-install-test-tket
+    - name: export conan package
+      run: |
+        tk_ver="$(cat ${TKET_BUILD_DIR}/tk_ver.txt)"
+        conan export-pkg ./recipes/tket tket/${tk_ver}@tket/stable -f --build-folder=${TKET_BUILD_DIR} --source-folder=${TKET_SRC_DIR}
+    - name: Upload package
+      uses: actions/upload-artifact@v3
+      with:
+        name: tket_conan_${{ matrix.os }}
+        path: ~/.conan/data/tket
+
+  build_test_pytket:
+    name: Build and test (pytket)
+    needs: build_test_tket
+    strategy:
+      matrix:
+        os: ['ubuntu-22.04', 'macos-12', 'windows-2022']
+        pyver: ['3.8', '3.9', '3.10']
+    runs-on: ${{ matrix.os }}
+    env:
+      TKET_INSTALL_DIR: ~/tmp/tket-install
+    steps:
+    - uses: actions/checkout@v3
+    - name: Install conan
+      uses: turtlebrowser/get-conan@v1.1
+      with:
+        version: '1.53.0'
+    - name: Set up conan
+      shell: bash
+      run: ./.github/workflows/conan-setup
+    - name: Download tket conan package
+      uses: actions/download-artifact@v3
+      with:
+        name: tket_conan_${{ matrix.os }}
+        path: ~/.conan/data/tket
+    - name: Install pybind11
+      run: conan create --profile=tket recipes/pybind11
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ matrix.pyver }}
+    - name: Build pytket
+      run: |
+        cd pytket
+        pip install -e . -v
+    - name: Test pytket
+      run: |
+        cd pytket/tests
+        pip install -r requirements.txt
+        pytest --ignore=simulator/ --doctest-modules
