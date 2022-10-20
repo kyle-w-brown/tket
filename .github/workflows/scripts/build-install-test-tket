@@ -41,7 +41,7 @@ cmake \
     -DTKET_SHARED=True -DTKLOG_SHARED=True \
     -DTKET_WITH_TESTS=True -DTKET_WITH_PROPTESTS=True \
     -S ${TKET_SRC_DIR} -B ${TKET_BUILD_DIR}
-cat ${TKET_BUILD_DIR}/compile_commands.json
+ls ${TKET_BUILD_DIR}
 cmake --build ${TKET_BUILD_DIR} -j ${TKET_BUILD_N_THREADS}
 cmake --install ${TKET_BUILD_DIR}
 
