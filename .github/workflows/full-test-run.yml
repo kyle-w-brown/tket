@@ -42,6 +42,9 @@ jobs:
       uses: turtlebrowser/get-conan@v1.1
       with:
         version: '1.53.0'
+    - name: Set up conan
+      shell: bash
+      run: ./.github/workflows/conan-setup
     - name: Install runtime test requirements
       if: matrix.os == 'ubuntu-22.04'
       run: |
