@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-set -e
+set -evx
 
 if [ -z "${TKET_SRC_DIR}" ]; then
     echo "TKET_SRC_DIR is empty: exiting."
