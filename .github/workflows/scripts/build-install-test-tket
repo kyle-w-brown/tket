@@ -47,10 +47,10 @@ cmake --install ${TKET_BUILD_DIR}
 if [ "$TKET_RUN_TESTS" ]; then
     cd ${TKET_INSTALL_DIR}/bin
     PLAT="$(uname -s)"
-    if [ "${PLAT}" == "Linux" ]; then
+    if [[ ${PLAT} == "Linux" ]]; then
         export LD_LIBRARY_PATH=../lib
     fi
-    if [ "${PLAT}" == "Linux" || "${PLAT}" == "Darwin" ]; then
+    if [[ ${PLAT} == "Linux" || ${PLAT} == "Darwin" ]]; then
         TEST_TKET="test_tket"
         PROPTEST="proptest"
     else
