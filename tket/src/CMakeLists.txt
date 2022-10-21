@@ -174,6 +174,19 @@ if(TKLOG_SHARED)
     install(FILES ${TKLOG_LIB} DESTINATION lib)
 endif()
 
+if(TKET_WITH_TESTS)
+    if(APPLE OR WIN32)
+        if(TKET_SHARED)
+            foreach(COMP ${TKET_COMPS})
+                install(TARGETS tket-${COMP} LIBRARY DESTINATION bin)
+            endforeach()
+        endif()
+        if(TKLOG_SHARED)
+            install(FILES ${TKLOG_LIB} DESTINATION bin)
+        endif()
+    endif()
+endif()
+
 if(TKET_SHARED)
     list(APPEND TKET_DEPS
         ${CONAN_LIBS_SYMENGINE}
