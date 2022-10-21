@@ -18,7 +18,7 @@ if [ -z "${TKET_INSTALL_DIR}" ]; then
 fi
 
 if [ -z "${TKET_BUILD_N_THREADS}" ]; then
-    TKET_BUILD_N_THREADS=1
+    TKET_BUILD_N_THREADS=2
 fi
 
 if [ "${TKET_RUN_LONG_TESTS}" ]; then
