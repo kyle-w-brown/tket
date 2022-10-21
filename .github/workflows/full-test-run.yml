@@ -18,8 +18,8 @@ jobs:
     runs-on: ${{ matrix.os }}
     env:
       TKET_SRC_DIR: ./tket/src
-      TKET_BUILD_DIR: ~/tmp/tket-build
-      TKET_INSTALL_DIR: ~/tmp/tket-install
+      TKET_BUILD_DIR: ${{ runner.temp }}/tket-build
+      TKET_INSTALL_DIR: ${{ runner.temp }}/tket-install
       TKET_RUN_LONG_TESTS: 1
     steps:
     - uses: actions/checkout@v3
@@ -70,7 +70,7 @@ jobs:
         pyver: ['3.8', '3.9', '3.10']
     runs-on: ${{ matrix.os }}
     env:
-      TKET_INSTALL_DIR: ~/tmp/tket-install
+      TKET_INSTALL_DIR: ${{ runner.temp }}/tket-install
     steps:
     - uses: actions/checkout@v3
     - name: Install conan
