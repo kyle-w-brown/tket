@@ -28,6 +28,10 @@ add_library(tket-${COMP}
 
 list(APPEND DEPS_${COMP})
 
+if(WIN32)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /bigobj")
+endif()
+
 foreach(DEP ${DEPS_${COMP}})
     target_include_directories(
         tket-${COMP} PRIVATE ${TKET_${DEP}_INCLUDE_DIR})
