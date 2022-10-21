@@ -16,11 +16,6 @@ jobs:
       matrix:
         os: ['ubuntu-22.04', 'macos-12', 'windows-2022']
     runs-on: ${{ matrix.os }}
-    env:
-      TKET_SRC_DIR: ./tket/src
-      TKET_BUILD_DIR: ${RUNNER_TEMP}/tket-build
-      TKET_INSTALL_DIR: ${RUNNER_TEMP}/tket-install
-      TKET_RUN_LONG_TESTS: 1
     steps:
     - uses: actions/checkout@v3
     - name: Get current time
@@ -48,6 +43,12 @@ jobs:
         sudo apt install texlive texlive-latex-extra latexmk
         mkdir -p ~/texmf/tex/latex
         wget http://mirrors.ctan.org/graphics/pgf/contrib/quantikz/tikzlibraryquantikz.code.tex -P ~/texmf/tex/latex
+    - name: Set environment variables
+      run: |
+        echo "TKET_SRC_DIR=./tket/src" >> $GITHUB_ENV
+        echo "TKET_BUILD_DIR=${{ runner.temp }}/tket-build" >> $GITHUB_ENV
+        echo "TKET_INSTALL_DIR=${{ runner.temp }}/tket-install" >> $GITHUB_ENV
+        echo "TKET_RUN_LONG_TESTS=1" >> $GITHUB_ENV
     - name: Build and test tket
       shell: bash
       run: ./.github/workflows/scripts/build-install-test-tket
@@ -69,8 +70,6 @@ jobs:
         os: ['ubuntu-22.04', 'macos-12', 'windows-2022']
         pyver: ['3.8', '3.9', '3.10']
     runs-on: ${{ matrix.os }}
-    env:
-      TKET_INSTALL_DIR: ${RUNNER_TEMP}/tket-install
     steps:
     - uses: actions/checkout@v3
     - name: Install conan
