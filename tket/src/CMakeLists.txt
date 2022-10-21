@@ -182,6 +182,7 @@ endif()
 if(TKET_SHARED)
     list(APPEND TKET_DEPS
         ${CONAN_LIBS_SYMENGINE}
+        ${CONAN_LIBS_GMP}
         ${CONAN_LIBS_TKLOG}
         ${CONAN_LIBS_TKASSERT}
         ${CONAN_LIBS_TKRNG}
