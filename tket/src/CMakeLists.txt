@@ -53,9 +53,6 @@ if(NOT CONAN_EXPORTED)
 
     include(${CMAKE_CURRENT_SOURCE_DIR}/../../conan.cmake)
 
-    message("In CMakeLists(1): CMAKE_MSVC_RUNTIME_LIBRARY =")
-    message("${CMAKE_MSVC_RUNTIME_LIBRARY}")
-
     conan_check(VERSION 1.52.0 REQUIRED)
 
     conan_add_remote(
@@ -63,6 +60,7 @@ if(NOT CONAN_EXPORTED)
         URL https://quantinuumsw.jfrog.io/artifactory/api/conan/tket1-libs
         VERIFY_SSL True)
     conan_cmake_autodetect(settings)
+    message("In CMakeLists(1): CMAKE_MSVC_RUNTIME_LIBRARY = ${CMAKE_MSVC_RUNTIME_LIBRARY}")
     conan_cmake_install(
         PATH_OR_REFERENCE ${CMAKE_CURRENT_SOURCE_DIR}/../../recipes/tket
         SETTINGS ${settings}
@@ -105,8 +103,9 @@ if(CMAKE_CXX_COMPILER_ID MATCHES "(Apple)?Clang")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Winconsistent-missing-override -Wloop-analysis")
 endif()
 
-message("In CMakeLists(2): CMAKE_MSVC_RUNTIME_LIBRARY =")
-message("${CMAKE_MSVC_RUNTIME_LIBRARY}")
+message("CMAKE_CXX_FLAGS: ${CMAKE_CXX_FLAGS}")
+
+message("In CMakeLists(2): CMAKE_MSVC_RUNTIME_LIBRARY = ${CMAKE_MSVC_RUNTIME_LIBRARY}")
 
 IF (TKET_COVERAGE)
     IF (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
