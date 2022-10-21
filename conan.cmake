@@ -233,6 +233,8 @@ macro(_conan_detect_compiler)
         elseif(${_vs_runtime} MATCHES "MDd")
             set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreadedDebugDLL")
         endif()
+        message("In conan.cmake: CMAKE_MSVC_RUNTIME_LIBRARY =")
+        message("${CMAKE_MSVC_RUNTIME_LIBRARY}")
 
         if (CMAKE_GENERATOR_TOOLSET)
             set(_CONAN_SETTING_COMPILER_TOOLSET ${CMAKE_VS_PLATFORM_TOOLSET})
