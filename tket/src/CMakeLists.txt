@@ -170,11 +170,7 @@ foreach(COMP ${TKET_COMPS})
 endforeach()
 
 if(TKLOG_SHARED)
-    if(WIN32)
-        find_library(TKLOG_LIB NAMES tklog.dll PATHS CONAN_PKG_LIBS_TKLOG)
-    else()
-        find_library(TKLOG_LIB NAMES tklog PATHS CONAN_PKG_LIBS_TKLOG)
-    endif()
+    find_library(TKLOG_LIB NAMES tklog PATHS CONAN_PKG_LIBS_TKLOG)
     install(FILES ${TKLOG_LIB} DESTINATION lib)
 endif()
 
