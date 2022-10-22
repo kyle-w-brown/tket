@@ -170,7 +170,7 @@ foreach(COMP ${TKET_COMPS})
 endforeach()
 
 message("CONAN_LIBS_TKLOG: ${CONAN_LIBS_TKLOG}")
-message("CONAN_LIB_DIRS_TKLOG: ${CONAN_PKG_LIBS_TKLOG}")
+message("CONAN_LIB_DIRS_TKLOG: ${CONAN_LIB_DIRS_TKLOG}")
 
 message("######")
 get_cmake_property(_variableNames VARIABLES)
@@ -181,7 +181,11 @@ endforeach()
 message("######")
 
 if(TKLOG_SHARED)
-    find_library(TKLOG_LIB NAMES ${CONAN_LIBS_TKLOG} PATHS ${CONAN_LIB_DIRS_TKLOG})
+    if(WIN32)
+        find_library(TKLOG_LIB NAMES tklog.dll PATHS ${CONAN_LIB_DIRS_TKLOG})
+    else()
+        find_library(TKLOG_LIB NAMES tklog PATHS ${CONAN_LIB_DIRS_TKLOG})
+    endif()
     install(FILES ${TKLOG_LIB} DESTINATION lib)
 endif()
 
