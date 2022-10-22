@@ -46,10 +46,24 @@ cmake --install ${TKET_BUILD_DIR}
 
 if [ "$TKET_RUN_TESTS" ]; then
     cd ${TKET_INSTALL_DIR}/bin
-    if [ "$TKET_RUN_LONG_TESTS" ]; then
-        LD_LIBRARY_PATH=../lib ./test_tket "[long],~[long]"
-    else
-        LD_LIBRARY_PATH=../lib ./test_tket
+    PLAT="$(uname -s)"
+    if [[ ${PLAT} == "Linux" ]]; then
+        export LD_LIBRARY_PATH=../lib
     fi
-    LD_LIBRARY_PATH=../lib ./proptest
+    if [[ ${PLAT} == "Linux" || ${PLAT} == "Darwin" ]]; then
+        TEST_TKET="test_tket"
+        PROPTEST="proptest"
+    else
+        TEST_TKET="test_tket.exe"
+        PROPTEST="proptest.exe"
+    fi
+    TEST_ARGS=""
+    if [[ ${PLAT} == "Linux" ]]; then
+        TEST_ARGS=${TEST_ARGS}"[latex]"
+    fi
+    if [ "$TKET_RUN_LONG_TESTS" ]; then
+        TEST_ARGS=${TEST_ARGS}"[long],~[long]"
+    fi
+    ./${TEST_TKET} "${TEST_ARGS}"
+    ./${PROPTEST}
 fi
