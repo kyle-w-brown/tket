@@ -58,8 +58,8 @@ if [ "$TKET_RUN_TESTS" ]; then
         PROPTEST="proptest.exe"
     fi
     TEST_ARGS=""
-    if [[ ${PLAT} == "Linux" ]]; then
-        TEST_ARGS=${TEST_ARGS}"[latex]"
+    if [[ ${PLAT} != "Linux" ]]; then
+        TEST_ARGS=${TEST_ARGS}"~[latex]"
     fi
     if [ "$TKET_RUN_LONG_TESTS" ]; then
         TEST_ARGS=${TEST_ARGS}"[long],~[long]"
