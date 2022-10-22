@@ -183,21 +183,10 @@ message("######")
 
 
 if(TKLOG_SHARED)
-
-    execute_process(
-        COMMAND ls ${CONAN_LIB_DIRS_TKLOG}
-        OUTPUT_VARIABLE lsout)
-    message("Contents of CONAN_LIB_DIRS_TKLOG: ${lsout}")
-
     if(WIN32)
-        message("looking for tklog.dll in ${CONAN_LIB_DIRS_TKLOG}")
-        find_library(TKLOG_LIB NAMES "tklog.dll" PATHS ${CONAN_LIB_DIRS_TKLOG} NO_DEFAULT_PATH NO_CMAKE_FIND_ROOT_PATH)
-        message("TKLOG_LIB: ${TKLOG_LIB}")
-    else()
-        message("looking for tklog in ${CONAN_LIB_DIRS_TKLOG}")
-        find_library(TKLOG_LIB NAMES tklog PATHS ${CONAN_LIB_DIRS_TKLOG} NO_DEFAULT_PATH NO_CMAKE_FIND_ROOT_PATH)
-        message("TKLOG_LIB: ${TKLOG_LIB}")
+        set(CMAKE_FIND_LIBRARY_SUFFIXES .dll ${CMAKE_FIND_LIBRARY_SUFFIXES})
     endif()
+    find_library(TKLOG_LIB NAMES tklog PATHS ${CONAN_LIB_DIRS_TKLOG} NO_DEFAULT_PATH NO_CMAKE_FIND_ROOT_PATH)
     install(FILES ${TKLOG_LIB} DESTINATION lib)
 endif()
 
