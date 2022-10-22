@@ -180,11 +180,19 @@ foreach (_variableName ${_variableNames})
 endforeach()
 message("######")
 
+
+
 if(TKLOG_SHARED)
+
+    execute_process(
+        COMMAND ls ${CONAN_LIB_DIRS_TKLOG}
+        OUTPUT_VARUABLE lsout)
+    message("Contents of CONAN_LIB_DIRS_TKLOG: ${lsout}")
+
     if(WIN32)
-        find_library(TKLOG_LIB NAMES tklog.dll PATHS ${CONAN_LIB_DIRS_TKLOG})
+        find_library(TKLOG_LIB NAMES tklog.dll PATHS ${CONAN_LIB_DIRS_TKLOG} NO_DEFAULT_PATH NO_CMAKE_FIND_ROOT_PATH)
     else()
-        find_library(TKLOG_LIB NAMES tklog PATHS ${CONAN_LIB_DIRS_TKLOG})
+        find_library(TKLOG_LIB NAMES tklog PATHS ${CONAN_LIB_DIRS_TKLOG} NO_DEFAULT_PATH NO_CMAKE_FIND_ROOT_PATH)
     endif()
     install(FILES ${TKLOG_LIB} DESTINATION lib)
 endif()
