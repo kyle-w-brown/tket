@@ -15,11 +15,6 @@ jobs:
       matrix:
         os: ['ubuntu-22.04', 'macos-12', 'windows-2022']
     runs-on: ${{ matrix.os }}
-    env:
-      TKET_SRC_DIR: ./tket/src
-      TKET_BUILD_DIR: ~/tmp/tket-build
-      TKET_INSTALL_DIR: ~/tmp/tket-install
-      TKET_RUN_LONG_TESTS: 1
     steps:
     - uses: actions/checkout@v3
     - name: Get current time
@@ -53,12 +48,17 @@ jobs:
         mkdir -p ~/texmf/tex/latex
         wget http://mirrors.ctan.org/graphics/pgf/contrib/quantikz/tikzlibraryquantikz.code.tex -P ~/texmf/tex/latex
     - name: Build and test tket
+      env:
+        TKET_SRC_DIR: ./tket/src
+        TKET_BUILD_DIR: ${{ runner.temp }}/tket-build
+        TKET_INSTALL_DIR: ${{ runner.temp }}/tket-install
+        TKET_RUN_LONG_TESTS: 1
       shell: bash
       run: ./.github/workflows/scripts/build-install-test-tket
     - name: export conan package
       run: |
-        tk_ver="$(cat ${TKET_BUILD_DIR}/tk_ver.txt)"
-        conan export-pkg ./recipes/tket tket/${tk_ver}@tket/stable -f --build-folder=${TKET_BUILD_DIR} --source-folder=${TKET_SRC_DIR}
+        tk_ver="$(cat ${{ runner.temp }}/tket-build/tk_ver.txt)"
+        conan export-pkg ./recipes/tket tket/${tk_ver}@tket/stable -f --build-folder=${{ runner.temp }}/tket-build --source-folder=./tket/src
     - name: Upload package
       uses: actions/upload-artifact@v3
       with:
@@ -73,8 +73,6 @@ jobs:
         os: ['ubuntu-22.04', 'macos-12', 'windows-2022']
         pyver: ['3.8', '3.9', '3.10']
     runs-on: ${{ matrix.os }}
-    env:
-      TKET_INSTALL_DIR: ~/tmp/tket-install
     steps:
     - uses: actions/checkout@v3
     - name: Install conan
