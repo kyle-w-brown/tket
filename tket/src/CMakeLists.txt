@@ -169,8 +169,12 @@ foreach(COMP ${TKET_COMPS})
         PUBLIC_HEADER DESTINATION include/${COMP})
 endforeach()
 
+message("CONAN_LIBS_TKLOG: ${CONAN_LIBS_TKLOG}")
+message("CONAN_PKG_LIBS_TKLOG: ${CONAN_PKG_LIBS_TKLOG}")
+
+
 if(TKLOG_SHARED)
-    find_library(TKLOG_LIB NAMES tklog PATHS CONAN_PKG_LIBS_TKLOG)
+    find_library(TKLOG_LIB NAMES ${CONAN_LIBS_TKLOG} PATHS ${CONAN_PKG_LIBS_TKLOG})
     install(FILES ${TKLOG_LIB} DESTINATION lib)
 endif()
 
