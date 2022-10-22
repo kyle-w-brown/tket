@@ -186,7 +186,7 @@ if(TKLOG_SHARED)
 
     execute_process(
         COMMAND ls ${CONAN_LIB_DIRS_TKLOG}
-        OUTPUT_VARUABLE lsout)
+        OUTPUT_VARIABLE lsout)
     message("Contents of CONAN_LIB_DIRS_TKLOG: ${lsout}")
 
     if(WIN32)
