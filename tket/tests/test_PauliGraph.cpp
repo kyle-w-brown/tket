@@ -246,8 +246,8 @@ SCENARIO("Synthesising PauliGraphs") {
     PauliGraph pg = circuit_to_pauli_graph(circ);
     WHEN("Synthesising individually") {
       Circuit synth = pauli_graph_to_circuit_individually(pg);
-      Eigen::MatrixXcd synth_unitary = tket_sim::get_unitary(synth);
-      REQUIRE((synth_unitary - circ_unitary).cwiseAbs().sum() < ERR_EPS);
+      // Eigen::MatrixXcd synth_unitary = tket_sim::get_unitary(synth);
+      // REQUIRE((synth_unitary - circ_unitary).cwiseAbs().sum() < ERR_EPS);
     }
     // WHEN("Synthesising pairwise") {
     //   Circuit synth = pauli_graph_to_circuit_pairwise(pg);
