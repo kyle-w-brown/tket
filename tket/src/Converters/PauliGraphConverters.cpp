@@ -76,6 +76,7 @@ PauliGraph circuit_to_pauli_graph(const Circuit &circ) {
 
 Circuit pauli_graph_to_circuit_individually(
     const PauliGraph &pg, CXConfigType cx_config) {
+  std::cout << __func__ << ":" << __LINE__ << std::endl;
   Circuit circ;
   for (const Qubit &qb : pg.cliff_.get_qubits()) {
     circ.add_qubit(qb);
@@ -83,17 +84,26 @@ Circuit pauli_graph_to_circuit_individually(
   for (const Bit &b : pg.bits_) {
     circ.add_bit(b);
   }
+  std::cout << __func__ << ":" << __LINE__ << std::endl;
   for (PauliGraph::TopSortIterator it = pg.begin(); it != pg.end(); ++it) {
+    std::cout << __func__ << ":" << __LINE__ << std::endl;
     PauliVert vert = *it;
     const QubitPauliTensor &pauli = pg.graph_[vert].tensor_;
+    std::cout << __func__ << ":" << __LINE__ << std::endl;
     const Expr &angle = pg.graph_[vert].angle_;
     append_single_pauli_gadget(circ, pauli, angle, cx_config);
+    std::cout << __func__ << ":" << __LINE__ << std::endl;
   }
+  std::cout << __func__ << ":" << __LINE__ << std::endl;
   Circuit cliff_circuit = tableau_to_circuit(pg.cliff_);
+  std::cout << __func__ << ":" << __LINE__ << std::endl;
   circ.append(cliff_circuit);
+  std::cout << __func__ << ":" << __LINE__ << std::endl;
   for (auto it = pg.measures_.begin(); it != pg.measures_.end(); ++it) {
+    std::cout << __func__ << ":" << __LINE__ << std::endl;
     circ.add_measure(it->left, it->right);
   }
+  std::cout << __func__ << ":" << __LINE__ << std::endl;
   return circ;
 }
 

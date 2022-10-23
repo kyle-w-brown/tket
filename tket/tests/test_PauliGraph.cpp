@@ -245,7 +245,9 @@ SCENARIO("Synthesising PauliGraphs") {
     const Eigen::MatrixXcd circ_unitary = tket_sim::get_unitary(circ);
     PauliGraph pg = circuit_to_pauli_graph(circ);
     WHEN("Synthesising individually") {
+      std::cout << __func__ << ":" << __LINE__ << std::endl;
       Circuit synth = pauli_graph_to_circuit_individually(pg);
+      std::cout << __func__ << ":" << __LINE__ << std::endl;
       // Eigen::MatrixXcd synth_unitary = tket_sim::get_unitary(synth);
       // REQUIRE((synth_unitary - circ_unitary).cwiseAbs().sum() < ERR_EPS);
     }
