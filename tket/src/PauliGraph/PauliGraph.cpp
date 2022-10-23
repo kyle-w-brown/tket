@@ -35,6 +35,7 @@ PauliVertSet PauliGraph::get_successors(const PauliVert &vert) const {
   PauliVertSet succs;
   boost::graph_traits<PauliDAG>::adjacency_iterator ai, a_end;
   boost::tie(ai, a_end) = boost::adjacent_vertices(vert, graph_);
+  std::cout << __func__ << ":" << __LINE__ << std::endl;
   for (; ai!= a_end; ai++) {
     std::cout << __func__ << ":" << __LINE__ << std::endl;
     succs.insert(*ai);
@@ -45,10 +46,15 @@ PauliVertSet PauliGraph::get_successors(const PauliVert &vert) const {
 }
 
 PauliVertSet PauliGraph::get_predecessors(const PauliVert &vert) const {
+  std::cout << __func__ << ":" << __LINE__ << std::endl;
   PauliVertSet preds;
-  for (auto iter = boost::inv_adjacent_vertices(vert, graph_);
-       iter.first != iter.second; iter.first++) {
-    preds.insert(*iter.first);
+  PauliDAG::inv_adjacency_iterator ai, a_end;
+  boost::tie(ai, a_end) = boost::inv_adjacent_vertices(vert, graph_);
+  std::cout << __func__ << ":" << __LINE__ << std::endl;
+  for (; ai!= a_end; ai++) {
+    std::cout << __func__ << ":" << __LINE__ << std::endl;
+    preds.insert(*ai);
+    std::cout << __func__ << ":" << __LINE__ << std::endl;
   }
   return preds;
 }
