@@ -317,23 +317,38 @@ void PauliGraph::apply_pauli_gadget_at_end(
 
 PauliGraph::TopSortIterator::TopSortIterator()
     : pg_(nullptr),
-      current_vert_(boost::graph_traits<PauliDAG>::null_vertex()) {}
+      current_vert_(boost::graph_traits<PauliDAG>::null_vertex()) {
+        std::cout << __func__ << ":" << __LINE__ << std::endl;
+      }
 
 PauliGraph::TopSortIterator::TopSortIterator(const PauliGraph &pg) {
+  std::cout << __func__ << ":" << __LINE__ << std::endl;
   if (pg.start_line_.empty()) {
+    std::cout << __func__ << ":" << __LINE__ << std::endl;
     current_vert_ = boost::graph_traits<PauliDAG>::null_vertex();
+    std::cout << __func__ << ":" << __LINE__ << std::endl;
     return;
   }
   pg_ = &pg;
+  std::cout << __func__ << ":" << __LINE__ << std::endl;
   for (const PauliVert &vert : pg.start_line_) {
+    std::cout << __func__ << ":" << __LINE__ << std::endl;
     search_set_.insert({pg.graph_[vert].tensor_, vert});
+    std::cout << __func__ << ":" << __LINE__ << std::endl;
   }
+  std::cout << __func__ << ":" << __LINE__ << std::endl;
   current_vert_ = search_set_.begin()->second;
+  std::cout << __func__ << ":" << __LINE__ << std::endl;
   search_set_.erase(search_set_.begin());
+  std::cout << __func__ << ":" << __LINE__ << std::endl;
   visited_ = {current_vert_};
+  std::cout << __func__ << ":" << __LINE__ << std::endl;
   for (const PauliVert &child : pg_->get_successors(current_vert_)) {
+    std::cout << __func__ << ":" << __LINE__ << std::endl;
     search_set_.insert({pg.graph_[child].tensor_, child});
+    std::cout << __func__ << ":" << __LINE__ << std::endl;
   }
+  std::cout << __func__ << ":" << __LINE__ << std::endl;
 }
 
 const PauliVert &PauliGraph::TopSortIterator::operator*() const {
@@ -409,6 +424,7 @@ PauliGraph::TopSortIterator &PauliGraph::TopSortIterator::operator++() {
 }
 
 PauliGraph::TopSortIterator PauliGraph::begin() const {
+  std::cout << __func__ << ":" << __LINE__ << std::endl;
   return TopSortIterator(*this);
 }
 
