@@ -31,11 +31,15 @@ PauliGraph::PauliGraph(const qubit_vector_t &qbs, const bit_vector_t &bits)
     : cliff_(qbs), bits_(bits) {}
 
 PauliVertSet PauliGraph::get_successors(const PauliVert &vert) const {
+  std::cout << __func__ << ":" << __LINE__ << std::endl;
   PauliVertSet succs;
   for (auto iter = boost::adjacent_vertices(vert, graph_);
        iter.first != iter.second; iter.first++) {
+    std::cout << __func__ << ":" << __LINE__ << std::endl;
     succs.insert(*iter.first);
+    std::cout << __func__ << ":" << __LINE__ << std::endl;
   }
+  std::cout << __func__ << ":" << __LINE__ << std::endl;
   return succs;
 }
 
