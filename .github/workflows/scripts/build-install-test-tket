@@ -39,7 +39,7 @@ mkdir -p ${TKET_INSTALL_DIR}
 cmake \
     -DCMAKE_INSTALL_PREFIX=${TKET_INSTALL_DIR} \
     -DTKET_SHARED=True -DTKLOG_SHARED=True \
-    -DTKET_WITH_TESTS=True -DTKET_WITH_PROPTESTS=True \
+    -DTKET_WITH_TESTS=True \
     -S ${TKET_SRC_DIR} -B ${TKET_BUILD_DIR}
 cmake --build ${TKET_BUILD_DIR} -j ${TKET_BUILD_N_THREADS}
 cmake --install ${TKET_BUILD_DIR}
@@ -52,10 +52,10 @@ if [ "$TKET_RUN_TESTS" ]; then
     fi
     if [[ ${PLAT} == "Linux" || ${PLAT} == "Darwin" ]]; then
         TEST_TKET="test_tket"
-        PROPTEST="proptest"
+        # PROPTEST="proptest"
     else
         TEST_TKET="test_tket.exe"
-        PROPTEST="proptest.exe"
+        # PROPTEST="proptest.exe"
     fi
     TEST_ARGS=""
     if [[ ${PLAT} != "Linux" ]]; then

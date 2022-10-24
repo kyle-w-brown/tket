@@ -140,18 +140,18 @@ list(APPEND TKET_COMPS
     Gate
     PauliGraph
     Circuit
-    Architecture
-    Simulation
+    # Architecture
+    # Simulation
     Diagonalisation
-    Characterisation
+    # Characterisation
     ZX
     Converters
-    Placement
-    ArchAwareSynth
-    Mapping
-    MeasurementSetup
-    Transformations
-    Predicates
+    # Placement
+    # ArchAwareSynth
+    # Mapping
+    # MeasurementSetup
+    # Transformations
+    # Predicates
     )
 
 foreach(COMP ${TKET_COMPS})
