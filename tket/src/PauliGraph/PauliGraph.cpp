@@ -12,6 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+#include <tkassert/Assert.hpp>
+
 #include "PauliGraph.hpp"
 
 #include "Gate/Gate.hpp"
@@ -38,6 +40,7 @@ PauliVertSet PauliGraph::get_successors(const PauliVert &vert) const {
   std::cout << __func__ << ":" << __LINE__ << std::endl;
   for (; ai!= a_end; ai++) {
     std::cout << __func__ << ":" << __LINE__ << ": *ai = " << *ai << std::endl;
+    TKET_ASSERT(!succs.contains(*ai));
     succs.insert(*ai);
   }
   std::cout << __func__ << ":" << __LINE__ << std::endl;
@@ -52,6 +55,7 @@ PauliVertSet PauliGraph::get_predecessors(const PauliVert &vert) const {
   std::cout << __func__ << ":" << __LINE__ << std::endl;
   for (; ai!= a_end; ai++) {
     std::cout << __func__ << ":" << __LINE__ << ": *ai = " << *ai << std::endl;
+    TKET_ASSERT(!preds.contains(*ai));
     preds.insert(*ai);
   }
   return preds;
