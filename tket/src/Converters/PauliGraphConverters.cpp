@@ -71,7 +71,9 @@ PauliGraph circuit_to_pauli_graph(const Circuit &circ) {
           "and Paulis",
           od.type());
   }
+  std::cout << __func__ << ":" << __LINE__ << std::endl;
   pg.sanity_check();
+  std::cout << __func__ << ":" << __LINE__ << std::endl;
   return pg;
 }
 
