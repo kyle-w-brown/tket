@@ -17,24 +17,24 @@
 
 set(TESTUTILS_SOURCES
     ${TKET_TESTS_DIR}/tests_main.cpp
-    ${TKET_TESTS_DIR}/testutil.cpp
-    ${TKET_TESTS_DIR}/CircuitsForTesting.cpp
-    ${TKET_TESTS_DIR}/Graphs/EdgeSequence.cpp
-    ${TKET_TESTS_DIR}/Graphs/EdgeSequenceColouringParameters.cpp
-    ${TKET_TESTS_DIR}/Graphs/GraphTestingRoutines.cpp
-    ${TKET_TESTS_DIR}/Graphs/RandomGraphGeneration.cpp
-    ${TKET_TESTS_DIR}/Graphs/RandomPlanarGraphs.cpp
-    ${TKET_TESTS_DIR}/TokenSwapping/Data/FixedCompleteSolutions.cpp
-    ${TKET_TESTS_DIR}/TokenSwapping/Data/FixedSwapSequences.cpp
-    ${TKET_TESTS_DIR}/TokenSwapping/TestUtils/ArchitectureEdgesReimplementation.cpp
-    ${TKET_TESTS_DIR}/TokenSwapping/TestUtils/BestTsaTester.cpp
-    ${TKET_TESTS_DIR}/TokenSwapping/TestUtils/DebugFunctions.cpp
-    ${TKET_TESTS_DIR}/TokenSwapping/TestUtils/DecodedProblemData.cpp
-    ${TKET_TESTS_DIR}/TokenSwapping/TestUtils/FullTsaTesting.cpp
-    ${TKET_TESTS_DIR}/TokenSwapping/TestUtils/GetRandomSet.cpp
-    ${TKET_TESTS_DIR}/TokenSwapping/TestUtils/PartialTsaTesting.cpp
-    ${TKET_TESTS_DIR}/TokenSwapping/TestUtils/ProblemGeneration.cpp
-    ${TKET_TESTS_DIR}/TokenSwapping/TestUtils/TestStatsStructs.cpp
-    ${TKET_TESTS_DIR}/Gate/GatesData.cpp
-    ${TKET_TESTS_DIR}/Simulation/ComparisonFunctions.cpp
+    # ${TKET_TESTS_DIR}/testutil.cpp
+    # ${TKET_TESTS_DIR}/CircuitsForTesting.cpp
+    # ${TKET_TESTS_DIR}/Graphs/EdgeSequence.cpp
+    # ${TKET_TESTS_DIR}/Graphs/EdgeSequenceColouringParameters.cpp
+    # ${TKET_TESTS_DIR}/Graphs/GraphTestingRoutines.cpp
+    # ${TKET_TESTS_DIR}/Graphs/RandomGraphGeneration.cpp
+    # ${TKET_TESTS_DIR}/Graphs/RandomPlanarGraphs.cpp
+    # ${TKET_TESTS_DIR}/TokenSwapping/Data/FixedCompleteSolutions.cpp
+    # ${TKET_TESTS_DIR}/TokenSwapping/Data/FixedSwapSequences.cpp
+    # ${TKET_TESTS_DIR}/TokenSwapping/TestUtils/ArchitectureEdgesReimplementation.cpp
+    # ${TKET_TESTS_DIR}/TokenSwapping/TestUtils/BestTsaTester.cpp
+    # ${TKET_TESTS_DIR}/TokenSwapping/TestUtils/DebugFunctions.cpp
+    # ${TKET_TESTS_DIR}/TokenSwapping/TestUtils/DecodedProblemData.cpp
+    # ${TKET_TESTS_DIR}/TokenSwapping/TestUtils/FullTsaTesting.cpp
+    # ${TKET_TESTS_DIR}/TokenSwapping/TestUtils/GetRandomSet.cpp
+    # ${TKET_TESTS_DIR}/TokenSwapping/TestUtils/PartialTsaTesting.cpp
+    # ${TKET_TESTS_DIR}/TokenSwapping/TestUtils/ProblemGeneration.cpp
+    # ${TKET_TESTS_DIR}/TokenSwapping/TestUtils/TestStatsStructs.cpp
+    # ${TKET_TESTS_DIR}/Gate/GatesData.cpp
+    # ${TKET_TESTS_DIR}/Simulation/ComparisonFunctions.cpp
 )

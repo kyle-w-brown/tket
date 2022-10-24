@@ -14,20 +14,22 @@
 
 #include <catch2/catch_test_macros.hpp>
 
-#include "Circuit/Boxes.hpp"
-#include "CircuitsForTesting.hpp"
+
+#include "Circuit/Circuit.hpp"
+// #include "Circuit/Boxes.hpp"
+// #include "CircuitsForTesting.hpp"
 #include "Converters/Converters.hpp"
-#include "Converters/PauliGadget.hpp"
-#include "Diagonalisation/Diagonalisation.hpp"
-#include "Gate/SymTable.hpp"
-#include "PauliGraph/ConjugatePauliFunctions.hpp"
-#include "PauliGraph/PauliGraph.hpp"
-#include "Simulation/CircuitSimulator.hpp"
-#include "Transformations/OptimisationPass.hpp"
-#include "Transformations/PauliOptimisation.hpp"
-#include "Transformations/Rebase.hpp"
-#include "Transformations/Transform.hpp"
-#include "testutil.hpp"
+// #include "Converters/PauliGadget.hpp"
+// #include "Diagonalisation/Diagonalisation.hpp"
+// #include "Gate/SymTable.hpp"
+// #include "PauliGraph/ConjugatePauliFunctions.hpp"
+// #include "PauliGraph/PauliGraph.hpp"
+// #include "Simulation/CircuitSimulator.hpp"
+// #include "Transformations/OptimisationPass.hpp"
+// #include "Transformations/PauliOptimisation.hpp"
+// #include "Transformations/Rebase.hpp"
+// #include "Transformations/Transform.hpp"
+// #include "testutil.hpp"
 
 namespace tket {
 namespace test_PauliGraph {
@@ -242,7 +244,7 @@ SCENARIO("Synthesising PauliGraphs") {
     circ.add_op<unsigned>(OpType::Ry, 0.3, {1});
     circ.add_op<unsigned>(OpType::Ry, 0.3, {2});
     circ.add_op<unsigned>(OpType::Ry, 0.3, {3});
-    const Eigen::MatrixXcd circ_unitary = tket_sim::get_unitary(circ);
+    // const Eigen::MatrixXcd circ_unitary = tket_sim::get_unitary(circ);
     PauliGraph pg = circuit_to_pauli_graph(circ);
     WHEN("Synthesising individually") {
       std::cout << __func__ << ":" << __LINE__ << std::endl;
