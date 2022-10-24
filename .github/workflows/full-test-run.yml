@@ -36,27 +36,27 @@ jobs:
     - name: Set up conan
       shell: bash
       run: ./.github/workflows/conan-setup
-    - name: Install runtime test requirements
-      if: matrix.os == 'ubuntu-22.04'
-      run: |
-        sudo apt update
-        sudo apt install texlive texlive-latex-extra latexmk
-        mkdir -p ~/texmf/tex/latex
-        wget http://mirrors.ctan.org/graphics/pgf/contrib/quantikz/tikzlibraryquantikz.code.tex -P ~/texmf/tex/latex
+    # - name: Install runtime test requirements
+    #   if: matrix.os == 'ubuntu-22.04'
+    #   run: |
+    #     sudo apt update
+    #     sudo apt install texlive texlive-latex-extra latexmk
+    #     mkdir -p ~/texmf/tex/latex
+    #     wget http://mirrors.ctan.org/graphics/pgf/contrib/quantikz/tikzlibraryquantikz.code.tex -P ~/texmf/tex/latex
     - name: Build and test tket
       env:
         TKET_SRC_DIR: ./tket/src
         TKET_BUILD_DIR: ${{ runner.temp }}/tket-build
         TKET_INSTALL_DIR: ${{ runner.temp }}/tket-install
-        TKET_RUN_LONG_TESTS: 1
+        TKET_RUN_TESTS: 1
       shell: bash
       run: ./.github/workflows/scripts/build-install-test-tket
-    - name: export conan package
-      run: |
-        tk_ver="$(cat ${{ runner.temp }}/tket-build/tk_ver.txt)"
-        conan export-pkg ./recipes/tket tket/${tk_ver}@tket/stable -f --build-folder=${{ runner.temp }}/tket-build --source-folder=./tket/src
-    - name: Upload package
-      uses: actions/upload-artifact@v3
-      with:
-        name: tket_conan_${{ matrix.os }}
-        path: ~/.conan/data/tket
+    # - name: export conan package
+    #   run: |
+    #     tk_ver="$(cat ${{ runner.temp }}/tket-build/tk_ver.txt)"
+    #     conan export-pkg ./recipes/tket tket/${tk_ver}@tket/stable -f --build-folder=${{ runner.temp }}/tket-build --source-folder=./tket/src
+    # - name: Upload package
+    #   uses: actions/upload-artifact@v3
+    #   with:
+    #     name: tket_conan_${{ matrix.os }}
+    #     path: ~/.conan/data/tket
