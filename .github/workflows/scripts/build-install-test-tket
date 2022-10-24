@@ -64,6 +64,5 @@ if [ "$TKET_RUN_TESTS" ]; then
     if [ "$TKET_RUN_LONG_TESTS" ]; then
         TEST_ARGS=${TEST_ARGS}"[long],~[long]"
     fi
-    ./${TEST_TKET} "${TEST_ARGS}"
-    ./${PROPTEST}
+    ./${TEST_TKET}
 fi
