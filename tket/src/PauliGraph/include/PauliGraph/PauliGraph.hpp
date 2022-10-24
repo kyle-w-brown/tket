@@ -91,6 +91,8 @@ class PauliGraph {
   friend Circuit pauli_graph_to_circuit_sets(
       const PauliGraph &pg, CXConfigType cx_config);
 
+  void sanity_check();
+
  private:
   /** The dependency graph of Pauli gadgets */
   PauliDAG graph_;

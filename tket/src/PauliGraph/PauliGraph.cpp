@@ -472,4 +472,26 @@ void PauliGraph::to_graphviz(std::ostream &out) const {
   out << "}";
 }
 
+void PauliGraph::sanity_check() {
+  for (TopSortIterator it = begin(); it != end(); ++it) {
+    PauliVert vert = *it;
+
+    PauliVertSet succs;
+    boost::graph_traits<PauliDAG>::adjacency_iterator ai, a_end;
+    boost::tie(ai, a_end) = boost::adjacent_vertices(vert, graph_);
+    for (; ai!= a_end; ai++) {
+      TKET_ASSERT(!succs.contains(*ai));
+      succs.insert(*ai);
+    }
+
+    PauliVertSet preds;
+    PauliDAG::inv_adjacency_iterator iai, ia_end;
+    boost::tie(iai, ia_end) = boost::inv_adjacent_vertices(vert, graph_);
+    for (; iai!= ia_end; iai++) {
+      TKET_ASSERT(!preds.contains(*iai));
+      preds.insert(*iai);
+    }
+  }
+}
+
 }  // namespace tket

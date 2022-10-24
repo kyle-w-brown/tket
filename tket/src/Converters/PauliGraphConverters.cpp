@@ -71,6 +71,7 @@ PauliGraph circuit_to_pauli_graph(const Circuit &circ) {
           "and Paulis",
           od.type());
   }
+  pg.sanity_check();
   return pg;
 }
 
