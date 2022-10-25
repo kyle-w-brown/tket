@@ -52,6 +52,7 @@ jobs:
       shell: bash
       run: ./.github/workflows/scripts/build-install-test-tket
     - name: export conan package
+      shell: bash
       run: |
         tk_ver="$(cat ${{ runner.temp }}/tket-build/tk_ver.txt)"
         conan export-pkg ./recipes/tket tket/${tk_ver}@tket/stable -f --build-folder=${{ runner.temp }}/tket-build --source-folder=./tket/src
