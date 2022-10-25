@@ -88,7 +88,13 @@ endif()
 include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
 conan_basic_setup()
 
+message("CONAN_PACKAGE_VERSION: ${CONAN_PACKAGE_VERSION}")
+
 file(WRITE ${CMAKE_BINARY_DIR}/tk_ver.txt ${CONAN_PACKAGE_VERSION})
+
+message("CMAKE_BINARY_DIR = ${CMAKE_BINARY_DIR}")
+message("Contents:")
+execute_process(COMMAND ls ${CMAKE_BINARY_DIR})
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_EXTENSIONS OFF)
