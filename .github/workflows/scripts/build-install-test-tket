@@ -36,13 +36,23 @@ echo "TKET_RUN_LONG_TESTS: '${TKET_RUN_LONG_TESTS}'"
 mkdir -p ${TKET_BUILD_DIR}
 mkdir -p ${TKET_INSTALL_DIR}
 
+ls ${TKET_BUILD_DIR}
+
 cmake \
     -DCMAKE_INSTALL_PREFIX=${TKET_INSTALL_DIR} \
     -DTKET_SHARED=True -DTKLOG_SHARED=True \
     -DTKET_WITH_TESTS=True -DTKET_WITH_PROPTESTS=True \
     -S ${TKET_SRC_DIR} -B ${TKET_BUILD_DIR}
+
+ls ${TKET_BUILD_DIR}
+
 cmake --build ${TKET_BUILD_DIR} -j ${TKET_BUILD_N_THREADS}
+
+ls ${TKET_BUILD_DIR}
+
 cmake --install ${TKET_BUILD_DIR}
+
+ls ${TKET_BUILD_DIR}
 
 if [ "$TKET_RUN_TESTS" ]; then
     cd ${TKET_INSTALL_DIR}/bin

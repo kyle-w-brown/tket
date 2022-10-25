@@ -51,6 +51,9 @@ jobs:
         TKET_RUN_LONG_TESTS: 1
       shell: bash
       run: ./.github/workflows/scripts/build-install-test-tket
+    - name: list build directory
+      shell: bash
+      run: ls ${{ runner.temp }}/tket-build
     - name: export conan package
       shell: bash
       run: |
