@@ -189,6 +189,7 @@ SCENARIO("Creating gates via Qubits and Registers") {
     REQUIRE(
         circ.n_in_edges_of_type(circ.get_out(creg[0]), EdgeType::Classical) ==
         1);
+    circ.add_wasm_register();
   }
 }
 

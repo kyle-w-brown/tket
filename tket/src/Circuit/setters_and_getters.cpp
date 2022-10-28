@@ -30,12 +30,17 @@
 
 namespace tket {
 
+// TODO MELF
+
 Circuit::Circuit(const std::string &_name) : Circuit() { name = _name; }
 
 Circuit::Circuit(unsigned n, const std::optional<std::string> _name)
     : Circuit() {
   name = _name;
   add_q_register(q_default_reg(), n);
+  wasmset = true;
+  // add_c_register("_wasmspecial", 1);
+  //todo melf
 }
 
 Circuit::Circuit(unsigned n, unsigned m, const std::optional<std::string> _name)

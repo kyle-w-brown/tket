@@ -95,6 +95,8 @@ void Circuit::extract_slice_segment(unsigned slice_one, unsigned slice_two) {
   remove_vertices(bin, GraphRewiring::No, VertexDeletion::Yes);
 }
 
+// TODO MELF
+
 std::vector<Command> Circuit::get_commands() const {
   std::vector<Command> coms;
   for (CommandIterator it = begin(); it != end(); ++it) {

@@ -459,6 +459,23 @@ register_t Circuit::add_c_register(std::string reg_name, unsigned size) {
   return ids;
 }
 
+// todo melf
+
+void Circuit::add_wasm_register() {
+  // Vertex in = add_vertex(OpType::WASMInput);
+  // Vertex out = add_vertex(OpType::WASMOutput);
+  // add_edge({in, 0}, {out, 0}, EdgeType::WASM);
+  // Bit id("_wasm", 0);
+  // boundary.insert({id, in, out});
+  //  ids.insert({0, id});
+  Vertex in = add_vertex(OpType::ClInput);
+  Vertex out = add_vertex(OpType::ClOutput);
+  add_edge({in, 0}, {out, 0}, EdgeType::WASM);
+  Bit id("qwe", 0);
+  boundary.insert({id, in, out});
+  //# ids.insert({i, id});
+}  //*/
+
 void Circuit::qubit_create(const Qubit& id) {
   Vertex v = get_in(id);
   dag[v].op = std::make_shared<const MetaOp>(OpType::Create);

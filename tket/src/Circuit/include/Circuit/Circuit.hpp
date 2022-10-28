@@ -375,6 +375,8 @@ class Circuit {
    */
   explicit Circuit(const std::string &name);
 
+  // TODO MELF
+
   // constructor for circuit with `n` qubits
   // O(n)
   explicit Circuit(
@@ -979,6 +981,7 @@ class Circuit {
   void add_bit(const Bit &id, bool reject_dups = true);
   register_t add_q_register(std::string reg_name, unsigned size);
   register_t add_c_register(std::string reg_name, unsigned size);
+  void add_wasm_register();
 
   /**
    * Create the given qubit in the zero state at the beginning of the circuit.
@@ -1591,6 +1594,7 @@ class Circuit {
   std::optional<std::string>
       name;   /** optional string name descriptor for human identification*/
   Expr phase; /**< Global phase applied to circuit */
+  bool wasmset = false; //todo melf
 
   /** Signature associated with each named operation group */
   std::map<std::string, op_signature_t> opgroupsigs;
