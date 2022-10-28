@@ -14,6 +14,7 @@
 
 #include "OpTypeFunctions.hpp"
 
+#include <iostream>
 #include <memory>
 
 #include "OpType.hpp"
@@ -124,9 +125,13 @@ const OpTypeSet& all_controlled_gate_types() {
 }
 
 bool is_metaop_type(OpType optype) {
+  if (optype == OpType::WASMInput) {
+    std::cout << "run is meta check" << std::endl;
+  }
   static const OpTypeSet metaops = {
-      OpType::Input,   OpType::Output, OpType::ClInput, OpType::ClOutput,
-      OpType::Barrier, OpType::Create, OpType::Discard};
+      OpType::Input,    OpType::Output,    OpType::ClInput,
+      OpType::ClOutput, OpType::WASMInput, OpType::WASMOutput,
+      OpType::Barrier,  OpType::Create,    OpType::Discard};
   return find_in_set(optype, metaops);
 }
 

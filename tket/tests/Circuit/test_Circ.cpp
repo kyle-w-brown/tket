@@ -189,7 +189,15 @@ SCENARIO("Creating gates via Qubits and Registers") {
     REQUIRE(
         circ.n_in_edges_of_type(circ.get_out(creg[0]), EdgeType::Classical) ==
         1);
+  }
+  GIVEN("A new circuit") {
+    std::cout << "step 0" << std::endl;
+    Circuit circ;
+    std::cout << "step 1" << std::endl;
     circ.add_wasm_register();
+    // auto bla = std::make_shared<const MetaOp>(OpType::WASMInput);
+    // std::cout << bla->repr();
+    std::cout << "step 2" << std::endl;
   }
 }
 

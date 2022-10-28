@@ -24,13 +24,25 @@ Op_ptr get_op_ptr(OpType chosen_type, const Expr& param, unsigned n_qubits) {
   return get_op_ptr(chosen_type, std::vector<Expr>{param}, n_qubits);
 }
 
+// MELF TODO
+
 Op_ptr get_op_ptr(
     OpType chosen_type, const std::vector<Expr>& params, unsigned n_qubits) {
   if (is_gate_type(chosen_type)) {
     SymTable::register_symbols(expr_free_symbols(params));
     return std::make_shared<const Gate>(chosen_type, params, n_qubits);
   } else {
-    return std::make_shared<const MetaOp>(chosen_type);
+    if (chosen_type == OpType::WASMInput) {
+      std::cout << "PROBLEM FOUND" << std::endl;
+      auto bla = std::make_shared<const MetaOp>(OpType::WASMInput);
+      std::cout << "PROBLEM  happend FOUND";
+      return bla;
+    } else if (chosen_type == OpType::WASMOutput) {
+      auto bla = std::make_shared<const MetaOp>(OpType::ClOutput);
+      return bla;
+    } else {
+      return std::make_shared<const MetaOp>(chosen_type);
+    }
   }
 }
 
