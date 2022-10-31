@@ -26,7 +26,7 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 if(NOT CONAN_EXPORTED)
     # not building with conan: generate conanbuildinfo.cmake
 
-    include(${CMAKE_CURRENT_SOURCE_DIR}/../../conan.cmake)
+    include(${CMAKE_CURRENT_SOURCE_DIR}/../conan.cmake)
 
     conan_check(VERSION 1.52.0 REQUIRED)
 
