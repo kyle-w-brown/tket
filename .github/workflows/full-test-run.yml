@@ -54,11 +54,10 @@ jobs:
         TKET_INSTALL_DIR: ${{ runner.temp }}/tket-install
         TKET_RUN_LONG_TESTS: 1
       shell: bash
-      run: ./.github/workflows/scripts/build-install-test-tket
-    - name: export conan package
       run: |
-        tk_ver="$(cat ${{ runner.temp }}/tket-build/tk_ver.txt)"
-        conan export-pkg ./recipes/tket tket/${tk_ver}@tket/stable -f --build-folder=${{ runner.temp }}/tket-build --source-folder=./tket/src
+        ./.github/workflows/scripts/build-install-test-tket
+        tk_ver="$(cat ${TKET_BUILD_DIR}/tk_ver.txt)"
+        conan export-pkg ./recipes/tket tket/${tk_ver}@tket/stable -f --build-folder=${TKET_BUILD_DIR} --source-folder=${TKET_SRC_DIR}
     - name: Upload package
       uses: actions/upload-artifact@v3
       with:
