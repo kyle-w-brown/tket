@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - 'run-full-tests/**'
+      - test-feature-build.9
   schedule:
     # 03:00 every Saturday morning
     - cron: '0 3 * * 6'
