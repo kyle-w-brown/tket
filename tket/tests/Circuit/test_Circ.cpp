@@ -198,6 +198,17 @@ SCENARIO("Creating gates via Qubits and Registers") {
     // auto bla = std::make_shared<const MetaOp>(OpType::WASMInput);
     // std::cout << bla->repr();
     std::cout << "step 2" << std::endl;
+    std::cout << "print circuit" << std::endl;
+    for (auto x : circ) {
+      std::cout << x << std::endl;
+    }
+    // (circ.n_in_edges_of_type(h, EdgeType::Boolean) == 1);
+
+    auto ve = circ.all_inputs();
+    std::cout << "size: " << ve.size() << std::endl;
+    for (auto xv : ve) {
+      std::cout << xv << std::endl;
+    }
   }
 }
 

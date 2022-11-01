@@ -35,7 +35,7 @@
 namespace tket {
 
 /** Type of information held */
-enum class UnitType { Qubit, Bit };
+enum class UnitType { Qubit, Bit, WASMUIDT };
 
 /** The type and dimension of a register */
 typedef std::pair<UnitType, unsigned> register_info_t;
@@ -217,6 +217,16 @@ class Bit : public UnitID {
     if (other.type() != UnitType::Bit) {
       throw InvalidUnitConversion(other.repr(), "Bit");
     }
+  }
+};
+
+/** Location holding a bit */
+class WASMUID : public UnitID {
+ public:
+  WASMUID() : UnitID("_wasm_wire", {}, UnitType::WASMUIDT) {}
+
+  std::string wasm_givestring(){
+    return UnitID::repr();
   }
 };
 

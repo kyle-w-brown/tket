@@ -38,7 +38,7 @@ Circuit::Circuit(unsigned n, const std::optional<std::string> _name)
     : Circuit() {
   name = _name;
   add_q_register(q_default_reg(), n);
-  wasmset = true;
+  // wasmset = true;
   // add_c_register("_wasmspecial", 1);
   //todo melf
 }

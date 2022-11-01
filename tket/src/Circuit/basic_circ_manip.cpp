@@ -468,16 +468,19 @@ void Circuit::add_wasm_register() {
   // Bit id("_wasm", 0);
   // boundary.insert({id, in, out});
   //  ids.insert({0, id});
-  std::cout << "step A" << std::endl;
+  std::cout << "step A - ?" << std::endl;
   Vertex in = add_vertex(OpType::WASMInput);
-  std::cout << "step B" << std::endl;
+  std::cout << "step B - ?" << std::endl;
   Vertex out = add_vertex(OpType::WASMOutput);
-  std::cout << "step C" << std::endl;
+  std::cout << "step C - ?" << std::endl;
   add_edge({in, 0}, {out, 0}, EdgeType::WASM);
-  std::cout << "step D" << std::endl;
-  // Bit id("qwe", 0);
-  // boundary.insert({id, in, out});
+  std::cout << "step D - ?" << std::endl;
+  WASMUID wuid = WASMUID();
+  std::cout << wuid.repr() << std::endl;
+  boundary.insert({wuid, in, out});
+  std::cout << "step E - ?" << std::endl;
   //# ids.insert({i, id});
+  wasm_added = true;
 }  //*/
 
 void Circuit::qubit_create(const Qubit& id) {

@@ -1594,7 +1594,7 @@ class Circuit {
   std::optional<std::string>
       name;   /** optional string name descriptor for human identification*/
   Expr phase; /**< Global phase applied to circuit */
-  bool wasmset = false; //todo melf
+  bool wasm_added = false; //todo melf
 
   /** Signature associated with each named operation group */
   std::map<std::string, op_signature_t> opgroupsigs;
