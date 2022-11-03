@@ -86,6 +86,11 @@ jobs:
         ./.github/workflows/scripts/build-install-test-tket
         tk_ver="$(cat ${TKET_BUILD_DIR}/tk_ver.txt)"
         conan export-pkg ./recipes/tket tket/${tk_ver}@tket/stable -f --build-folder=${TKET_BUILD_DIR} --source-folder=${TKET_SRC_DIR}
+    - name: Upload package
+      uses: actions/upload-artifact@v3
+      with:
+        name: tket_conan_macos_arm64
+        path: ~/.conan/data/tket
 
   build_test_pytket:
     name: Build and test (pytket)
@@ -108,6 +113,8 @@ jobs:
     - name: Set up conan
       shell: bash
       run: ./.github/workflows/conan-setup
+    - name: Remove tket package from cache
+      run: conan remove -f 'tket/*'
     - name: Download tket conan package
       uses: actions/download-artifact@v3
       with:
@@ -138,17 +145,13 @@ jobs:
       uses: actions/setup-python@v4
       with:
         python-version: ${{ matrix.pyver }}
-    - name: Install conan
-      uses: turtlebrowser/get-conan@v1.1
-      with:
-        version: '1.53.0'
     - name: Set up conan
       shell: bash
       run: ./.github/workflows/conan-setup
     - name: Download tket conan package
       uses: actions/download-artifact@v3
       with:
-        name: tket_conan_${{ matrix.os }}
+        name: tket_conan_macos_arm64
         path: ~/.conan/data/tket
     - name: Install pybind11
       run: conan create --profile=tket recipes/pybind11
