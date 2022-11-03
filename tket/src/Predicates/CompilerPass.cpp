@@ -268,7 +268,7 @@ std::string RepeatPass::to_string() const {
 nlohmann::json RepeatPass::get_config() const {
   nlohmann::json j;
   j["pass_class"] = "RepeatPass";
-  j["RepeatClass"]["body"] = pass_;
+  j["RepeatPass"]["body"] = pass_;
   return j;
 }
 
@@ -360,7 +360,8 @@ void from_json(const nlohmann::json& j, PassPtr& pp) {
     if (passname == "KAKDecomposition") {
       double cx_fidelity = content.at("fidelity").get<double>();
       OpType target_2qb_gate = content.at("target_2qb_gate").get<OpType>();
-      pp = KAKDecomposition(target_2qb_gate, cx_fidelity);
+      bool allow_swaps = content.at("allow_swaps").get<bool>();
+      pp = KAKDecomposition(target_2qb_gate, cx_fidelity, allow_swaps);
     } else if (passname == "ThreeQubitSquash") {
       pp = ThreeQubitSquash(content.at("allow_swaps").get<bool>());
     } else if (passname == "CommuteThroughMultis") {
@@ -382,11 +383,14 @@ void from_json(const nlohmann::json& j, PassPtr& pp) {
       fid.ZZMax_fidelity =
           content.at("fidelities").at("ZZMax").get<std::optional<double>>();
       fid.ZZPhase_fidelity = std::nullopt;
-      pp = DecomposeTK2(fid);
+      bool allow_swaps = content.at("allow_swaps").get<bool>();
+      pp = DecomposeTK2(fid, allow_swaps);
     } else if (passname == "PeepholeOptimise2Q") {
       pp = PeepholeOptimise2Q();
     } else if (passname == "FullPeepholeOptimise") {
-      pp = FullPeepholeOptimise();
+      OpType target_2qb_gate = content.at("target_2qb_gate").get<OpType>();
+      bool allow_swaps = content.at("allow_swaps").get<bool>();
+      pp = FullPeepholeOptimise(allow_swaps, target_2qb_gate);
     } else if (passname == "RebaseTket") {
       pp = RebaseTket();
     } else if (passname == "RebaseUFR") {
@@ -405,6 +409,8 @@ void from_json(const nlohmann::json& j, PassPtr& pp) {
       pp = SynthesiseUMD();
     } else if (passname == "SquashTK1") {
       pp = SquashTK1();
+    } else if (passname == "SquashRzPhasedX") {
+      pp = SquashRzPhasedX();
     } else if (passname == "FlattenRegisters") {
       pp = FlattenRegisters();
     } else if (passname == "SquashCustom") {
@@ -434,7 +440,7 @@ void from_json(const nlohmann::json& j, PassPtr& pp) {
       pp = gen_routing_pass(arc, con);
 
     } else if (passname == "PlacementPass") {
-      pp = gen_placement_pass(content.at("placement").get<PlacementPtr>());
+      pp = gen_placement_pass(content.at("placement").get<Placement::Ptr>());
     } else if (passname == "NaivePlacementPass") {
       pp = gen_naive_placement_pass(
           content.at("architecture").get<Architecture>());
@@ -452,6 +458,8 @@ void from_json(const nlohmann::json& j, PassPtr& pp) {
           content.at("swap_replacement").get<Circuit>());
     } else if (passname == "DecomposeBridges") {
       pp = DecomposeBridges();
+    } else if (passname == "CnXPairwiseDecomposition") {
+      pp = CnXPairwiseDecomposition();
     } else if (passname == "OptimisePhaseGadgets") {
       pp = gen_optimise_phase_gadgets(
           content.at("cx_config").get<CXConfigType>());
@@ -485,7 +493,7 @@ void from_json(const nlohmann::json& j, PassPtr& pp) {
     } else if (passname == "FullMappingPass") {
       // SEQUENCE PASS - DESERIALIZABLE ONLY
       Architecture arc = content.at("architecture").get<Architecture>();
-      PlacementPtr place = content.at("placement").get<PlacementPtr>();
+      Placement::Ptr place = content.at("placement").get<Placement::Ptr>();
       std::vector<RoutingMethodPtr> config = content.at("routing_config");
 
       pp = gen_full_mapping_pass(arc, place, config);
@@ -497,7 +505,7 @@ void from_json(const nlohmann::json& j, PassPtr& pp) {
     } else if (passname == "CXMappingPass") {
       // SEQUENCE PASS - DESERIALIZABLE ONLY
       Architecture arc = content.at("architecture").get<Architecture>();
-      PlacementPtr place = content.at("placement").get<PlacementPtr>();
+      Placement::Ptr place = content.at("placement").get<Placement::Ptr>();
       std::vector<RoutingMethodPtr> config = content.at("routing_config");
       bool directed_cx = content.at("directed").get<bool>();
       bool delay_measures = content.at("delay_measures").get<bool>();

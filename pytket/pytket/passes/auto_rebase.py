@@ -12,10 +12,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from typing import Set, Callable, Dict, FrozenSet
+from typing import Set, Callable, Dict, FrozenSet, Union
 from pytket.circuit import Circuit, OpType  # type: ignore
 from pytket._tket.circuit import _library  # type: ignore
-from pytket.passes import RebaseCustom, SquashCustom  # type: ignore
+from pytket.passes import RebaseCustom, SquashCustom, SquashRzPhasedX  # type: ignore
 
 from ._decompositions import Param, _TK1_to_X_SX_Rz, _TK1_to_RxRy, _TK1_to_U
 
@@ -32,6 +32,12 @@ _CX_CIRCS: Dict[OpType, Callable[[], "Circuit"]] = {
     OpType.CZ: _library._H_CZ_H,
 }
 
+_TK2_CIRCS: Dict[OpType, Callable[[Param, Param, Param], "Circuit"]] = {
+    OpType.CX: _library._TK2_using_CX,
+    OpType.ZZMax: _library._TK2_using_ZZMax,
+    OpType.ZZPhase: _library._TK2_using_ZZPhase,
+}
+
 
 def get_cx_decomposition(gateset: Set[OpType]) -> Circuit:
     """Return a Circuit expressing a CX in terms of a two qubit gate in the
@@ -40,12 +46,28 @@ def get_cx_decomposition(gateset: Set[OpType]) -> Circuit:
     :param gateset: Target gate set.
     :type gateset: Set[OpType]
     :raises NoAutoRebase: No suitable CX decomposition found.
-    :return: Decomposuition circuit.
+    :return: Decomposition circuit.
     :rtype: Circuit
     """
     if any((matching := k) in gateset for k in _CX_CIRCS):
         return _CX_CIRCS[matching]()
     raise NoAutoRebase("No known decomposition from CX to available gateset.")
+
+
+def get_tk2_decomposition(
+    gateset: Set[OpType],
+) -> Callable[[Param, Param, Param], "Circuit"]:
+    """Return a function to construct a circuit expressing a TK2 in terms of gates in
+    the given gateset, if such a function is available.
+
+    :param gateset: target gate set
+    :raises NoAutoRebase: no suitable TK2 decomposition found
+    :return: function to decompose TK2 gates
+    """
+    for k, fn in _TK2_CIRCS.items():
+        if k in gateset:
+            return fn
+    raise NoAutoRebase("No known decomposition from TK2 to given gateset")
 
 
 _TK1_circs: Dict[FrozenSet[OpType], Callable[[Param, Param, Param], "Circuit"]] = {
@@ -85,7 +107,7 @@ def auto_rebase_pass(gateset: Set[OpType]) -> RebaseCustom:
     """Attempt to generate a rebase pass automatically for the given target
     gateset.
 
-    Checks if there are known existing decompositions from CX
+    Checks if there are known existing decompositions
     to target gateset and TK1 to target gateset and uses those to construct a
     custom rebase.
     Raises an error if no known decompositions can be found, in which case try
@@ -93,16 +115,24 @@ def auto_rebase_pass(gateset: Set[OpType]) -> RebaseCustom:
 
     :param gateset: Set of supported OpTypes, target gate set.
     :type gateset: FrozenSet[OpType]
-    :raises NoAutoRebase: No suitable CX or TK1 decomposition found.
+    :raises NoAutoRebase: No suitable decomposition found.
     :return: Rebase pass.
     :rtype: RebaseCustom
     """
-    return RebaseCustom(
-        gateset, get_cx_decomposition(gateset), get_TK1_decomposition_function(gateset)
-    )
+    tk1 = get_TK1_decomposition_function(gateset)
+    try:
+        return RebaseCustom(gateset, get_tk2_decomposition(gateset), tk1)
+    except NoAutoRebase:
+        pass
+    try:
+        return RebaseCustom(gateset, get_cx_decomposition(gateset), tk1)
+    except NoAutoRebase:
+        raise NoAutoRebase(
+            "No known decomposition from CX or TK2 to available gateset."
+        )
 
 
-def auto_squash_pass(gateset: Set[OpType]) -> SquashCustom:
+def auto_squash_pass(gateset: Set[OpType]) -> Union[SquashCustom, SquashRzPhasedX]:
     """Attempt to generate a squash pass automatically for the given target
     single qubit gateset.
 
@@ -111,4 +141,7 @@ def auto_squash_pass(gateset: Set[OpType]) -> SquashCustom:
     :return: Squash to target gateset
     :rtype: SquashCustom
     """
+    if {OpType.Rz, OpType.PhasedX} <= gateset:
+        return SquashRzPhasedX()
+
     return SquashCustom(gateset, get_TK1_decomposition_function(gateset))

@@ -2,7 +2,96 @@ Changelog
 =========
 
 x.y.z (unreleased)
-------------------
+---------------------
+
+Fixes:
+
+* Incorrect qasm filtering.
+
+
+1.8.0 (November 2022)
+---------------------
+
+Minor new features:
+
+* New ``OpType::Phase`` 0-qubit gate affecting global phase.
+* New ``CnXPairwiseDecomposition`` pass.
+* Allow ``QControlBox`` with implicit wire swaps to be decomposed.
+* New ``Circuit`` methods ``replace_SWAPs`` and ``replace_implicit_wire_swaps``.
+
+Fixes:
+
+* Remove unused ``tk_SCRATCH_BIT`` registers from qasm output.
+* Update the ``LogicExp`` in every ``ClassicalExpBox`` when calling ``Circuit.rename_units``.
+* Fix the json schema for ``LinePlacement``
+* Fix issue with ``QControlBox`` throwing error during decomposition
+  if the controlled circuit contains identity gates.
+* Fix issue with ``KAKDecomposition`` raising exception if the circuit contains ``ClassicalExpBox``.
+
+1.7.3 (October 2022)
+--------------------
+
+Minor new features:
+
+* New ``Circuit`` properties ``created_qubits`` and ``discarded_qubits``.
+* Barrier operations inside QASM custom gates are now accepted.
+* Added wasm functions will be checked if the signatures are supported
+
+Fixes:
+
+* Circuit equality check now takes into account qubit creations and qubit discards.
+* Created qubits and discarded qubits are now shown in ``Circuit.__repr__`` and ``Circuit.to_dict``.
+* Allow symbolic operations in initial simplification.
+* Fix the json schema for compiler passes.
+* Fix ``SquashRzPhasedX`` so it now preserves phase.
+
+1.6.1 (September 2022)
+----------------------
+
+Minor new features:
+
+* New ``OpType.CnY`` and ``OpType.CnZ``.
+* Update ``DecomposeArbitrarilyControlledGates`` pass to decompose ``CnX``,
+  ``CnY``, and ``CnZ`` gates.
+
+Fixes:
+
+* ``Circuit.get_unitary()`` and ``Circuit.get_statevector()`` now throw an error
+  when the circuit contains measurements.
+* Fix critical issue with compilation of circuits containing conditional gates.
+
+1.6.0 (September 2022)
+----------------------
+
+* New ``ToffoliBox`` for constructing circuits that implement permutations of
+  basis states.
+
+1.5.2 (August 2022)
+-------------------
+
+Minor new features:
+
+* Prefer `ZZPhase` in ``DecomposeTK2`` if it results in the same fidelity but
+  fewer two-qubit gates.
+
+* Add ``SquashRzPhasedX`` pass to squash single qubit gates into
+  ``Rz`` and ``PhasedX`` gates while trying to commute ``Rz``s to the back. 
+
+1.5.1 (August 2022)
+-------------------
+
+Minor new features:
+
+* Improve ``FullPeepholeOptimise`` performance.
+
+Fixes:
+
+* Squash two-qubit circuits properly in ``FullPeepholeOptimise`` for parameter
+  `target_2qb_gate=OpType.TK2`.
+* Floating point inaccuracies in ``NormalisedTK2Predicate``.
+
+1.5.0 (August 2022)
+-------------------
 
 Minor new features:
 
@@ -11,6 +100,38 @@ Minor new features:
   gates.
 * ``Unitary3qBox.get_circuit()`` decomposes the circuit using (at most 15) TK2
   gates.
+* New ``CustomPass()`` accepting a user-supplied circuit transformation
+  function.
+* ``measure_register`` now allows using an existing classical register
+* Provide an additional ``RebaseCustom`` constructor that takes a
+  TK2-replacement instead of a CX-replacement function.
+* New ``int_dist_from_state`` function in ``pytket.utils.results`` to convert
+  a statevector to the probability distribution over its indices.
+* The precondition for ``CliffordSimp`` and ``KAKDecomposition`` has been relaxed
+  to accept classical controlled operations. ``ThreeQubitSquash`` and ``FullPeepholeOptimise``
+  now accept classical operations.
+* Improve ``QControlBox`` decomposition.
+* New ``allow_swaps`` flag in ``KAKDecomposition`` and ``DecomposeTK2`` to
+  decompose two-qubit operations up to implicit wire swaps.
+* Add support for TK2 gate in ``FullPeepholeOptimise``.
+
+Fixes:
+
+* ``FullPeepholeOptimise`` failure on conditional circuits.
+
+1.4.3 (July 2022)
+-----------------
+
+Fixes:
+
+* Further relax assertion in ``replace_TK2_2CX``.
+
+1.4.2 (July 2022)
+-----------------
+
+Fixes:
+
+* Relax assertion in replace_TK2_2CX to avoid crash due to rounding errors.
 
 1.4.1 (July 2022)
 -----------------

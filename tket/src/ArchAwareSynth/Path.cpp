@@ -110,7 +110,7 @@ PathHandler PathHandler::construct_acyclic_handler() const {
   while (!current_layer_vertices.empty()) {
     for (unsigned vert : current_layer_vertices) {
       for (unsigned j = 0; j != n; ++j) {
-        if ((distance_matrix_(vert, j) == 1) & (!vertices_in_tree[j])) {
+        if ((distance_matrix_(vert, j) == 1) && (!vertices_in_tree[j])) {
           // if first encounter of vertex, add to next layer
           if (parents_neighbours[j] == empty_pair) {
             next_layer_vertices.push_back(j);
@@ -165,8 +165,9 @@ std::vector<Node> find_hampath(const Architecture &arch, long timeout) {
       arch.get_undirected_connectivity();
   QubitGraph::UndirectedConnGraph undirected_pattern =
       q_graph.get_undirected_connectivity();
-  std::vector<qubit_bimap_t> all_maps = get_unweighted_subgraph_monomorphisms(
-      undirected_pattern, undirected_target, 1, timeout);
+  std::vector<boost::bimap<Qubit, Node>> all_maps =
+      get_weighted_subgraph_monomorphisms(
+          undirected_pattern, undirected_target, 1, timeout, false);
 
   /* Architecture has no hampath, sad. */
   if (all_maps.empty()) {
@@ -176,9 +177,9 @@ std::vector<Node> find_hampath(const Architecture &arch, long timeout) {
   }
 
   /* Left: line, Right: input architecture. */
-  const qubit_bimap_t &qmap = all_maps[0];
+  const boost::bimap<Qubit, Node> &qmap = all_maps[0];
   std::vector<Node> hampath;
-  for (l_const_iterator_t it = qmap.left.begin(); it != qmap.left.end(); ++it) {
+  for (auto it = qmap.left.begin(); it != qmap.left.end(); ++it) {
     hampath.push_back(it->second);
   }
   return hampath;

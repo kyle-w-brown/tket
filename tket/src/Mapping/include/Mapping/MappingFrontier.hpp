@@ -62,6 +62,8 @@ struct MappingFrontier {
 
   std::set<Node> ancilla_nodes_;
 
+  std::set<Node> reassignable_nodes_;
+
   std::shared_ptr<unit_bimaps_t> bimaps_;
 
   // each time advance_frontier_boundary is called, it assigns all the vertice

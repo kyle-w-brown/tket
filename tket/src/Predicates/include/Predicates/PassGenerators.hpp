@@ -15,6 +15,7 @@
 #pragma once
 
 #include "ArchAwareSynth/SteinerForest.hpp"
+#include "Circuit/Circuit.hpp"
 #include "CompilerPass.hpp"
 #include "Mapping/LexiRoute.hpp"
 #include "Mapping/RoutingMethod.hpp"
@@ -27,6 +28,22 @@ namespace tket {
 /* a wrapper method for the rebase_factory in Transforms */
 PassPtr gen_rebase_pass(
     const OpTypeSet& allowed_gates, const Circuit& cx_replacement,
+    const std::function<Circuit(const Expr&, const Expr&, const Expr&)>&
+        tk1_replacement);
+
+/**
+ * Generate a rebase pass give standard replacements for TK1 and TK2 gates.
+ *
+ * @param[in] allowed_gates set of target gates
+ * @param[in] tk2_replacement circuit to replace a given TK2 gate
+ * @param[in] tk1_replacement circuit to replace a given TK1 gate
+ *
+ * @return rebase pass
+ */
+PassPtr gen_rebase_pass_via_tk2(
+    const OpTypeSet& allowed_gates,
+    const std::function<Circuit(const Expr&, const Expr&, const Expr&)>&
+        tk2_replacement,
     const std::function<Circuit(const Expr&, const Expr&, const Expr&)>&
         tk1_replacement);
 
@@ -45,18 +62,18 @@ PassPtr gen_clifford_simp_pass(bool allow_swaps = true);
  */
 PassPtr gen_rename_qubits_pass(const std::map<Qubit, Qubit>& qm);
 
-PassPtr gen_placement_pass(const PlacementPtr& placement_ptr);
+PassPtr gen_placement_pass(const Placement::Ptr& placement_ptr);
 
 PassPtr gen_naive_placement_pass(const Architecture& arc);
 /* This higher order function generates a Routing pass using the
 std::vector<RoutingMethodPtr> object */
 PassPtr gen_full_mapping_pass(
-    const Architecture& arc, const PlacementPtr& placement_ptr,
+    const Architecture& arc, const Placement::Ptr& placement_ptr,
     const std::vector<RoutingMethodPtr>& config);
 PassPtr gen_default_mapping_pass(
     const Architecture& arc, bool delay_measures = true);
 PassPtr gen_cx_mapping_pass(
-    const Architecture& arc, const PlacementPtr& placement_ptr,
+    const Architecture& arc, const Placement::Ptr& placement_ptr,
     const std::vector<RoutingMethodPtr>& config, bool directed_cx,
     bool delay_measures);
 PassPtr gen_routing_pass(
@@ -85,19 +102,50 @@ PassPtr aas_routing_pass(
  * @param lookahead parameter for the recursion depth in the algorithm, the
  * value should be > 0
  * @param cnotsynthtype parameter for the type of cnot synth
+ * @param graph_placement_maximum_matches parameter effecting the number of
+ * matches found during the GraphPlacement substep
+ * @param graph_placement_timeout timeout (ms) for finding subgraph
+ * monomorphisms during the GraphPlacement substep
+ * @param graph_placement_maximum_pattern_gates parameter affecting the size
+ * of the target graph, constructed from a phase polynomial, during
+ * the GraphPlacement substep, by restricting the number of gates in
+ * the phase polynomial used
+ * @param graph_placement_maximum_pattern_depth parameter affecting
+ * the size of the target graph, constructed from a phase polynomial,
+ * during the GraphPlacement substep, by restricting the depth of gates
+ * in the phase polynomial that are added to the target graph
  * @return passpointer to perform architecture aware synthesis
  */
 PassPtr gen_full_mapping_pass_phase_poly(
     const Architecture& arc, const unsigned lookahead = 1,
-    const aas::CNotSynthType cnotsynthtype = aas::CNotSynthType::Rec);
+    const aas::CNotSynthType cnotsynthtype = aas::CNotSynthType::Rec,
+    unsigned graph_placement_maximum_matches = 2000,
+    unsigned graph_placement_timeout = 100,
+    unsigned graph_placement_maximum_pattern_gates = 2000,
+    unsigned graph_placement_maximum_pattern_depth = 2000);
 
 /**
  * pass to place all not yet placed qubits of the circuit to the given
  * architecture for the architecture aware synthesis.
  * @param arc achitecture to place the circuit on
+ * @param _maximum_matches parameter effecting the number of
+ * matches found during the GraphPlacement substep
+ * @param _timeout timeout (ms) for finding subgraph monomorphisms
+ * during the GraphPlacement substep
+ * @param _maximum_pattern_gates parameter effecting the size
+ * of the target graph, constructed from a phase polynomial, during
+ * the GraphPlacement substep, by restricting the number of gates in
+ * the phase polynomial used
+ * @param _maximum_pattern_depth parameter effecting
+ * the size of the target graph, constructed from a phase polynomial,
+ * during the GraphPlacement substep, by restricting the depth of gates
+ * in the phase polynomial that are added to the target graph
  * @return passpointer to perfomr the mapping
  */
-PassPtr gen_placement_pass_phase_poly(const Architecture& arc);
+PassPtr gen_placement_pass_phase_poly(
+    const Architecture& arc, unsigned _maximum_matches = 2000,
+    unsigned _timeout = 100, unsigned _maximum_pattern_gates = 100,
+    unsigned _maximum_pattern_depth = 100);
 
 PassPtr gen_decompose_routing_gates_to_cxs_pass(
     const Architecture& arc = Architecture(), bool directed = false);
@@ -127,12 +175,18 @@ PassPtr gen_user_defined_swap_decomp_pass(const Circuit& replacement_circ);
  * to CX, the substitution is only performed if it results in a reduction of the
  * number of CX gates, or if at least one of the two-qubit gates is not a CX.
  *
+ * Using the `allow_swaps=true` (default) option, qubits will be swapped when
+ * convenient to further reduce the two-qubit gate count (only applicable
+ * when decomposing to CX gates).
+ *
  * @param target_2qb_gate OpType to decompose to. Either TK2 or CX.
  * @param cx_fidelity Estimated CX gate fidelity, used when target_2qb_gate=CX.
+ * @param allow_swaps Whether to allow implicit wire swaps.
  * @return PassPtr
  */
 PassPtr KAKDecomposition(
-    OpType target_2qb_gate = OpType::CX, double cx_fidelity = 1.);
+    OpType target_2qb_gate = OpType::CX, double cx_fidelity = 1.,
+    bool allow_swaps = true);
 
 /**
  * @brief Decomposes each TK2 gate into two-qubit gates.
@@ -155,6 +209,9 @@ PassPtr KAKDecomposition(
  * a lambda float -> float, mapping a ZZPhase angle parameter to its fidelity.
  * These parameters will be used to return the optimal decomposition of each TK2
  * gate, taking noise into consideration.
+
+ * Using the `allow_swaps=true` (default) option, qubits will be swapped when
+ * convenient to reduce the two-qubit gate count of the decomposed TK2.
  *
  * If the TK2 angles are symbolic values, the decomposition will be exact
  * (i.e. not noise-aware). It is not possible in general to obtain optimal
@@ -162,10 +219,12 @@ PassPtr KAKDecomposition(
  * for concrete values if possible.
  *
  * @param fid The two-qubit gate fidelities (optional).
+ * @param allow_swaps Allow implicit swaps (default = true).
  * @return PassPtr
  */
-PassPtr DecomposeTK2(const Transforms::TwoQbFidelities& fid);
-PassPtr DecomposeTK2();
+PassPtr DecomposeTK2(
+    const Transforms::TwoQbFidelities& fid, bool allow_swaps = true);
+PassPtr DecomposeTK2(bool allow_swaps = true);
 
 /**
  * Resynthesize and squash three-qubit interactions.
@@ -180,11 +239,16 @@ PassPtr ThreeQubitSquash(bool allow_swaps = true);
 
 /**
  * Performs peephole optimisation including resynthesis of 2- and 3-qubit gate
- * sequences, and converts to a circuit containing only CX and TK1 gates.
+ * sequences, and converts to a circuit containing a given 2-qubit gate and TK1
+ * gates.
  *
+ * The allow_swaps parameter has no effect when the target gate is TK2.
+ *
+ * @param target_2qb_gate target 2-qubit gate (CX or TK2)
  * @param allow_swaps whether to allow introduction of implicit swaps
  */
-PassPtr FullPeepholeOptimise(bool allow_swaps = true);
+PassPtr FullPeepholeOptimise(
+    bool allow_swaps = true, OpType target_2qb_gate = OpType::CX);
 
 /* generates an optimisation pass that converts a circuit into phase
 gadgets and optimises them using techniques from
@@ -268,5 +332,20 @@ PassPtr PauliSquash(Transforms::PauliSynthStrat strat, CXConfigType cx_config);
  * in certain cases a blow-up in symbolic expression sizes may occur.
  */
 PassPtr GlobalisePhasedX(bool squash = true);
+
+/**
+ * Generate a custom pass
+ *
+ * @param transform circuit transformation function
+ * @param label optional user-defined label for the pass
+ *
+ * It is the caller's responsibility to provide a valid transform: there are no
+ * checks on this.
+ *
+ * @return compilation pass that applies the supplied transform
+ */
+PassPtr CustomPass(
+    std::function<Circuit(const Circuit&)> transform,
+    const std::string& label = "");
 
 }  // namespace tket

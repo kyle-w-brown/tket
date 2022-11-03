@@ -17,6 +17,7 @@
 #include "Circuit/CircUtils.hpp"
 #include "Circuit/Command.hpp"
 #include "Gate/Rotation.hpp"
+#include "Ops/ClassicalOps.hpp"
 #include "Predicates/CompilationUnit.hpp"
 #include "Predicates/PassGenerators.hpp"
 #include "Simulation/CircuitSimulator.hpp"
@@ -301,19 +302,24 @@ SCENARIO("Testing two-qubit canonical forms") {
     circ.add_op<unsigned>(OpType::Vdg, {0});
     circ.add_op<unsigned>(OpType::CX, {1, 0});
     Eigen::Matrix4cd mat = tket_sim::get_unitary(circ);
-    bool success = Transforms::two_qubit_squash().apply(circ);
-    REQUIRE(success);
-    REQUIRE(circ.count_gates(OpType::CX) == 2);
-    Eigen::Matrix4cd result = tket_sim::get_unitary(circ);
-    mat /= mat(0, 0);
-    result /= result(0, 0);
-    bool same = true;
-    for (int i = 0; i < 4; i++) {
-      for (int j = 0; j < 4; j++) {
-        same &= std::abs(mat(i, j) - result(i, j)) < ERR_EPS;
-      }
+
+    Circuit orig = circ;
+    WHEN("Swapping allowed") {
+      circ = orig;
+      bool success = Transforms::two_qubit_squash().apply(circ);
+      REQUIRE(success);
+      REQUIRE(circ.count_gates(OpType::CX) == 1);
+      Eigen::Matrix4cd result = tket_sim::get_unitary(circ);
+      REQUIRE(result.isApprox(mat));
     }
-    REQUIRE(same);
+    WHEN("Swapping not allowed") {
+      circ = orig;
+      bool success = Transforms::two_qubit_squash(false).apply(circ);
+      REQUIRE(success);
+      REQUIRE(circ.count_gates(OpType::CX) == 2);
+      Eigen::Matrix4cd result = tket_sim::get_unitary(circ);
+      REQUIRE(result.isApprox(mat));
+    }
   }
 
   GIVEN("A two qubit circuit with 0 CNOTs") {
@@ -344,10 +350,17 @@ SCENARIO("Testing two-qubit canonical forms") {
     REQUIRE(circ.count_gates(OpType::CX) == 1);
   }
 
+  GIVEN("A swap is simplified to an implicit swap") {
+    Circuit circ(2);
+    add_2qb_gates(circ, OpType::CX, {{1, 0}, {0, 1}, {1, 0}});
+    REQUIRE(Transforms::two_qubit_squash().apply(circ));
+    REQUIRE(circ.n_gates() == 0);
+  }
+
   GIVEN("A swap cannot be simplified") {
     Circuit circ(2);
     add_2qb_gates(circ, OpType::CX, {{1, 0}, {0, 1}, {1, 0}});
-    REQUIRE(!Transforms::two_qubit_squash().apply(circ));
+    REQUIRE_FALSE(Transforms::two_qubit_squash(false).apply(circ));
   }
 
   GIVEN("A two qubit circuit with measures") {
@@ -360,17 +373,25 @@ SCENARIO("Testing two-qubit canonical forms") {
     add_2qb_gates(circ, OpType::CX, {{2, 3}, {3, 2}});
     circ.add_op<unsigned>(OpType::Collapse, {2});
     add_2qb_gates(circ, OpType::CX, {{2, 3}, {3, 2}, {2, 3}, {3, 2}});
-    REQUIRE(Transforms::two_qubit_squash().apply(circ));
-    REQUIRE(circ.count_gates(OpType::CX) == 8);
+
+    Circuit orig = circ;
+
+    WHEN("Swaps allowed") {
+      circ = orig;
+      REQUIRE(Transforms::two_qubit_squash().apply(circ));
+      REQUIRE(circ.count_gates(OpType::CX) == 4);
+    }
+    WHEN("Swaps not allowed") {
+      circ = orig;
+      REQUIRE(Transforms::two_qubit_squash(false).apply(circ));
+      REQUIRE(circ.count_gates(OpType::CX) == 8);
+    }
   }
 
   GIVEN("An optimal circuit") {
     Circuit circ(3);
-    add_2qb_gates(
-        circ, OpType::CX,
-        {{0, 1}, {1, 0}, {0, 1}, {0, 2}, {0, 1}, {1, 0}, {0, 1}});
-    bool success = Transforms::two_qubit_squash().apply(circ);
-    REQUIRE(!success);
+    add_2qb_gates(circ, OpType::CX, {{0, 1}, {0, 2}, {0, 1}, {2, 0}, {1, 0}});
+    REQUIRE(!Transforms::two_qubit_squash().apply(circ));
   }
 
   GIVEN("Multiple subcircuits to optimise") {
@@ -394,11 +415,23 @@ SCENARIO("Testing two-qubit canonical forms") {
          {1, 3},
          {3, 1}});
     const StateVector s0 = tket_sim::get_statevector(circ);
-    bool success = Transforms::two_qubit_squash().apply(circ);
-    REQUIRE(success);
-    REQUIRE(circ.count_gates(OpType::CX) == 8);
-    const StateVector s1 = tket_sim::get_statevector(circ);
-    REQUIRE(tket_sim::compare_statevectors_or_unitaries(s0, s1));
+    Circuit orig = circ;
+    WHEN("Swaps allowed") {
+      circ = orig;
+      bool success = Transforms::two_qubit_squash().apply(circ);
+      REQUIRE(success);
+      REQUIRE(circ.count_gates(OpType::CX) == 4);
+      const StateVector s1 = tket_sim::get_statevector(circ);
+      REQUIRE(tket_sim::compare_statevectors_or_unitaries(s0, s1));
+    }
+    WHEN("Swaps allowed") {
+      circ = orig;
+      bool success = Transforms::two_qubit_squash(false).apply(circ);
+      REQUIRE(success);
+      REQUIRE(circ.count_gates(OpType::CX) == 8);
+      const StateVector s1 = tket_sim::get_statevector(circ);
+      REQUIRE(tket_sim::compare_statevectors_or_unitaries(s0, s1));
+    }
   }
 }
 
@@ -484,7 +517,10 @@ SCENARIO("KAK Decomposition, various target gate sets") {
     circ.add_op<unsigned>(tket::OpType::ZZPhase, 0.2, {0, 1});
     circ.add_op<unsigned>(tket::OpType::XXPhase, 0.4, {0, 1});
     circ.add_op<unsigned>(tket::OpType::YYPhase, 0.6, {0, 1});
+
+    Circuit orig = circ;
     WHEN("Decomposing to TK2") {
+      circ = orig;
       Eigen::MatrixXcd u_orig = tket_sim::get_unitary(circ);
       REQUIRE(Transforms::two_qubit_squash(OpType::TK2).apply(circ));
       Eigen::MatrixXcd u_res = tket_sim::get_unitary(circ);
@@ -493,6 +529,7 @@ SCENARIO("KAK Decomposition, various target gate sets") {
       REQUIRE(u_res.isApprox(u_orig));
     }
     WHEN("Decomposing to CX") {
+      circ = orig;
       Eigen::MatrixXcd u_orig = tket_sim::get_unitary(circ);
       REQUIRE(Transforms::two_qubit_squash(OpType::CX).apply(circ));
       Eigen::MatrixXcd u_res = tket_sim::get_unitary(circ);
@@ -500,24 +537,33 @@ SCENARIO("KAK Decomposition, various target gate sets") {
       REQUIRE(circ.count_gates(OpType::TK2) == 0);
       REQUIRE(u_res.isApprox(u_orig));
     }
-    WHEN("Decomposing to CX, bad fidelity") {
-      Circuit orig = circ;
+  }
+  GIVEN("Decomposing to CX, bad fidelity") {
+    Circuit circ(2);
+    circ.add_op<unsigned>(tket::OpType::TK2, {0.4, 0.2, -0.15}, {0, 1});
+    circ.add_op<unsigned>(tket::OpType::TK2, {0., 0., 0.}, {0, 1});
+    Circuit orig = circ;
+    WHEN("Fidelity is 0.6") {
+      circ = orig;
       REQUIRE(Transforms::two_qubit_squash(OpType::CX, 0.6).apply(circ));
       REQUIRE(circ.count_gates(OpType::CX) == 0);
       REQUIRE(circ.count_gates(OpType::TK2) == 0);
-
-      circ = orig;
-      REQUIRE(Transforms::two_qubit_squash(OpType::CX, 0.8).apply(circ));
-      REQUIRE(circ.count_gates(OpType::CX) == 1);
-      REQUIRE(circ.count_gates(OpType::TK2) == 0);
-
+    }
+    WHEN("Fidelity is 0.85") {
       circ = orig;
       REQUIRE(Transforms::two_qubit_squash(OpType::CX, 0.85).apply(circ));
-      REQUIRE(circ.count_gates(OpType::CX) == 2);
+      REQUIRE(circ.count_gates(OpType::CX) == 1);
       REQUIRE(circ.count_gates(OpType::TK2) == 0);
-
+    }
+    WHEN("Fidelity is 0.9") {
       circ = orig;
       REQUIRE(Transforms::two_qubit_squash(OpType::CX, 0.9).apply(circ));
+      REQUIRE(circ.count_gates(OpType::CX) == 2);
+      REQUIRE(circ.count_gates(OpType::TK2) == 0);
+    }
+    WHEN("Fidelity is 0.99") {
+      circ = orig;
+      REQUIRE(Transforms::two_qubit_squash(OpType::CX, 0.99).apply(circ));
       REQUIRE(circ.count_gates(OpType::CX) == 3);
       REQUIRE(circ.count_gates(OpType::TK2) == 0);
     }
@@ -612,21 +658,49 @@ SCENARIO("KAK Decomposition around symbolic gates") {
     circ.add_op<unsigned>(OpType::U2, {0.5, -Expr(b)}, {2});
     add_2qb_gates(circ, OpType::CX, {{2, 3}, {3, 2}, {2, 3}, {3, 2}});
     REQUIRE(Transforms::two_qubit_squash().apply(circ));
-    REQUIRE(circ.count_gates(OpType::CX) == 8);
+    REQUIRE(circ.count_gates(OpType::CX) == 4);
   }
   GIVEN("Efficient two-qubit circuit with symbolic gates") {
     Circuit circ(4);
     Sym a = SymEngine::symbol("alpha");
     Sym b = SymEngine::symbol("beta");
-    add_2qb_gates(circ, OpType::CX, {{0, 1}, {1, 0}, {0, 1}});
+    circ.add_op<unsigned>(OpType::CX, {0, 1});
+    circ.add_op<unsigned>(OpType::T, {1});
+    circ.add_op<unsigned>(OpType::CX, {0, 1});
     circ.add_op<unsigned>(OpType::Rz, {Expr(a)}, {0});
-    add_2qb_gates(circ, OpType::CX, {{0, 1}, {1, 0}});
+    circ.add_op<unsigned>(OpType::CX, {2, 1});
+    circ.add_op<unsigned>(OpType::T, {1});
+    circ.add_op<unsigned>(OpType::CX, {2, 1});
     circ.add_op<unsigned>(OpType::Rx, {-Expr(a)}, {0});
     circ.add_op<unsigned>(OpType::Ry, {Expr(b)}, {1});
     circ.add_op<unsigned>(OpType::CX, {2, 3});
     circ.add_op<unsigned>(OpType::U2, {0.5, -Expr(b)}, {2});
-    add_2qb_gates(circ, OpType::CX, {{2, 3}, {3, 2}, {2, 3}});
+    circ.add_op<unsigned>(OpType::CX, {2, 3});
     REQUIRE_FALSE(Transforms::two_qubit_squash().apply(circ));
+  }
+}
+
+SCENARIO("two_qubit_squash with classical ops") {
+  GIVEN("Circuit with conditional gates") {
+    Circuit circ(2, 1);
+    circ.add_op<unsigned>(tket::OpType::CX, {0, 1});
+    circ.add_op<unsigned>(tket::OpType::CX, {0, 1});
+    Vertex v =
+        circ.add_conditional_gate<unsigned>(OpType::CX, {}, {0, 1}, {0}, 1);
+    circ.add_op<unsigned>(tket::OpType::CX, {0, 1});
+    circ.add_op<unsigned>(tket::OpType::CX, {0, 1});
+    REQUIRE(Transforms::two_qubit_squash(OpType::CX).apply(circ));
+    REQUIRE(circ.n_gates() == 1);
+    REQUIRE(circ.get_commands()[0].get_vertex() == v);
+  }
+  GIVEN("Circuit with conditional gates") {
+    Circuit circ(2, 1);
+    circ.add_op<unsigned>(tket::OpType::CX, {0, 1});
+    Vertex v = circ.add_op<unsigned>(ClassicalX(), {0});
+    circ.add_op<unsigned>(tket::OpType::CX, {0, 1});
+    REQUIRE(Transforms::two_qubit_squash(OpType::CX).apply(circ));
+    REQUIRE(circ.n_gates() == 1);
+    REQUIRE(circ.get_commands()[0].get_vertex() == v);
   }
 }
 
@@ -835,23 +909,76 @@ SCENARIO("KAKDecomposition pass") {
       REQUIRE(u_res.isApprox(u_orig));
     }
   }
-  GIVEN("A simple circuit with classical control") {
-    Circuit c(3, 1);
-    c.add_op<unsigned>(OpType::CX, {0, 1});
-    c.add_op<unsigned>(OpType::CZ, {1, 2});
-    c.add_op<unsigned>(OpType::S, {0});
+  GIVEN("A circuit with multi-qubit gates") {
+    Circuit c(3);
+    c.add_op<unsigned>(OpType::V, {0});
+    c.add_op<unsigned>(OpType::CRy, 0.5, {2, 1});
+    c.add_op<unsigned>(OpType::CnX, {0, 2, 1});
+    c.add_op<unsigned>(OpType::CH, {0, 1});
+    c.add_op<unsigned>(OpType::Tdg, {0});
+    c.add_op<unsigned>(OpType::CnX, {1, 0});
+    c.add_op<unsigned>(OpType::BRIDGE, {1, 0, 2});
+    c.add_op<unsigned>(OpType::SX, {1});
     c.add_op<unsigned>(OpType::V, {1});
-    c.add_op<unsigned>(OpType::Ry, 0.2, {1});
-    c.add_op<unsigned>(OpType::ZZPhase, 1.2, {1, 2});
-    c.add_conditional_gate<unsigned>(OpType::Rx, {0.1}, {1}, {0}, 1);
-    THEN("Then KAKDecomposition() cannot be applied") {
+    THEN("Then KAKDecomposition() can be applied") {
       CompilationUnit cu(c);
-      REQUIRE_THROWS_AS(KAKDecomposition()->apply(cu), UnsatisfiedPredicate);
+      REQUIRE(KAKDecomposition()->apply(cu));
+      Circuit c_res = cu.get_circ_ref();
+      Eigen::MatrixXcd u_orig = tket_sim::get_unitary(c);
+      Eigen::MatrixXcd u_res = tket_sim::get_unitary(c_res);
+      REQUIRE(u_res.isApprox(u_orig));
     }
-    THEN("Then KAKDecomposition(OpType::TK2) cannot be applied") {
+    THEN("Then KAKDecomposition(OpType::TK2) can be applied") {
       CompilationUnit cu(c);
-      REQUIRE_THROWS_AS(
-          KAKDecomposition(OpType::TK2)->apply(cu), UnsatisfiedPredicate);
+      REQUIRE(KAKDecomposition(OpType::TK2)->apply(cu));
+      Circuit c_res = cu.get_circ_ref();
+      Eigen::MatrixXcd u_orig = tket_sim::get_unitary(c);
+      Eigen::MatrixXcd u_res = tket_sim::get_unitary(c_res);
+      REQUIRE(u_res.isApprox(u_orig));
+    }
+  }
+}
+
+SCENARIO("Test decompose Clifford circuit") {
+  GIVEN("Circuit 1") {
+    Circuit circ(2);
+    circ.add_op<unsigned>(OpType::CX, {0, 1});
+    circ.add_op<unsigned>(OpType::TK1, {0, 0.5, 0}, {0});
+    circ.add_op<unsigned>(OpType::CX, {0, 1});
+    Transforms::two_qubit_squash(OpType::CX).apply(circ);
+    REQUIRE(circ.n_gates() == 4);
+    REQUIRE(circ.count_gates(OpType::CX) == 1);
+    for (auto com : circ.get_commands()) {
+      REQUIRE(com.get_op_ptr()->is_clifford());
+    }
+  }
+  GIVEN("Circuit 2") {
+    Circuit circ(2);
+    circ.add_op<unsigned>(OpType::CX, {0, 1});
+    circ.add_op<unsigned>(OpType::TK1, {0.5, 1, 0.5}, {0});
+    circ.add_op<unsigned>(OpType::CX, {0, 1});
+    circ.add_op<unsigned>(OpType::TK1, {0.5, 1, 0.5}, {0});
+    circ.add_op<unsigned>(OpType::TK1, {0.5, 0.5, 0.5}, {1});
+    Transforms::two_qubit_squash(OpType::CX).apply(circ);
+    REQUIRE(circ.n_gates() == 1);
+    REQUIRE(circ.count_gates(OpType::TK1) == 1);
+    auto commands = circ.get_commands();
+    REQUIRE(commands[0].get_op_ptr()->is_clifford());
+  }
+  GIVEN("Circuit 3") {
+    Circuit circ(2);
+    circ.add_op<unsigned>(OpType::CX, {0, 1});
+    circ.add_op<unsigned>(OpType::TK1, {0, 0.5, 0}, {0});
+    circ.add_op<unsigned>(OpType::CX, {0, 1});
+    circ.add_op<unsigned>(OpType::TK1, {0, 1.5, 0}, {0});
+    circ.add_op<unsigned>(OpType::CX, {0, 1});
+    circ.add_op<unsigned>(OpType::TK1, {0, 2.5, 0}, {0});
+    circ.add_op<unsigned>(OpType::TK1, {0.5, 0.5, 0.5}, {1});
+    Transforms::two_qubit_squash(OpType::CX).apply(circ);
+    REQUIRE(circ.n_gates() == 5);
+    REQUIRE(circ.count_gates(OpType::CX) == 1);
+    for (auto com : circ.get_commands()) {
+      REQUIRE(com.get_op_ptr()->is_clifford());
     }
   }
 }

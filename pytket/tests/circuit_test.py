@@ -31,6 +31,7 @@ from pytket.circuit import (  # type: ignore
     PauliExpBox,
     QControlBox,
     PhasePolyBox,
+    ToffoliBox,
     CustomGateDef,
     CustomGate,
     Qubit,
@@ -236,7 +237,6 @@ def test_subst_4() -> None:
     c.add_gate(OpType.Rx, a, [0])
     c.symbol_substitution({m: 4})
     angle = c.get_commands()[0].op.params[0]
-    print(angle)
     assert np.isclose(angle, 1.0)
 
 
@@ -404,6 +404,15 @@ def test_boxes() -> None:
     assert all(box == box for box in boxes)
     assert all(isinstance(box, Op) for box in boxes)
 
+    permutation = {(0, 0): (1, 1), (1, 1): (0, 0)}
+    tb = ToffoliBox(2, permutation)
+    assert tb.type == OpType.ToffoliBox
+    unitary = tb.get_circuit().get_unitary()
+    comparison = np.asarray([[0, 0, 0, 1], [0, 1, 0, 0], [0, 0, 1, 0], [1, 0, 0, 0]])
+    assert np.allclose(unitary, comparison)
+    d.add_toffolibox(tb, [0, 1])
+    assert d.n_gates == 8
+
 
 def test_u1q_stability() -> None:
     # https://github.com/CQCL/tket/issues/222
@@ -496,6 +505,13 @@ def test_str() -> None:
     c = Circuit(1).SXdg(0)
     op = c.get_commands()[0].op
     assert op.__str__() == "SXdg"
+
+
+def test_repr() -> None:
+    c = Circuit(2).Rx(0.3, 0).CX(0, 1)
+    c.qubit_create(Qubit(1))
+    c.qubit_discard(Qubit(0))
+    assert c.__repr__() == "[Create q[1]; Rx(0.3) q[0]; CX q[0], q[1]; Discard q[0]; ]"
 
 
 def test_qubit_to_bit_map() -> None:
@@ -620,12 +636,31 @@ def test_commands_of_type() -> None:
     assert len(cmds_Rx) == 0
 
 
-def test_cempty_circuit() -> None:
+def test_empty_circuit() -> None:
     circ = Circuit(0)
     circt_dict = circ.to_dict()
     assert type(circt_dict) == type({})
     assert len(circt_dict) > 0
     assert Circuit(0) == Circuit(0)
+
+
+def test_circuit_with_qubit_creations_and_discards() -> None:
+    circ = Circuit(2)
+    circt_dict = circ.to_dict()
+    assert len(circt_dict["created_qubits"]) == 0
+    assert len(circt_dict["discarded_qubits"]) == 0
+    circ2 = circ.copy()
+    circ2.qubit_create(Qubit(0))
+    circ2.qubit_discard(Qubit(0))
+    circ2.qubit_discard(Qubit(1))
+    circt_dict2 = circ2.to_dict()
+    assert circt_dict2["created_qubits"] == [Qubit(0).to_list()]
+    assert circt_dict2["discarded_qubits"] == [Qubit(0).to_list(), Qubit(1).to_list()]
+    assert circ != circ2
+    assert len(circ.created_qubits) == 0
+    assert len(circ.discarded_qubits) == 0
+    assert circ2.created_qubits == [Qubit(0)]
+    assert circ2.discarded_qubits == [Qubit(0), Qubit(1)]
 
 
 def with_empty_qubit(op: Op) -> CircBox:
@@ -870,22 +905,35 @@ def test_measuring_registers() -> None:
     assert "The given QubitRegister is not in use" in str(e.value)
     qreg = c.add_q_register("qr", 2)
     c.measure_register(qreg, "cr")
+    qreg2 = c.add_q_register("qr2", 2)
+    c.measure_register(qreg2, "cr")
+
     assert len(c.bits) == 2
-    assert c.n_qubits == 2
+    assert c.n_qubits == 4
     commands = c.get_commands()
-    assert len(commands) == 2
+    assert len(commands) == 4
     assert str(commands[0]) == "Measure qr[0] --> cr[0];"
     assert str(commands[1]) == "Measure qr[1] --> cr[1];"
-    qreg2 = c.add_q_register("qr2", 2)
+    assert str(commands[2]) == "Measure qr2[0] --> cr[0];"
+    assert str(commands[3]) == "Measure qr2[1] --> cr[1];"
+    qreg3 = c.add_q_register("qr3", 3)
     with pytest.raises(RuntimeError) as e:
-        c.measure_register(qreg2, "cr")
-    assert 'A register with name "cr" already exists' in str(e.value)
+        c.measure_register(qreg3, "cr")
+    assert "size doesn't match the given QubitRegister" in str(e.value)
 
 
 def test_zzmax() -> None:
     c = Circuit(5)
     c.ZZMax(0, 1)
     assert c.depth() == 1
+
+
+def test_multi_controlled_gates() -> None:
+    c = Circuit(5)
+    c.add_gate(OpType.CnX, [0, 1, 2])
+    c.add_gate(OpType.CnY, [0, 1, 2])
+    c.add_gate(OpType.CnZ, [0, 1, 2])
+    assert c.depth() == 3
 
 
 if __name__ == "__main__":
@@ -899,3 +947,4 @@ if __name__ == "__main__":
     test_phase()
     test_clifford_checking()
     test_measuring_registers()
+    test_multi_controlled_gates()

@@ -24,7 +24,6 @@
 #include "Transformations/BasicOptimisation.hpp"
 #include "Transformations/Combinator.hpp"
 #include "Transformations/ContextualReduction.hpp"
-#include "Transformations/ControlledGates.hpp"
 #include "Transformations/Decomposition.hpp"
 #include "Transformations/OptimisationPass.hpp"
 #include "Transformations/PauliOptimisation.hpp"
@@ -207,8 +206,9 @@ PYBIND11_MODULE(transform, m) {
           "Decomposes all Boxed operations into elementary gates.")
       .def_static(
           "DecomposeTK2",
-          [](const py::kwargs &kwargs) {
-            return Transforms::decompose_TK2(get_fidelities(kwargs));
+          [](bool allow_swaps, const py::kwargs &kwargs) {
+            return Transforms::decompose_TK2(
+                get_fidelities(kwargs), allow_swaps);
           },
           "Decompose each TK2 gate into two-qubit gates."
           "\n\nWe currently support CX, ZZMax and ZZPhase."
@@ -216,7 +216,9 @@ PYBIND11_MODULE(transform, m) {
           "type achieving the highest fidelity will be chosen for the "
           "decomposition, as measured using squared trace fidelity. "
           "If no fidelities are provided, the TK2 gates will be decomposed "
-          "exactly using CX gates.\n\n"
+          "exactly using CX gates. For equal fidelities, ZZPhase will be "
+          "prefered over ZZMax and CX if the decomposition results in fewer "
+          "two-qubit gates.\n\n"
           "All TK2 gate parameters must be normalised, i.e. they must satisfy "
           "`NormalisedTK2Predicate`."
           "\n\n"
@@ -229,10 +231,15 @@ PYBIND11_MODULE(transform, m) {
           "angle parameter to its fidelity. These parameters will be used "
           "to return the optimal decomposition of each TK2 gate, taking "
           "noise into consideration.\n\n"
+          "Using the `allow_swaps=True` (default) option, qubits will be "
+          "swapped when convenient to reduce the two-qubit gate count of the "
+          "decomposed TK2.\n\n"
           "If the TK2 angles are symbolic values, the decomposition will "
           "be exact (i.e. not noise-aware). It is not possible in general "
           "to obtain optimal decompositions for arbitrary symbolic parameters, "
-          "so consider substituting for concrete values if possible.")
+          "so consider substituting for concrete values if possible."
+          "\n\n:param allow_swaps: Whether to allow implicit wire swaps.",
+          py::arg("allow_swaps") = true)
       .def_static(
           "NormaliseTK2", &Transforms::normalise_TK2,
           "Normalises all TK2 gates.\n\n"
@@ -309,7 +316,9 @@ PYBIND11_MODULE(transform, m) {
           "qubit operations past multiqubit operations they commute "
           "with, towards the front of the circuit.")
       .def_static(
-          "KAKDecomposition", &Transforms::two_qubit_squash,
+          "KAKDecomposition",
+          py::overload_cast<OpType, double, bool>(
+              &Transforms::two_qubit_squash),
           "Squash sequences of two-qubit operations into minimal form.\n\n"
           "Squash together sequences of single- and two-qubit gates "
           "into minimal form. Can decompose to TK2 or CX gates.\n\n"
@@ -326,10 +335,15 @@ PYBIND11_MODULE(transform, m) {
           "When decomposing to CX, the substitution is only performed if it "
           "results in a reduction of the number of CX gates, or if at least "
           "one of the two-qubit passes is not a CX.\n\n"
+          "Using the `allow_swaps=True` (default) option, qubits will be "
+          "swapped when convenient to further reduce the two-qubit gate count. "
+          "(only applicable when decomposing to CX gates).\n\n"
           ":param target_2qb_gate: OpType to decompose to. Either TK2 or CX.\n"
           ":param cx_fidelity: Estimated CX gate fidelity, used when "
-          "target_2qb_gate=CX.\n",
-          py::arg("target_2qb_gate") = OpType::CX, py::arg("cx_fidelity") = 1.)
+          "target_2qb_gate=CX.\n"
+          ":param allow_swaps: Whether to allow implicit wire swaps.",
+          py::arg("target_2qb_gate") = OpType::CX, py::arg("cx_fidelity") = 1.,
+          py::arg("allow_swaps") = true)
       .def_static(
           "KAKDecomposition",
           [](double cx_fidelity) {
@@ -405,7 +419,12 @@ PYBIND11_MODULE(transform, m) {
           py::arg("cx_config") = CXConfigType::Snake)
       .def_static(
           "ZZPhaseToRz", &Transforms::ZZPhase_to_Rz,
-          "Fixes all ZZPhase gate angles to [-1, 1) half turns.");
+          "Fixes all ZZPhase gate angles to [-1, 1) half turns.")
+      .def_static(
+          "CnXPairwiseDecomposition", &Transforms::cnx_pairwise_decomposition,
+          "Decompose CnX gates to 2-qubit gates and single qubit gates. "
+          "For every two CnX gates, reorder their control qubits to improve "
+          "the chance of gate cancellation.");
   m.def(
       "separate_classical", &Transforms::separate_classical,
       "Separate the input circuit into a 'main' circuit and a classical "

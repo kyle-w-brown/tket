@@ -15,6 +15,7 @@
 #include <catch2/catch_test_macros.hpp>
 
 #include "Circuit/CircPool.hpp"
+#include "Circuit/CircUtils.hpp"
 #include "Predicates/Predicates.hpp"
 #include "Simulation/CircuitSimulator.hpp"
 
@@ -171,6 +172,65 @@ SCENARIO("TK2_using_normalised_TK2") {
       REQUIRE(u_res.isApprox(u_orig));
       ++i;
     }
+  }
+}
+
+SCENARIO("TK2_using_ZZMax") {
+  double a, b, c;
+  GIVEN("General angles") {
+    a = 1.2;
+    b = 2.3;
+    c = 3.4;
+  }
+  GIVEN("c = 0") {
+    a = 0.3;
+    b = 1.2;
+    c = 0.;
+  }
+  GIVEN("b = c = 0") {
+    a = -1.9;
+    b = c = 0.;
+  }
+  GIVEN("a = b = c = 0") { a = b = c = 0.; }
+  Circuit circ(2);
+  Circuit orig(2);
+  orig.add_op<unsigned>(OpType::TK2, {a, b, c}, {0, 1});
+  Circuit res = CircPool::TK2_using_ZZMax(a, b, c);
+  Eigen::Matrix4cd u_orig = tket_sim::get_unitary(orig);
+  Eigen::Matrix4cd u_res = tket_sim::get_unitary(res);
+  CHECK(u_res.isApprox(u_orig));
+}
+
+SCENARIO("Test remove_noops") {
+  GIVEN("A circuit with noops") {
+    Circuit circ(2);
+    circ.add_op<unsigned>(OpType::U1, 0., {0});
+    circ.add_op<unsigned>(OpType::Rx, 0., {0});
+    circ.add_op<unsigned>(OpType::U3, {0., 0., 0.}, {0});
+    circ.add_op<unsigned>(OpType::TK1, {0., 0., 0.}, {0});
+    circ.add_op<unsigned>(OpType::TK2, {0., 0., 0.}, {0, 1});
+
+    circ.remove_noops();
+
+    REQUIRE(circ == Circuit(2));
+  }
+  GIVEN("A circuit with mix of ops and noops") {
+    Circuit circ(2), circ2(2);
+    circ.add_op<unsigned>(OpType::U1, 0., {0});
+    circ.add_op<unsigned>(OpType::Rx, 0., {0});
+    circ.add_op<unsigned>(OpType::U2, {0., 1.2}, {0});
+    circ2.add_op<unsigned>(OpType::U2, {0., 1.2}, {0});
+    circ.add_op<unsigned>(OpType::U3, {0., 0., 0.}, {0});
+    circ.add_op<unsigned>(OpType::U3, {0.1, 0.2, 1.2}, {0});
+    circ2.add_op<unsigned>(OpType::U3, {0.1, 0.2, 1.2}, {0});
+    circ.add_op<unsigned>(OpType::TK1, {0., 0., 0.}, {0});
+    circ.add_op<unsigned>(OpType::TK2, {0., 0., 0.}, {0, 1});
+    circ.add_op<unsigned>(OpType::TK2, {0.1, 0.3, 2.1}, {0, 1});
+    circ2.add_op<unsigned>(OpType::TK2, {0.1, 0.3, 2.1}, {0, 1});
+
+    circ.remove_noops();
+
+    REQUIRE(circ == circ2);
   }
 }
 

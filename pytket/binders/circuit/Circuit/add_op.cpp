@@ -252,6 +252,18 @@ void init_circuit_add_op(py::class_<Circuit, std::shared_ptr<Circuit>> &c) {
           "\n:return: the new :py:class:`Circuit`",
           py::arg("pauliexpbox"), py::arg("qubits"))
       .def(
+          "add_toffolibox",
+          [](Circuit *circ, const ToffoliBox &box,
+             const std::vector<unsigned> &qubits, const py::kwargs &kwargs) {
+            return add_box_method<unsigned>(
+                circ, std::make_shared<ToffoliBox>(box), qubits, kwargs);
+          },
+          "Append a :py:class:`ToffoliBox` to the "
+          "circuit.\n\n:param toffolibox: The box to append\n:param "
+          "qubits: Indices of the qubits to append the box to"
+          "\n:return: the new :py:class:`Circuit`",
+          py::arg("toffolibox"), py::arg("qubits"))
+      .def(
           "add_qcontrolbox",
           [](Circuit *circ, const QControlBox &box,
              const std::vector<unsigned> &args, const py::kwargs &kwargs) {
@@ -454,6 +466,19 @@ void init_circuit_add_op(py::class_<Circuit, std::shared_ptr<Circuit>> &c) {
           "qubits: The qubits to append the box to"
           "\n:return: the new :py:class:`Circuit`",
           py::arg("pauliexpbox"), py::arg("qubits"))
+      .def(
+          "add_toffolibox",
+          [](Circuit *circ, const ToffoliBox &box, const qubit_vector_t &qubits,
+             const py::kwargs &kwargs) {
+            return add_box_method<UnitID>(
+                circ, std::make_shared<ToffoliBox>(box),
+                {qubits.begin(), qubits.end()}, kwargs);
+          },
+          "Append a :py:class:`ToffoliBox` to the "
+          "circuit.\n\n:param toffolibox: The box to append\n:param "
+          "qubits: Indices of the qubits to append the box to"
+          "\n:return: the new :py:class:`Circuit`",
+          py::arg("toffolibox"), py::arg("qubits"))
       .def(
           "add_qcontrolbox",
           [](Circuit *circ, const QControlBox &box, const unit_vector_t &args,
@@ -977,16 +1002,24 @@ void init_circuit_add_op(py::class_<Circuit, std::shared_ptr<Circuit>> &c) {
                   "The given QubitRegister is not in use, please use "
                   "add_q_register to add it to the circuit first.");
             }
-            circ->add_c_register(creg_name, qreg.size());
+            opt_reg_info_t creg_info = circ->get_reg_info(creg_name);
+            if (creg_info == std::nullopt) {
+              circ->add_c_register(creg_name, qreg.size());
+            } else if (circ->get_reg(creg_name).size() != qreg.size()) {
+              throw CircuitInvalidity(
+                  "The given classical register already exists, "
+                  "but its size doesn't match the given QubitRegister.");
+            }
             for (unsigned i = 0; i < qreg.size(); i++) {
               circ->add_measure(qreg[i], Bit(creg_name, i));
             }
             return circ;
           },
           "Appends a measure gate to all qubits in the given register, storing "
-          "the results in a newly created classical register."
+          "the results in the given classical register with matching indices."
+          "The classical register will be created if it doesn't exist."
           "\n\n:param qreg: the QubitRegister to be measured"
-          "\n:param creg_name: the name of the BitRegister to be created"
+          "\n:param creg_name: the name of the BitRegister to store the results"
           "\n:return: the new :py:class:`Circuit`")
       .def(
           "H",
@@ -1362,7 +1395,13 @@ void init_circuit_add_op(py::class_<Circuit, std::shared_ptr<Circuit>> &c) {
           "Appends a CSWAP gate on the wires for the specified "
           "control and target qubits."
           "\n\n:return: the new :py:class:`Circuit`",
-          py::arg("control"), py::arg("target_0"), py::arg("target_1"));
+          py::arg("control"), py::arg("target_0"), py::arg("target_1"))
+      .def(
+          "Phase",
+          [](Circuit *circ, const Expr &angle, const py::kwargs &kwargs) {
+            return add_gate_method_oneparam<UnitID>(
+                circ, OpType::Phase, angle, {}, kwargs);
+          });
 }
 
 }  // namespace tket

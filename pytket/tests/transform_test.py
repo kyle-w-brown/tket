@@ -22,6 +22,7 @@ from pytket.passes import (  # type: ignore
     RemoveRedundancies,
     KAKDecomposition,
     SquashCustom,
+    SquashRzPhasedX,
     CommuteThroughMultis,
     RebaseCustom,
     PauliSquash,
@@ -32,6 +33,9 @@ from pytket.passes import (  # type: ignore
     CustomRoutingPass,
     PlacementPass,
     CXMappingPass,
+    CustomPass,
+    SequencePass,
+    SynthesiseTket,
     auto_rebase_pass,
     auto_squash_pass,
 )
@@ -66,6 +70,7 @@ def get_test_circuit() -> Circuit:
     c.CX(1, 0)
     c.CX(2, 1)
     c.CX(3, 2)
+    c.Phase(alpha)
     c.Rx(1.5, 0)
     c.Rx(1.5, 1)
     c.H(2)
@@ -98,6 +103,7 @@ def get_KAK_test_circuit() -> Circuit:
     c.CX(3, 2)
     c.CX(2, 3)
     c.CX(3, 2)
+    c.Phase(1)
     c.CX(0, 2)
     c.CX(2, 0)
     c.CX(0, 2)
@@ -122,6 +128,13 @@ def get_KAK_test_fidelity_circuit() -> Circuit:
     c.CX(0, 1)
     c.add_gate(OpType.TK1, [0.691597, 0.286125, 3.05058], [0])
     c.add_gate(OpType.TK1, [0.1989, 0.279667, 0.818303], [1])
+    return c
+
+
+def get_KAK_test_fidelity_circuit2() -> Circuit:
+    c = Circuit(2)
+    c.add_gate(OpType.TK2, [0.4, 0.2, -0.15], [0, 1])
+    c.add_gate(OpType.TK2, [0.0, 0.0, 0.0], [0, 1])
     return c
 
 
@@ -160,9 +173,25 @@ def test_global_phasedx() -> None:
 
 
 def test_KAK() -> None:
-    c = get_KAK_test_circuit()
-    Transform.KAKDecomposition().apply(c)
-    assert c.n_gates_of_type(OpType.CX) == 8
+    for allow_swaps, n_cx in [(False, 8), (True, 4)]:
+        c = get_KAK_test_circuit()
+        Transform.KAKDecomposition(allow_swaps=allow_swaps).apply(c)
+        assert c.n_gates_of_type(OpType.CX) == n_cx
+
+
+def test_DecomposeTK2() -> None:
+    c = Circuit(2).add_gate(OpType.TK2, [0.5, 0.5, 0.5], [0, 1])
+    Transform.DecomposeTK2(False).apply(c)
+    assert c.n_gates_of_type(OpType.CX) == 3
+
+    c = Circuit(2).add_gate(OpType.TK2, [0.5, 0.5, 0.5], [0, 1])
+    Transform.DecomposeTK2(True).apply(c)
+    assert c.n_gates_of_type(OpType.CX) == 0
+
+    c = Circuit(2).add_gate(OpType.TK2, [0.5, 0.5, 0.5], [0, 1])
+    Transform.DecomposeTK2(False, ZZMax_fidelity=0.8).apply(c)
+    assert c.n_gates_of_type(OpType.CX) == 0
+    assert c.n_gates_of_type(OpType.ZZMax) == 3
 
 
 def test_fidelity_KAK() -> None:
@@ -186,18 +215,36 @@ def test_fidelity_KAK_pass() -> None:
 
 def test_fidelity_KAK2() -> None:
     c = get_KAK_test_fidelity_circuit()
-    Transform.KAKDecomposition(cx_fidelity=0.6).apply(c)
+    Transform.KAKDecomposition(cx_fidelity=0.6, allow_swaps=False).apply(c)
     assert c.n_gates_of_type(OpType.CX) == 0
 
     c = get_KAK_test_fidelity_circuit()
-    Transform.KAKDecomposition(cx_fidelity=0.7).apply(c)
+    Transform.KAKDecomposition(cx_fidelity=0.7, allow_swaps=False).apply(c)
     assert c.n_gates_of_type(OpType.CX) == 1
 
     c = get_KAK_test_fidelity_circuit()
-    Transform.KAKDecomposition(cx_fidelity=0.94).apply(c)
+    Transform.KAKDecomposition(cx_fidelity=0.94, allow_swaps=False).apply(c)
     assert c.n_gates_of_type(OpType.CX) == 2
 
     c = get_KAK_test_fidelity_circuit()
+    Transform.KAKDecomposition(cx_fidelity=0.99, allow_swaps=False).apply(c)
+    assert c.n_gates_of_type(OpType.CX) == 3
+
+
+def test_fidelity_KAK3() -> None:
+    c = get_KAK_test_fidelity_circuit2()
+    Transform.KAKDecomposition(cx_fidelity=0.6).apply(c)
+    assert c.n_gates_of_type(OpType.CX) == 0
+
+    c = get_KAK_test_fidelity_circuit2()
+    Transform.KAKDecomposition(cx_fidelity=0.85).apply(c)
+    assert c.n_gates_of_type(OpType.CX) == 1
+
+    c = get_KAK_test_fidelity_circuit2()
+    Transform.KAKDecomposition(cx_fidelity=0.9).apply(c)
+    assert c.n_gates_of_type(OpType.CX) == 2
+
+    c = get_KAK_test_fidelity_circuit2()
     Transform.KAKDecomposition(cx_fidelity=0.99).apply(c)
     assert c.n_gates_of_type(OpType.CX) == 3
 
@@ -270,6 +317,7 @@ def test_Pauli_gadget_xxphase3() -> None:
     c.CX(2, 1).CX(1, 0)
     c.Rz(0.3, 0)
     c.CX(1, 0).CX(2, 1)
+    c.Phase(0.2)
     c.H(1)
     c.CX(1, 0).CX(3, 2).CX(2, 0)
     c.H(1).H(3)
@@ -434,6 +482,7 @@ def test_optimise_cliffords() -> None:
     c.CZ(3, 1)
     c.CZ(2, 1)
     c.V(2)
+    c.Phase(0.1)
     c.CZ(0, 2)
     c.X(2)
     c.V(1)
@@ -972,8 +1021,7 @@ def test_CXMappingPass_terminates() -> None:
             [26, 25],
         ]
     )
-    placer = NoiseAwarePlacement(arc)
-    placer.modify_config(timeout=10000)
+    placer = NoiseAwarePlacement(arc, timeout=10000)
     p = CXMappingPass(arc, placer, directed_cx=False, delay_measures=False)
     res = p.apply(c)
     assert res
@@ -1013,18 +1061,19 @@ def test_auto_rebase() -> None:
 
     for gateset, cx_circ, TK1_func in pass_params:
         rebase = auto_rebase_pass(gateset)
-        assert rebase.to_dict() == RebaseCustom(gateset, cx_circ, TK1_func).to_dict()
-
         c2 = circ.copy()
         assert rebase.apply(c2)
 
-    with pytest.raises(NoAutoRebase) as cx_err:
-        _ = auto_rebase_pass({OpType.ZZPhase, OpType.TK1})
-    assert "CX" in str(cx_err.value)
+    rebase = auto_rebase_pass({OpType.ZZPhase, OpType.TK1})
+    assert rebase.apply(circ)
 
     with pytest.raises(NoAutoRebase) as cx_err:
         _ = auto_rebase_pass({OpType.CX, OpType.H, OpType.T})
     assert "TK1" in str(cx_err.value)
+
+    with pytest.raises(NoAutoRebase) as err:
+        _ = auto_rebase_pass({OpType.CY, OpType.TK1})
+    assert "No known decomposition" in str(err.value)
 
 
 def test_auto_squash() -> None:
@@ -1065,13 +1114,80 @@ def test_auto_squash() -> None:
                 except (RuntimeError, TypeError):
                     params.append(0.1)
         squash = auto_squash_pass(gateset)
-        assert squash.to_dict() == SquashCustom(gateset, TK1_func).to_dict()
+        if {OpType.PhasedX, OpType.Rz} <= gateset:
+            assert squash.to_dict() == SquashRzPhasedX().to_dict()
+        else:
+            assert squash.to_dict() == SquashCustom(gateset, TK1_func).to_dict()
 
         assert squash.apply(circ)
 
     with pytest.raises(NoAutoRebase) as tk_err:
         _ = auto_squash_pass({OpType.H, OpType.T})
     assert "TK1" in str(tk_err.value)
+
+
+def test_tk2_decompositions() -> None:
+    # TKET-2326
+    c = circuit_from_qasm(
+        Path(__file__).resolve().parent / "qasm_test_files" / "test19.qasm"
+    )
+    FullPeepholeOptimise().apply(c)
+    assert c.depth() <= 30
+
+
+def test_custom_pass() -> None:
+    def transform(c: "Circuit") -> "Circuit":
+        c1 = Circuit()
+        for q_reg in c.q_registers:
+            c1.add_q_register(q_reg.name, q_reg.size)
+        for c_reg in c.c_registers:
+            c1.add_c_register(c_reg.name, c_reg.size)
+        for cmd in c.get_commands():
+            op = cmd.op
+            params = [param if abs(param) >= 0.01 else 0 for param in op.params]
+            c1.add_gate(op.type, params, cmd.args)
+        return c1
+
+    p = CustomPass(transform, label="ignore_small_angles")
+    c = Circuit(2).H(0).CX(0, 1).Rz(0.001, 0).Rz(0.001, 1).CX(0, 1).H(0)
+    seq = SequencePass([RemoveRedundancies(), p, RemoveRedundancies()])
+    seq.apply(c)
+    assert c.n_gates == 0
+
+    p_json = p.to_dict()
+    assert p_json["StandardPass"]["label"] == "ignore_small_angles"
+
+
+def test_circuit_with_conditionals() -> None:
+    # https://github.com/CQCL/tket/issues/514
+    c = Circuit(3, 3)
+    c.H(1).CX(1, 2).CX(0, 1)
+    c.Measure(0, 0)
+    c.Measure(1, 1)
+    c.X(2, condition_bits=[0, 1], condition_value=1)
+
+    assert SynthesiseTket().apply(c)
+    cmds = c.get_commands()
+    assert len(cmds) <= 6
+
+    arch = Architecture([(0, 1), (0, 2), (1, 2)])
+    placement = Placement(arch)
+    p = CXMappingPass(arch, placement, delay_measures=False)
+    p.apply(c)
+    assert c.n_gates_of_type(OpType.Conditional) == 1
+
+
+def test_KAK_with_ClassicalExpBox() -> None:
+    # https://github.com/CQCL/pytket-quantinuum/issues/66
+    circ = Circuit()
+    circ.add_q_register("qubits", 2)
+    a_reg = circ.add_c_register("a", 1)
+    b_reg = circ.add_c_register("b", 1)
+    circ.add_classicalexpbox_bit(a_reg[0] & b_reg[0], [a_reg[0]])
+    kak = Transform.KAKDecomposition(
+        allow_swaps=True, cx_fidelity=1, target_2qb_gate=OpType.TK2
+    )
+    assert not kak.apply(circ)
 
 
 if __name__ == "__main__":
@@ -1099,3 +1215,4 @@ if __name__ == "__main__":
     test_CXMappingPass_correctness()
     test_CXMappingPass_terminates()
     test_FullMappingPass()
+    test_KAK_with_ClassicalExpBox()
