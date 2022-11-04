@@ -67,7 +67,7 @@ class LazyCliffordRoutingMethod : public RoutingMethod {
 
   nlohmann::json serialize() const override;
 
-  static LexiRouteRoutingMethod deserialize(const nlohmann::json& j);
+  static LazyCliffordRoutingMethod deserialize(const nlohmann::json& j);
 
  private:
 
