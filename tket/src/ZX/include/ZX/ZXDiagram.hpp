@@ -26,7 +26,7 @@ class ZXDiagramPybind;
 class Flow;
 
 class ZXDiagram {
- private:
+ public:
   /**
    * Underlying representation
    */

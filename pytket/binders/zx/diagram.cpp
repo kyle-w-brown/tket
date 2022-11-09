@@ -15,6 +15,8 @@
 #include "Circuit/Circuit.hpp"
 #include "Converters/Converters.hpp"
 #include "Utils/GraphHeaders.hpp"
+#include "ZX/Flow.hpp"
+#include "ZX/Rewrite.hpp"
 #include "ZX/ZXDiagram.hpp"
 #include "typecast.hpp"
 
@@ -89,6 +91,72 @@ std::pair<Circuit, std::map<ZXVertWrapper, UnitID>> wrapped_zx_to_circuit(
     ret_map.insert({outs[i], Qubit(i)});
   }
   return {std::move(circ), std::move(ret_map)};
+}
+
+/**
+ * TODO LIST:
+ * - Expose Flow to enable Pauli flow identification and inspection
+ * - Helper method that takes a Circuit object, transforms it into a ZXDiagram,
+ * performs Rewrites to get it into MBQC form, rebases to MBQC primitives, and
+ * pulls in phase-gadgets to individual nodes
+ * - Maybe a method for performing local complementation in MBQC basis
+ */
+
+std::pair<ZXDiagram, std::map<UnitID, std::pair<ZXVertWrapper, ZXVertWrapper>>>
+circuit_to_mbqc(const Circuit& circ) {
+  std::pair<
+      ZXDiagram, std::map<UnitID, std::pair<ZXVertWrapper, ZXVertWrapper>>>
+      res = wrapped_circuit_to_zx(circ);
+  ZXDiagram& diag = res.first;
+  Rewrite to_graphlike = Rewrite::sequence(
+      {Rewrite::red_to_green(), Rewrite::spider_fusion(),
+       Rewrite::parallel_h_removal(), Rewrite::io_extension(),
+       Rewrite::separate_boundaries()});
+  Rewrite reduce = Rewrite::sequence(
+      {Rewrite::repeat(Rewrite::remove_interior_cliffords()),
+       Rewrite::extend_at_boundary_paulis(),
+       Rewrite::repeat(Rewrite::remove_interior_paulis()),
+       Rewrite::gadgetise_interior_paulis()});
+  to_graphlike.apply(diag);
+  reduce.apply(diag);
+  Rewrite::rebase_to_mbqc().apply(diag);
+
+  // Vertex adjacent to output needs to be a PX for flow identification which
+  // isn't guaranteed here so extend outputs if needed
+  for (const ZXVert& o : diag.get_boundary(ZXType::Output)) {
+    ZXVert n = diag.neighbours(o).front();
+    if (diag.get_zxtype(n) != ZXType::Input &&
+        diag.get_zxtype(n) != ZXType::PX) {
+      // Extend output
+      ZXGen_ptr px = std::make_shared<CliffordGen>(ZXType::PX, false);
+      ZXVert n1 = diag.add_vertex(px);
+      ZXVert n2 = diag.add_vertex(px);
+      diag.remove_wire(diag.adj_wires(o).front());
+      diag.add_wire(n, n1, ZXWireType::H);
+      diag.add_wire(n1, n2, ZXWireType::H);
+      diag.add_wire(n2, o);
+    }
+  }
+
+  // At this point, since interior cliffords were removed, the only ones
+  // remaining should be in the form of gadgets or boundary vertices. We want to
+  // pull gadgets in to become YZ vertices
+  std::list<ZXVert> to_remove;
+  BGL_FORALL_VERTICES(v, *diag.graph, ZXGraph) {
+    if (diag.degree(v) == 1 && is_MBQC_type(diag.get_zxtype(v))) {
+      ZXVert axis = diag.neighbours(v).front();
+      TKET_ASSERT(
+          diag.get_zxtype(v) == ZXType::XY &&
+          diag.get_zxtype(axis) == ZXType::PX);
+      diag.set_vertex_ZXGen_ptr(
+          axis,
+          std::make_shared<PhasedGen>(
+              ZXType::YZ, diag.get_vertex_ZXGen<PhasedGen>(v).get_param()));
+      to_remove.push_back(v);
+    }
+  }
+  for (const ZXVert& v : to_remove) diag.remove_vertex(v);
+  return res;
 }
 
 class ZXDiagramPybind {
@@ -646,11 +714,78 @@ PYBIND11_MODULE(zx, m) {
       .def_property_readonly(
           "diagram", &ZXBox::get_diagram,
           "The internal diagram represented by the box.");
+  py::class_<Flow>(
+      m, "Flow",
+      "Data structure for describing the Flow in a given MBQC-form "
+      ":py:class:`ZXDiagram` object. Constructors are identification methods "
+      "for different classes of Flow.")
+      .def(
+          "c",
+          [](const Flow& fl, const ZXVertWrapper& v) {
+            std::list<ZXVertWrapper> clist;
+            ZXVertSeqSet cv = fl.c(v);
+            for (const ZXVert& c : cv.get<TagSeq>())
+              clist.push_back(ZXVertWrapper(c));
+            return clist;
+          },
+          "The correction set for the given :py:class:`ZXVert`.", py::arg("v"))
+      .def_property_readonly(
+          "cmap",
+          [](const Flow& fl) {
+            std::map<ZXVertWrapper, std::list<ZXVertWrapper>> cmap;
+            for (const std::pair<const ZXVert, ZXVertSeqSet>& vs : fl.c_) {
+              std::list<ZXVertWrapper> cs;
+              for (const ZXVert& c : vs.second.get<TagSeq>())
+                cs.push_back(ZXVertWrapper(c));
+              cmap.insert({ZXVertWrapper(vs.first), cs});
+            }
+            return cmap;
+          },
+          "The map from a vertex to its correction set")
+      .def(
+          "odd",
+          [](const Flow& fl, const ZXVertWrapper& v, const ZXDiagram& diag) {
+            std::list<ZXVertWrapper> olist;
+            ZXVertSeqSet ov = fl.odd(v, diag);
+            for (const ZXVert& o : ov.get<TagSeq>())
+              olist.push_back(ZXVertWrapper(o));
+            return olist;
+          },
+          "The odd neighbourhood of the correction set for the given "
+          ":py:class:`ZXVert`.",
+          py::arg("v"), py::arg("diag"))
+      .def(
+          "d", [](const Flow& fl, const ZXVertWrapper& v) { return fl.d(v); },
+          "The depth of the given :py:class:`ZXVert` from the outputs in the "
+          "ordering of the flow, e.g. an output vertex will have depth 0, the "
+          "last measured vertex has depth 1.")
+      .def_property_readonly(
+          "dmap",
+          [](const Flow& fl) {
+            std::map<ZXVertWrapper, unsigned> dmap;
+            for (const std::pair<const ZXVert, unsigned>& vs : fl.d_) {
+              dmap.insert({ZXVertWrapper(vs.first), vs.second});
+            }
+            return dmap;
+          },
+          "The map from a vertex to its depth")
+      .def("focus", &Flow::focus, "Focusses a flow.", py::arg("diag"))
+      .def_static(
+          "identify_pauli_flow", &Flow::identify_pauli_flow,
+          "Attempts to identify a Pauli flow for a diagram.", py::arg("diag"));
   init_rewrite(m);
   m.def(
       "circuit_to_zx", &wrapped_circuit_to_zx,
       "Construct a ZX diagram from a circuit. Return the ZX diagram and a map "
-      "Between the ZX boundary vertices and the resource UIDs of the circuit.");
+      "between the ZX boundary vertices and the resource UIDs of the circuit.");
+  m.def(
+      "circuit_to_mbqc", &circuit_to_mbqc,
+      "Constructs a ZX diagram from a circuit, reduces it to a graph-like "
+      "form, rebases to the MBQC vertex set, and merges gadgets into single "
+      "vertices. Returns the :py:class:`ZXDiagram` object for the MBQC pattern "
+      "and a map between the ZX boundary vertices and the resource UIDs of the "
+      "circuit.",
+      py::arg("circ"));
 }
 
 }  // namespace zx

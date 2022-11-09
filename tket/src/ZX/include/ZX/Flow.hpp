@@ -79,7 +79,7 @@ class Flow {
 
   friend Circuit tket::zx_to_circuit(const zx::ZXDiagram& diag);
 
- private:
+ public:
   // Correction sets
   std::map<ZXVert, ZXVertSeqSet> c_;
   // Approximate the partial order by recording the depth from outputs
