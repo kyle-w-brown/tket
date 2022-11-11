@@ -1724,13 +1724,20 @@ Vertex Circuit::add_op(
   }
   if (op->get_type() == OpType::WASM) {
     // TODO MELF
-    if(!wasm_added) {
+    if (!wasm_added) {
       add_wasm_register();
     }
     std::cout << "WE NEED TO DO SOMETHING HERE TO ADD WASM" << std::endl;
     // const UnitID &arg = WASMUID;
     if (sig[args.size()] == EdgeType::WASM) {
+      //TODO MELF NOW
       std::cout << "wasm wire found in signature" << std::endl;
+      Vertex out_vert = get_out(wasmwire);      
+      Edge pred_out_e = get_nth_in_edge(out_vert, 0);
+      preds.push_back(pred_out_e);
+    } else {
+      throw CircuitInvalidity(
+          "The last element of the signature should be wasm for OpType::WASM");
     }
   }
   rewire(new_v, preds, sig);

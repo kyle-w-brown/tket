@@ -484,12 +484,12 @@ void Circuit::add_wasm_register() {
     add_edge({in, 0}, {out, 0}, EdgeType::WASM);
     std::cout << "step D - ?" << std::endl;
     WASMUID wuid = WASMUID();
+    wasmwire = wuid;
     std::cout << wuid.repr() << std::endl;
-    boundary.insert({wuid, in, out});
+    boundary.insert({wasmwire, in, out});
     std::cout << "step E - ?" << std::endl;
     //# ids.insert({i, id});
-    wasm_added = true;
-    wasmwire = wuid;
+    wasm_added = true;    
   }
 }  //*/
 
