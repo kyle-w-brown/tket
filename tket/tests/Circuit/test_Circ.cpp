@@ -191,6 +191,7 @@ SCENARIO("Creating gates via Qubits and Registers") {
         1);
   }
   GIVEN("A new circuit") {
+    // todo melf
     std::cout << "step 0" << std::endl;
     Circuit circ;
     std::cout << "step 1" << std::endl;
@@ -223,6 +224,9 @@ SCENARIO("Creating gates via Qubits and Registers") {
                 << std::endl;
       // VertexVec succs = get_successors(in);
     }
+
+    std::cout << "give final circuit depth: \n\n";
+    std::cout << circ.depth();
 
     // for (auto b : boundary) {
     // std::cout << b << std::endl;
