@@ -80,11 +80,18 @@ Vertex Circuit::add_op<unsigned>(
     const Op_ptr& gate, const std::vector<unsigned>& args,
     std::optional<std::string> opgroup) {
   op_signature_t sig = gate->get_signature();
-  if (sig.size() != args.size()) {
+  if (sig.size() != args.size() && gate->get_type() != OpType::WASM) {
     throw CircuitInvalidity(
-        std::to_string(args.size()) + " args provided, but " +
+        std::to_string(args.size()) + " BBB args provided, but " +
         gate->get_name() + " requires " + std::to_string(sig.size()));
   }
+
+  if (sig.size() != (args.size() + 1) && gate->get_type() == OpType::WASM) {
+    throw CircuitInvalidity(
+        std::to_string(args.size()) + " BBB - 2 args provided, but " +
+        gate->get_name() + " requires " + std::to_string(sig.size()));
+  }
+
   OpType optype = gate->get_type();
   unit_vector_t arg_ids;
   for (unsigned i = 0; i < args.size(); ++i) {
@@ -468,19 +475,22 @@ void Circuit::add_wasm_register() {
   // Bit id("_wasm", 0);
   // boundary.insert({id, in, out});
   //  ids.insert({0, id});
-  std::cout << "step A - ?" << std::endl;
-  Vertex in = add_vertex(OpType::WASMInput);
-  std::cout << "step B - ?" << std::endl;
-  Vertex out = add_vertex(OpType::WASMOutput);
-  std::cout << "step C - ?" << std::endl;
-  add_edge({in, 0}, {out, 0}, EdgeType::WASM);
-  std::cout << "step D - ?" << std::endl;
-  WASMUID wuid = WASMUID();
-  std::cout << wuid.repr() << std::endl;
-  boundary.insert({wuid, in, out});
-  std::cout << "step E - ?" << std::endl;
-  //# ids.insert({i, id});
-  wasm_added = true;
+  if (!wasm_added) {
+    std::cout << "step A - ?" << std::endl;
+    Vertex in = add_vertex(OpType::WASMInput);
+    std::cout << "step B - ?" << std::endl;
+    Vertex out = add_vertex(OpType::WASMOutput);
+    std::cout << "step C - ?" << std::endl;
+    add_edge({in, 0}, {out, 0}, EdgeType::WASM);
+    std::cout << "step D - ?" << std::endl;
+    WASMUID wuid = WASMUID();
+    std::cout << wuid.repr() << std::endl;
+    boundary.insert({wuid, in, out});
+    std::cout << "step E - ?" << std::endl;
+    //# ids.insert({i, id});
+    wasm_added = true;
+    wasmwire = wuid;
+  }
 }  //*/
 
 void Circuit::qubit_create(const Qubit& id) {

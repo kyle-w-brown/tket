@@ -38,7 +38,7 @@ Op_ptr get_op_ptr(
       std::cout << "PROBLEM  happend FOUND";
       return bla;
     } else if (chosen_type == OpType::WASMOutput) {
-      auto bla = std::make_shared<const MetaOp>(OpType::ClOutput);
+      auto bla = std::make_shared<const MetaOp>(OpType::WASMOutput);
       return bla;
     } else {
       return std::make_shared<const MetaOp>(chosen_type);

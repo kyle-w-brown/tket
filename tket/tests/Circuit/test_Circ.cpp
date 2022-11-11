@@ -209,6 +209,24 @@ SCENARIO("Creating gates via Qubits and Registers") {
     for (auto xv : ve) {
       std::cout << xv << std::endl;
     }
+
+    std::cout << "boundary:" << std::endl;
+
+    for (const BoundaryElement& el : circ.boundary.get<TagID>()) {
+      Vertex in = el.in_;
+      Vertex out = el.out_;
+      std::cout << "in: " << in << std::endl;
+      std::cout << "in: " << circ.get_Op_ptr_from_Vertex(in)->get_name()
+                << std::endl;
+      std::cout << "out: " << out << std::endl;
+      std::cout << "out: " << circ.get_Op_ptr_from_Vertex(out)->get_name()
+                << std::endl;
+      // VertexVec succs = get_successors(in);
+    }
+
+    // for (auto b : boundary) {
+    // std::cout << b << std::endl;
+    //}
   }
 }
 

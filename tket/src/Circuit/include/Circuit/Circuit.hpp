@@ -1589,12 +1589,13 @@ class Circuit {
   // currently public (no bueno)
   DAG dag; /** Representation as directed graph */
   boundary_t boundary;
+  bool wasm_added = false;  // todo melf
+  WASMUID wasmwire;
 
  private:
   std::optional<std::string>
       name;   /** optional string name descriptor for human identification*/
   Expr phase; /**< Global phase applied to circuit */
-  bool wasm_added = false; //todo melf
 
   /** Signature associated with each named operation group */
   std::map<std::string, op_signature_t> opgroupsigs;
@@ -1682,11 +1683,19 @@ Vertex Circuit::add_op(
     std::optional<std::string> opgroup) {
   static_assert(std::is_base_of<UnitID, ID>::value);
   op_signature_t sig = op->get_signature();
-  if (sig.size() != args.size()) {
+
+  if (sig.size() != args.size() && op->get_type() != OpType::WASM) {
     throw CircuitInvalidity(
-        std::to_string(args.size()) + " args provided, but " + op->get_name() +
-        " requires " + std::to_string(sig.size()));
+        std::to_string(args.size()) + " CCC args provided, but " +
+        op->get_name() + " requires " + std::to_string(sig.size()));
   }
+
+  if (sig.size() != (args.size() + 1) && op->get_type() == OpType::WASM) {
+    throw CircuitInvalidity(
+        std::to_string(args.size()) + " CCC - 2 args provided, but " +
+        op->get_name() + " requires " + std::to_string(sig.size()));
+  }
+
   if (opgroup) {
     auto opgroupsig = opgroupsigs.find(opgroup.value());
     if (opgroupsig != opgroupsigs.end()) {
@@ -1712,6 +1721,17 @@ Vertex Circuit::add_op(
     Vertex out_vert = get_out(arg);
     Edge pred_out_e = get_nth_in_edge(out_vert, 0);
     preds.push_back(pred_out_e);
+  }
+  if (op->get_type() == OpType::WASM) {
+    // TODO MELF
+    if(!wasm_added) {
+      add_wasm_register();
+    }
+    std::cout << "WE NEED TO DO SOMETHING HERE TO ADD WASM" << std::endl;
+    // const UnitID &arg = WASMUID;
+    if (sig[args.size()] == EdgeType::WASM) {
+      std::cout << "wasm wire found in signature" << std::endl;
+    }
   }
   rewire(new_v, preds, sig);
   return new_v;

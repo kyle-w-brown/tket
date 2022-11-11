@@ -262,6 +262,8 @@ WASMOp::WASMOp(
           no_vec_.begin(), no_vec_.end(), decltype(no_vec_)::value_type(0));
 
   TKET_ASSERT(sum_of_i32 == n_);
+
+  sig_.push_back(EdgeType::WASM);
 }
 
 bool WASMOp::is_equal(const Op &other) const {

@@ -31,6 +31,11 @@ static Circuit *add_gate_method(
         "Cannot add metaop. Please use `add_barrier` to add a "
         "barrier.");
   }
+  std::cout << "check op type in this add gate method" << std::endl;
+  throw CircuitInvalidity("we have a wasm problem ");
+  if (op->get_type() == OpType::WASM) {
+    throw CircuitInvalidity("we have a wasm problem ");
+  }
   static const std::set<std::string> allowed_kwargs = {
       "opgroup", "condition", "condition_bits", "condition_value"};
   for (const auto kwarg : kwargs) {
