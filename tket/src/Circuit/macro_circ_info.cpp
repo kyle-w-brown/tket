@@ -640,6 +640,10 @@ unsigned Circuit::depth() const {
     slice_iter.cut_ = this->next_cut(
         slice_iter.cut_.u_frontier, slice_iter.cut_.b_frontier, skip_func);
     if (!(*slice_iter).empty()) count++;
+    if (i > 100) {
+      std::cout << "problem found\n\n";
+      throw CircuitInvalidity("problem");
+    }
   }
   return count;
 }

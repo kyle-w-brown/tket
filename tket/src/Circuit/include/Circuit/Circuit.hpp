@@ -1681,6 +1681,11 @@ template <class ID>
 Vertex Circuit::add_op(
     const Op_ptr &op, const std::vector<ID> &args,
     std::optional<std::string> opgroup) {
+  // debug
+  if (op->get_type() == OpType::WASM) {
+    std::cout << "\n\nrun add_op from unsigned - add wasm\n\n";
+  }
+
   static_assert(std::is_base_of<UnitID, ID>::value);
   op_signature_t sig = op->get_signature();
 
@@ -1730,9 +1735,9 @@ Vertex Circuit::add_op(
     std::cout << "WE NEED TO DO SOMETHING HERE TO ADD WASM" << std::endl;
     // const UnitID &arg = WASMUID;
     if (sig[args.size()] == EdgeType::WASM) {
-      //TODO MELF NOW
+      // TODO MELF NOW
       std::cout << "wasm wire found in signature" << std::endl;
-      Vertex out_vert = get_out(wasmwire);      
+      Vertex out_vert = get_out(wasmwire);
       Edge pred_out_e = get_nth_in_edge(out_vert, 0);
       preds.push_back(pred_out_e);
     } else {

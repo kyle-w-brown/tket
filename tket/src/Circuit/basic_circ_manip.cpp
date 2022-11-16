@@ -489,7 +489,7 @@ void Circuit::add_wasm_register() {
     boundary.insert({wasmwire, in, out});
     std::cout << "step E - ?" << std::endl;
     //# ids.insert({i, id});
-    wasm_added = true;    
+    wasm_added = true;
   }
 }  //*/
 

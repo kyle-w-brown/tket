@@ -128,10 +128,10 @@ SCENARIO("generating circ with wasm") {
 
     u.add_op<unsigned>(wop_ptr, {0});
 
-    const std::shared_ptr<WASMOp> wop_ptr_2 =
-        std::make_shared<WASMOp>(6, uv, uv, wasm_func, wasm_file);
+    // const std::shared_ptr<WASMOp> wop_ptr_2 =
+    //     std::make_shared<WASMOp>(6, uv, uv, wasm_func, wasm_file);
 
-    u.add_op<unsigned>(wop_ptr_2, {0, 1, 2, 3, 4, 5});  // needs 6 bits
+    // u.add_op<unsigned>(wop_ptr_2, {0, 1, 2, 3, 4, 5});  // needs 6 bits
     std::cout << "try to get depth\n\n";
     REQUIRE(u.depth() == 0);
     std::cout << "try to get depth II\n\n";

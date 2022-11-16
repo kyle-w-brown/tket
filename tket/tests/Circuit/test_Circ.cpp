@@ -24,9 +24,11 @@
 #include "Circuit/Circuit.hpp"
 #include "Circuit/DAGDefs.hpp"
 #include "Gate/GatePtr.hpp"
+#include "Gate/OpPtrFunctions.hpp"
 #include "OpType/EdgeType.hpp"
 #include "OpType/OpType.hpp"
 #include "OpType/OpTypeFunctions.hpp"
+#include "Ops/ClassicalOps.hpp"
 #include "Ops/Op.hpp"
 #include "Ops/OpPtr.hpp"
 #include "Simulation/CircuitSimulator.hpp"
@@ -231,6 +233,28 @@ SCENARIO("Creating gates via Qubits and Registers") {
     // for (auto b : boundary) {
     // std::cout << b << std::endl;
     //}
+  }
+  GIVEN("A new circuit - wasm") {
+    // todo melf
+    std::cout << "step 0" << std::endl;
+    Circuit circ;
+    std::cout << "step 1" << std::endl;
+
+    std::string funcname = "qww";
+    std::string wasm_uid = "qwwwww";
+    std::vector<unsigned> i32list_i = {1};
+    std::vector<unsigned> i32list_o = {1};
+    std::vector<unsigned> args = {0, 1};
+
+    unsigned n_args = args.size();
+    std::shared_ptr<WASMOp> op = std::make_shared<WASMOp>(
+        n_args, i32list_i, i32list_o, funcname, wasm_uid);
+
+    // add_gate_method<unsigned>(circ, op, args);
+
+    std::cout << "final circuit:\n";
+
+    std::cout << "final circuit end\n\n\n";
   }
 }
 
