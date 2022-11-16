@@ -1740,6 +1740,14 @@ Vertex Circuit::add_op(
       Vertex out_vert = get_out(wasmwire);
       Edge pred_out_e = get_nth_in_edge(out_vert, 0);
       preds.push_back(pred_out_e);
+      std::cout << "try rewire:\n";
+      for (auto g : preds) {
+        std::cout << g << std::endl;
+        // std::cout << g[0] << std::endl;
+        // std::cout << g.second << std::endl;
+      }
+      std::cout << "END\n\n";
+
     } else {
       throw CircuitInvalidity(
           "The last element of the signature should be wasm for OpType::WASM");
