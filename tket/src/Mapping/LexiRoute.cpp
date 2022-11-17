@@ -679,7 +679,7 @@ bool LexiRoute::solve(unsigned lookahead) {
       std::cout << "UnitID: " << pair.first.repr()
                 << " | Vertex: " << pair.second.first
                 << " | Port: " << pair.second.second << " | Edge: " << edge
-                << " Target: " << target << " "
+                << " | Target: " << target << " "
                 << " | Target Name: " << opdesc.name() << std::endl;
     }
     return false;
