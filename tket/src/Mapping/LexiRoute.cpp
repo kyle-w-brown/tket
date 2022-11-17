@@ -36,6 +36,7 @@ LexiRoute::LexiRoute(
 
 void LexiRoute::reassign_node(
     const Node& pre_assigned, const UnitID& assignee) {
+
   /**
    * A "reassignable" node has no relevant use for the purposes of
    * routing.
@@ -673,14 +674,16 @@ bool LexiRoute::solve(unsigned lookahead) {
       Edge edge = mapping_frontier_->circuit_.get_nth_out_edge(
           pair.second.first, pair.second.second);
       Vertex target = mapping_frontier_->circuit_.target(edge);
-      OpDesc opdesc =
+      OpDesc opdesc_target =
           mapping_frontier_->circuit_.get_OpDesc_from_Vertex(target);
+      OpDesc opdesc_vertex = mapping_frontier_->circuit_.get_OpDesc_from_Vertex(pair.second.first);
 
       std::cout << "UnitID: " << pair.first.repr()
                 << " | Vertex: " << pair.second.first
+                << " | Vertex Name: " << opdesc_vertex.name()
                 << " | Port: " << pair.second.second << " | Edge: " << edge
                 << " | Target: " << target << " "
-                << " | Target Name: " << opdesc.name() << std::endl;
+                << " | Target Name: " << opdesc_target.name() << std::endl;
     }
     return false;
   }
@@ -691,6 +694,22 @@ bool LexiRoute::solve(unsigned lookahead) {
   unit_vertport_frontier_t copy;
   for (const std::pair<UnitID, VertPort>& pair :
        this->mapping_frontier_->linear_boundary->get<TagKey>()) {
+
+      //   if(pair.second.second > 1){
+      //     Edge edge = mapping_frontier_->circuit_.get_nth_out_edge(
+      //         pair.second.first, pair.second.second);
+      //     Vertex target = mapping_frontier_->circuit_.target(edge);
+      // OpDesc opdesc_target =
+      //     mapping_frontier_->circuit_.get_OpDesc_from_Vertex(target);
+      // OpDesc opdesc_vertex = mapping_frontier_->circuit_.get_OpDesc_from_Vertex(pair.second.first);
+      // std::cout << "UnitID: " << pair.first.repr()
+      //           << " | Vertex: " << pair.second.first
+      //           << " | Vertex Name: " << opdesc_vertex.name()
+      //           << " | Port: " << pair.second.second << " | Edge: " << edge
+      //           << " | Target: " << target << " "
+      //           << " | Target Name: " << opdesc_target.name() << std::endl;
+      //   }
+      
     copy.insert({pair.first, pair.second});
   }
   swap_set_t candidate_swaps = this->get_candidate_swaps();

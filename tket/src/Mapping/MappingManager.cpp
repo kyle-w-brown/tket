@@ -152,12 +152,15 @@ bool MappingManager::route_circuit_with_maps(
   };
 
   bool circuit_modified = !check_finish();
+  unsigned x = 0;
   while (!check_finish()) {
     // The order methods are passed in std::vector<RoutingMethod> is
     // the order they are run
     // If a method performs better but only on specific subcircuits,
     // rank it earlier in the passed vector
     bool valid_methods = false;
+    std::cout << "Number: " << x << std::endl;
+    x++;
     for (const auto& rm : routing_methods) {
       // true => can use held routing method
       std::pair<bool, unit_map_t> bool_map =

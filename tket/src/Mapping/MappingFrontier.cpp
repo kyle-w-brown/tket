@@ -561,6 +561,7 @@ void MappingFrontier::set_linear_boundary(
  * reflect new edges
  */
 bool MappingFrontier::add_swap(const UnitID& uid_0, const UnitID& uid_1) {
+  // std::cout << "Add Swap: " << uid_0.repr() << " " << uid_1.repr() << std::endl;
   // get iterators to linear_boundary uids
   auto uid0_in_it = this->linear_boundary->find(uid_0);
   auto uid1_in_it = this->linear_boundary->find(uid_1);
@@ -666,6 +667,7 @@ bool MappingFrontier::add_swap(const UnitID& uid_0, const UnitID& uid_1) {
 
 void MappingFrontier::add_bridge(
     const UnitID& control, const UnitID& central, const UnitID& target) {
+  // std::cout << "Add Bridge: " << control.repr() << " " << central.repr() << " " << target.repr() << std::endl;
   // get predecessors
   auto control_in_it = this->linear_boundary->find(control);
   auto central_in_it = this->linear_boundary->find(central);
@@ -729,6 +731,7 @@ void MappingFrontier::add_ancilla(const UnitID& ancilla) {
 
 void MappingFrontier::merge_ancilla(
     const UnitID& merge, const UnitID& ancilla) {
+  std::cout << "Merging ancilla: " << merge.repr() << " " << ancilla.repr() << std::endl;
   // "front" meaning causally ahead
   auto rewire = [&](const UnitID& front, const UnitID& back) {
     // get output and input vertices
