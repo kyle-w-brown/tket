@@ -120,12 +120,82 @@ SCENARIO("generating circ with wasm") {
     REQUIRE(wop_ptr->is_extern());
   }
   GIVEN("wasmop add circuit III") {
-    Circuit u(6, 6);
+    Circuit u(1, 1);
 
     const std::shared_ptr<WASMOp> wop_ptr =
         std::make_shared<WASMOp>(1, uv_2, uv_3, wasm_func, wasm_file);
 
     u.add_op<unsigned>(wop_ptr, {0});
+
+    std::cout << "print circuit boundary:\n";
+    for (auto g : u.boundary) {
+      std::cout << g.id_.repr() << std::endl;
+    }
+    std::cout << "end circuit boundary\n\n\n";
+
+    std::cout << "print circuit all_inputs:\n";
+    for (auto g : u.all_inputs()) {
+      std::cout << g << std::endl;
+    }
+    std::cout << "end circuit all_inputs\n\n\n";
+
+    std::cout << "print circuit dag:\n";
+
+    BGL_FORALL_VERTICES(v, u.dag, DAG) {
+      std::cout << u.get_Op_ptr_from_Vertex(v)->get_name() << std::endl;
+      std::cout << u.get_Op_ptr_from_Vertex(v) << std::endl;
+      auto sig = u.get_Op_signature_from_Vertex(v);
+      for (auto s : sig) {
+        if (s == EdgeType::Quantum) {
+          std::cout << "EdgeType::Quantum - ";
+        }
+        if (s == EdgeType::Classical) {
+          std::cout << "EdgeType::Classical - ";
+        }
+        if (s == EdgeType::Boolean) {
+          std::cout << "EdgeType::Boolean - ";
+        }
+        if (s == EdgeType::WASM) {
+          std::cout << "EdgeType::WASM - ";
+        }
+      }
+      std::cout << "\n";
+      std::cout << u.n_in_edges(v) << std::endl;
+      std::cout << u.n_out_edges(v) << std::endl;
+
+      std::cout << "in edges:\n";
+      auto inedges = u.get_in_edges(v);
+      for (auto in_edge : inedges) {
+        std::cout << "SORUCE: "
+                  << u.get_Op_ptr_from_Vertex(u.source(in_edge))->get_name()
+                  << std::endl;
+        std::cout << "SORCE: " << u.get_Op_ptr_from_Vertex(u.source(in_edge))
+                  << std::endl;
+        std::cout << "TARGET: "
+                  << u.get_Op_ptr_from_Vertex(u.target(in_edge))->get_name()
+                  << std::endl;
+        std::cout << "TARGET: " << u.get_Op_ptr_from_Vertex(u.target(in_edge))
+                  << std::endl;
+      }
+
+      std::cout << "out edges:\n";
+      auto outedges = u.get_all_out_edges(v);
+      for (auto out_edge : outedges) {
+        std::cout << "SORUCE: "
+                  << u.get_Op_ptr_from_Vertex(u.source(out_edge))->get_name()
+                  << std::endl;
+        std::cout << "SORCE: " << u.get_Op_ptr_from_Vertex(u.source(out_edge))
+                  << std::endl;
+        std::cout << "TARGET: "
+                  << u.get_Op_ptr_from_Vertex(u.target(out_edge))->get_name()
+                  << std::endl;
+        std::cout << "TARGET: " << u.get_Op_ptr_from_Vertex(u.target(out_edge))
+                  << std::endl;
+      }
+
+      std::cout << "\n\n\n\n";
+    }
+    std::cout << "end circuit dag\n\n\n";
 
     std::cout << "try to get depth\n\n";
     REQUIRE(u.depth() == 0);
