@@ -418,7 +418,17 @@ bool LexiRoute::set_interacting_uids(
                 this->architecture_->node_exists(Node(jt->first));
             if (!node0_exists || !node1_exists || op->get_desc().is_box()) {
               all_placed = false;
-              if (route_check == CheckRoutingValidity::Yes) return false;
+              if (route_check == CheckRoutingValidity::Yes) {
+                std::cout << "Operation found whether Nodes are not in "
+                             "Architecture/is box:"
+                          << std::endl;
+                std::cout << node0_exists << " " << Node(it->first).repr()
+                          << " " << node1_exists << " "
+                          << Node(jt->first).repr() << " "
+                          << op->get_desc().is_box() << std::endl;
+
+                return false;
+              }
             }
 
             if (assigned_only == AssignedOnly::No ||
@@ -438,6 +448,9 @@ bool LexiRoute::set_interacting_uids(
     if (all_placed) {
       return true;
     } else {
+      std::cout << "Set interacting Uids returning false, not 'all placed' and "
+                   "CheckLabellingValidity::Yes"
+                << std::endl;
       return false;
     }
   }
@@ -446,6 +459,14 @@ bool LexiRoute::set_interacting_uids(
     if (all_placed && interacting_uids_.size() > 0) {
       return true;
     }
+    std::cout << "Set interacting Uids returning false:" << std::endl;
+    std::cout << "All placed: " << all_placed
+              << " number of interacting unit ids: " << interacting_uids_.size()
+              << " interacting uids: " << std::endl;
+    for (auto x : interacting_uids_) {
+      std::cout << "(" << x.first.repr() << " " << x.second.repr() << ")";
+    }
+    std::cout << std::endl;
     return false;
   }
   // => either route_check true and all_placed so valid
@@ -643,6 +664,24 @@ bool LexiRoute::solve(unsigned lookahead) {
   bool all_labelled = this->set_interacting_uids(
       AssignedOnly::No, CheckRoutingValidity::Yes, CheckLabellingValidity::No);
   if (!all_labelled) {
+    std::cout << "Returning false because not all UnitID are labelled. Found "
+                 "labelling is:"
+              << std::endl;
+    std::cout << "Mapping Frontier information: " << std::endl;
+    for (const std::pair<UnitID, VertPort>& pair :
+         this->mapping_frontier_->linear_boundary->get<TagKey>()) {
+      Edge edge = mapping_frontier_->circuit_.get_nth_out_edge(
+          pair.second.first, pair.second.second);
+      Vertex target = mapping_frontier_->circuit_.target(edge);
+      OpDesc opdesc =
+          mapping_frontier_->circuit_.get_OpDesc_from_Vertex(target);
+
+      std::cout << "UnitID: " << pair.first.repr()
+                << " | Vertex: " << pair.second.first
+                << " | Port: " << pair.second.second << " | Edge: " << edge
+                << " Target: " << target << " "
+                << " | Target Name: " << opdesc.name() << std::endl;
+    }
     return false;
   }
 
