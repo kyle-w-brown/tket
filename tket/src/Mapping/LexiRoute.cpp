@@ -143,6 +143,7 @@ void LexiRoute::reassign_node(
 
 void LexiRoute::assign_valid_node(
     const UnitID& assignee, const UnitID& replacement) {
+  std::cout << "Assign: " << assignee.repr() << " To: " << replacement.repr() << std::endl;
   // If the replacement is reassignable then we can use the Node, we just need
   // to reassign the original one to another free architecture node
   if (this->mapping_frontier_->reassignable_nodes_.find(Node(replacement)) !=
