@@ -47,6 +47,7 @@ void LexicographicalComparison::increment_distances(
   const unsigned distances_index =
       this->architecture_->get_diameter() -
       this->architecture_->get_distance(interaction.first, interaction.second);
+  std::cout << "Interaction: " << interaction.first.repr() << " " << interaction.second.repr() << " Increment: " << increment << " Index: " << distances_index << std::endl;
   if (distances[distances_index] == 0 && increment < 0) {
     throw LexicographicalComparisonError(
         "Negative increment value is larger than value held at index, "
@@ -120,6 +121,11 @@ lexicographical_distances_t LexicographicalComparison::get_updated_distances(
 void LexicographicalComparison::remove_swaps_lexicographical(
     swap_set_t& candidate_swaps) const {
   std::cout << "Remove Swaps Lexicographical, with " << candidate_swaps.size() << " candidate swaps." << std::endl;
+  std::cout << "Starting Lexicographic vector: ";
+  for(auto x : this->lexicographical_distances){
+    std::cout << x;
+  }
+  std::cout << std::endl;
   auto it = candidate_swaps.begin();
   lexicographical_distances_t winning_distances =
       this->get_updated_distances(*it);
@@ -127,7 +133,7 @@ void LexicographicalComparison::remove_swaps_lexicographical(
   std::cout << "Starting SWAP: " << it->first.repr() << " " << it->second.repr() << std::endl;
   std::cout << "Starting distances: ";
   for(auto x : winning_distances){
-    std::cout << x << " ";
+    std::cout << x;
   }
   std::cout << std::endl;
   ++it;
@@ -137,7 +143,7 @@ void LexicographicalComparison::remove_swaps_lexicographical(
     std::cout << "Comparison SWAP: " << it->first.repr() << " " << it->second.repr() << std::endl;
     std::cout << "Comparison distances: ";
     for(auto x : comparison_distances){
-      std::cout << x << " ";
+      std::cout << x;
     }
     std::cout << std::endl;
     if (comparison_distances < winning_distances) {
