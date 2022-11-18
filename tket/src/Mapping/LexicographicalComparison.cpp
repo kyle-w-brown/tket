@@ -119,22 +119,41 @@ lexicographical_distances_t LexicographicalComparison::get_updated_distances(
  */
 void LexicographicalComparison::remove_swaps_lexicographical(
     swap_set_t& candidate_swaps) const {
+  std::cout << "Remove Swaps Lexicographical, with " << candidate_swaps.size() << " candidate swaps." << std::endl;
   auto it = candidate_swaps.begin();
   lexicographical_distances_t winning_distances =
       this->get_updated_distances(*it);
   swap_set_t preserved_swaps = {*it};
+  std::cout << "Starting SWAP: " << it->first.repr() << " " << it->second.repr() << std::endl;
+  std::cout << "Starting distances: ";
+  for(auto x : winning_distances){
+    std::cout << x << " ";
+  }
+  std::cout << std::endl;
   ++it;
   for (; it != candidate_swaps.end(); ++it) {
     lexicographical_distances_t comparison_distances =
         this->get_updated_distances(*it);
-
+    std::cout << "Comparison SWAP: " << it->first.repr() << " " << it->second.repr() << std::endl;
+    std::cout << "Comparison distances: ";
+    for(auto x : comparison_distances){
+      std::cout << x << " ";
+    }
+    std::cout << std::endl;
     if (comparison_distances < winning_distances) {
       preserved_swaps = {*it};
       winning_distances = comparison_distances;
+      std::cout << "Comparison wins." << std::endl;
     } else if (comparison_distances == winning_distances) {
       preserved_swaps.insert(*it);
+      std::cout << "Equal." << std::endl;
     }
   }
   candidate_swaps = preserved_swaps;
+  std::cout << candidate_swaps.size() << " SWAPS remaining: " << std::endl;
+  for(auto x : candidate_swaps){
+    std::cout << x.first.repr() << " " << x.second.repr() << " | ";
+  }
+  std::cout << std::endl;
 }
 }  // namespace tket
