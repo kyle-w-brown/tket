@@ -23,7 +23,10 @@ LexicographicalComparison::LexicographicalComparison(
   unsigned diameter = this->architecture_->get_diameter();
 
   lexicographical_distances_t distance_vector(diameter, 0);
+  std::cout << "Interacting nodes: ";
+  
   for (const auto& interaction : this->interacting_nodes_) {
+    std::cout << interaction.first.repr() << " " << interaction.second.repr() << " | ";
     // If Node not in architecture, don't add
     if (!this->architecture_->node_exists(interaction.first) ||
         !this->architecture_->node_exists(interaction.second)) {
@@ -38,6 +41,7 @@ LexicographicalComparison::LexicographicalComparison(
       ++distance_vector[diameter - distance];
     }
   }
+  std::cout << std::endl;
   this->lexicographical_distances = distance_vector;
 }
 

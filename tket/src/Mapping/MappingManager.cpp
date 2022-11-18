@@ -159,7 +159,7 @@ bool MappingManager::route_circuit_with_maps(
     // If a method performs better but only on specific subcircuits,
     // rank it earlier in the passed vector
     bool valid_methods = false;
-    std::cout << "Number: " << x << std::endl;
+    std::cout << "\n\nNumber: " << x << std::endl;
     x++;
     for (const auto& rm : routing_methods) {
       // true => can use held routing method
