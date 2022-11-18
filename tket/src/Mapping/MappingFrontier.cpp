@@ -456,6 +456,7 @@ UnitID MappingFrontier::get_qubit_from_circuit_uid(const UnitID& uid) {
   return it->second;
 }
 
+
 void MappingFrontier::update_bimaps(UnitID qubit, UnitID node) {
   // Update initial map
   auto init_it = this->bimaps_->initial.left.find(qubit);
@@ -561,7 +562,7 @@ void MappingFrontier::set_linear_boundary(
  * reflect new edges
  */
 bool MappingFrontier::add_swap(const UnitID& uid_0, const UnitID& uid_1) {
-  // std::cout << "Add Swap: " << uid_0.repr() << " " << uid_1.repr() << std::endl;
+  std::cout << "Add Swap: " << uid_0.repr() << " " << uid_1.repr() << std::endl;
   // get iterators to linear_boundary uids
   auto uid0_in_it = this->linear_boundary->find(uid_0);
   auto uid1_in_it = this->linear_boundary->find(uid_1);
@@ -667,7 +668,7 @@ bool MappingFrontier::add_swap(const UnitID& uid_0, const UnitID& uid_1) {
 
 void MappingFrontier::add_bridge(
     const UnitID& control, const UnitID& central, const UnitID& target) {
-  // std::cout << "Add Bridge: " << control.repr() << " " << central.repr() << " " << target.repr() << std::endl;
+  std::cout << "Add Bridge: " << control.repr() << " " << central.repr() << " " << target.repr() << std::endl;
   // get predecessors
   auto control_in_it = this->linear_boundary->find(control);
   auto central_in_it = this->linear_boundary->find(central);
