@@ -162,13 +162,14 @@ bool Rewrite::remove_interior_paulis_fun(ZXDiagram& diag) {
     ZXVertSeqSet excl_u, joint;
     auto& lookup_v = excl_v.get<TagKey>();
     for (const ZXVert& nu : u_ns) {
-      if (lookup_v.find(nu) != lookup_v.end())
+      if (lookup_v.find(nu) != lookup_v.end()) {
         joint.insert(nu);
-      else
+        excl_v.erase(excl_v.find(nu));
+      } else {
         excl_u.insert(nu);
+      }
     }
     excl_u.erase(excl_u.find(v));
-    excl_v.erase(joint.begin(), joint.end());
     const PhasedGen& v_spid = diag.get_vertex_ZXGen<PhasedGen>(v);
     const PhasedGen& u_spid = diag.get_vertex_ZXGen<PhasedGen>(u);
 
@@ -185,7 +186,7 @@ bool Rewrite::remove_interior_paulis_fun(ZXDiagram& diag) {
 
     diag.remove_vertex(u);
     diag.remove_vertex(v);
-    candidates.erase(u);
+    candidates.erase(candidates.find(u));
     success = true;
   }
   return success;
