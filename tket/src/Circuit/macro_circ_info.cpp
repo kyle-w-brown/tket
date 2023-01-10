@@ -370,7 +370,9 @@ static std::shared_ptr<b_frontier_t> get_next_b_frontier(
   }
   // Add any new bits introduced in this slice
   for (const std::pair<UnitID, Edge>& pair : u_frontier->get<TagKey>()) {
-    if (circ.get_edgetype(pair.second) == EdgeType::Quantum) continue;
+    if ((circ.get_edgetype(pair.second) == EdgeType::Quantum) ||
+        (circ.get_edgetype(pair.second) == EdgeType::WASM))
+      continue;
     Vertex next_v = circ.target(pair.second);
     if (next_slice_lookup.find(next_v) == next_slice_lookup.end()) continue;
     if (next_b_frontier->get<TagKey>().find(Bit(pair.first)) !=
@@ -463,6 +465,7 @@ CutFrontier Circuit::next_cut(
       edge_lookup.insert(e);
     }
   }
+
   // advance through skippable
   bool can_skip;
   do {
@@ -562,7 +565,8 @@ CutFrontier Circuit::next_q_cut(
     if (!good_vertex) continue;
     EdgeVec ins = get_in_edges(try_v);
     for (const Edge& in : ins) {
-      if (!edge_lookup.contains(in) && get_edgetype(in) == EdgeType::Quantum) {
+      if (!edge_lookup.contains(in) && (get_edgetype(in) == EdgeType::Quantum ||
+                                        get_edgetype(in) == EdgeType::WASM)) {
         good_vertex = false;
         bad_vertices.insert(try_v);
         break;
@@ -747,17 +751,28 @@ std::map<Edge, UnitID> Circuit::edge_unit_map() const {
 Circuit::SliceIterator::SliceIterator(const Circuit& circ)
     : cut_(), circ_(&circ) {
   cut_.init();
+
+  // add qubits to u_frontier
   for (const Qubit& q : circ.all_qubits()) {
     Vertex in = circ.get_in(q);
     cut_.slice->push_back(in);
     cut_.u_frontier->insert({q, circ.get_nth_out_edge(in, 0)});
   }
+
+  // add bits to u_frontier and b_frontier
   for (const Bit& b : circ.all_bits()) {
     Vertex in = circ.get_in(b);
     cut_.slice->push_back(in);
     cut_.b_frontier->insert({b, circ.get_nth_b_out_bundle(in, 0)});
     cut_.u_frontier->insert({b, circ.get_nth_out_edge(in, 0)});
   }
+
+  // add wasmuid to u_frontier
+  if (circ.wasm_added) {
+    Vertex in = circ.get_in(circ.wasmwire);
+    cut_.u_frontier->insert({circ.wasmwire, circ.get_nth_out_edge(in, 0)});
+  }
+
   prev_b_frontier_ = cut_.b_frontier;
   cut_ = circ.next_cut(cut_.u_frontier, cut_.b_frontier);
 
@@ -767,7 +782,8 @@ Circuit::SliceIterator::SliceIterator(const Circuit& circ)
   BGL_FORALL_VERTICES(v, circ.dag, DAG) {
     if (circ.n_in_edges(v) == 0 &&
         circ.n_out_edges_of_type(v, EdgeType::Quantum) == 0 &&
-        circ.n_out_edges_of_type(v, EdgeType::Classical) == 0) {
+        circ.n_out_edges_of_type(v, EdgeType::Classical) == 0 &&
+        circ.n_out_edges_of_type(v, EdgeType::WASM) == 0) {
       loners.insert(v);
     }
   }
@@ -778,15 +794,26 @@ Circuit::SliceIterator::SliceIterator(
     const Circuit& circ, const std::function<bool(Op_ptr)>& skip_func)
     : cut_(), circ_(&circ) {
   cut_.init();
+
+  // add qubits to u_frontier
   for (const Qubit& q : circ.all_qubits()) {
     Vertex in = circ.get_in(q);
     cut_.u_frontier->insert({q, circ.get_nth_out_edge(in, 0)});
   }
+
+  // add bits to u_frontier and b_frontier
   for (const Bit& b : circ.all_bits()) {
     Vertex in = circ.get_in(b);
     cut_.b_frontier->insert({b, circ.get_nth_b_out_bundle(in, 0)});
     cut_.u_frontier->insert({b, circ.get_nth_out_edge(in, 0)});
   }
+
+  // add wasmuid to u_frontier
+  if (circ.wasm_added) {
+    Vertex in = circ.get_in(circ.wasmwire);
+    cut_.u_frontier->insert({circ.wasmwire, circ.get_nth_out_edge(in, 0)});
+  }
+
   prev_b_frontier_ = cut_.b_frontier;
   cut_ = circ.next_cut(cut_.u_frontier, cut_.b_frontier, skip_func);
 }

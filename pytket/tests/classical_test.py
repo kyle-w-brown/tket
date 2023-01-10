@@ -152,6 +152,9 @@ def test_add_c_setreg_raises_runtime_error() -> None:
 def test_wasm() -> None:
     c = Circuit(0, 6)
     c._add_wasm("funcname", "wasmfileuid", [1, 1], [], [Bit(0), Bit(1)])
+    print("")
+    print("add second wasm op")
+    print("")
     c._add_wasm("funcname", "wasmfileuid", [1, 1], [], [Bit(0), Bit(2)])
     c._add_wasm("funcname", "wasmfileuid", [1, 1], [2], [0, 1, 2, 3])
     c._add_wasm("funcname", "wasmfileuid", [1, 1], [2], [0, 1, 2, 4])
@@ -159,7 +162,7 @@ def test_wasm() -> None:
     c._add_wasm("funcname", "wasmfileuid", [2, 1], [3], [0, 1, 2, 3, 4, 5])
 
     # the boxes with no output are not counted
-    assert c.depth() == 4
+    assert c.depth() == 6
 
 
 def test_wasm_2() -> None:
@@ -374,7 +377,7 @@ def test_add_wasm_to_reg() -> None:
     c.add_wasm_to_reg("no_return", w, [c2], [])
     c.add_wasm_to_reg("no_parameters", w, [], [c2])
 
-    assert c.depth() == 3
+    assert c.depth() == 4
 
 
 def test_wasmfilehandler_repr() -> None:
@@ -990,6 +993,7 @@ def test_conditional_classicals() -> None:
 def test_conditional_wasm() -> None:
     c = Circuit(0, 6)
     b = c.add_c_register("b", 2)
+    # TODO MELF NOW
     c._add_wasm("funcname", "wasmfileuid", [1, 1], [], [Bit(0), Bit(1)], condition=b[0])
 
     assert c.depth() == 1
@@ -1015,6 +1019,7 @@ def test_conditional_wasm_iii() -> None:
 
     b = c.add_c_register("b", 2)
 
+    # TODO MELF
     c.add_wasm_to_reg("multi", w, [c0, c1], [c2], condition=b[0])
     c.add_wasm_to_reg("add_one", w, [c2], [c2], condition=b[1])
 
@@ -1096,3 +1101,6 @@ def test_renaming() -> None:
         circ.rename_units(bmap)
     err_msg = f"Can't rename bits in {a.__repr__()}"
     assert err_msg in str(e.value)
+
+if __name__ == "__main__":
+    test_wasm()
