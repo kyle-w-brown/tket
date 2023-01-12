@@ -1768,7 +1768,7 @@ Vertex Circuit::add_op(
     Edge pred_out_e = get_nth_in_edge(out_vert, 0);
     preds.push_back(pred_out_e);
   }
-  if (op->get_type() == OpType::WASM) {
+  if (sig_contains_wasm) {
     if (!wasm_added) {
       add_wasm_register();
     }

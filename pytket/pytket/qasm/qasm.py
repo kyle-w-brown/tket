@@ -910,7 +910,7 @@ def circuit_from_qasm_str(qasm_str: str) -> Circuit:
     )
     new_dict = parser.parse(qasm_str)
     print(new_dict)
-    return Circuit.from_dict(new_dict)
+    return Circuit.from_dict(new_dict) # this will not work with wasm
 
 
 def circuit_from_qasm_io(stream_in: TextIO) -> Circuit:
@@ -961,8 +961,11 @@ def _filtered_qasm_str(qasm: str) -> str:
 
 def circuit_to_qasm_str(circ: Circuit, header: str = "qelib1") -> str:
     """A method to generate a qasm str from a tket Circuit"""
+    print(" - try test_extended_IO - 1")
     buffer = io.StringIO()
+    print(" - try test_extended_IO - 2")
     circuit_to_qasm_io(circ, buffer, header=header)
+    print(" - try test_extended_IO - 3 - END")
     return buffer.getvalue()
 
 
@@ -1072,7 +1075,9 @@ def circuit_to_qasm_io(
     """A method to generate a qasm text stream from a tket Circuit"""
     # Write to a buffer since the output qasm might need additional filtering.
     # e.g. remove unused tket scratch bits.
+    print(" ----- try test_extended_IO-QASM - 1")
     buffer = io.StringIO()
+    print(" ----- try test_extended_IO-QASM - 2")
     if any(
         circ.n_gates_of_type(typ)
         for typ in (
@@ -1090,6 +1095,7 @@ def circuit_to_qasm_io(
         )
     include_module_gates = {"measure", "reset", "barrier"}
     include_module_gates.update(_load_include_module(header, False, True).keys())
+    print(" ----- try test_extended_IO-QASM - 3")
     if include_gate_defs is None:
         include_gate_defs = include_module_gates
         include_gate_defs.update(NOPARAM_EXTRA_COMMANDS.keys())
@@ -1107,9 +1113,11 @@ def circuit_to_qasm_io(
         cregs = {}
         qregs = {}
 
+    print(" ----- try test_extended_IO-QASM - 4")
     added_gate_definitions: Set[str] = set()
     range_preds = dict()
     for command in circ:
+        print(" ----- try test_extended_IO-QASM - 5 - check command")
         checked_op = True
         op = command.op
         args = command.args
@@ -1221,6 +1229,9 @@ def circuit_to_qasm_io(
                 )
             continue
         if optype == OpType.WASM:
+            print("###############################################")
+            print("check wasm")
+            print("")
             inputs: List[str] = []
             outputs: List[str] = []
             for reglist, sizes in [

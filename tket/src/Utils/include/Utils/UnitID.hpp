@@ -228,7 +228,11 @@ class WASMUID : public UnitID {
  public:
   WASMUID() : UnitID("_wasm_wire", {}, UnitType::WASMUIDT) {}
 
-  std::string wasm_givestring() { return UnitID::repr(); }
+  std::string wasm_givestring() {
+    std::cout << "found problem\n";
+    throw std::logic_error("try to print wasm tring, that should not happen\n");
+    return UnitID::repr();
+  }
 };
 
 JSON_DECL(Bit)

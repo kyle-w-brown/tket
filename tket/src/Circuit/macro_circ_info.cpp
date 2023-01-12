@@ -906,6 +906,7 @@ unit_vector_t Circuit::args_from_frontier(
   EdgeVec ins = get_in_edges(vert);
   unit_vector_t args;
   for (port_t p = 0; p < ins.size(); ++p) {
+    if (get_edgetype(ins[p]) == EdgeType::WASM) continue;  // hide wasm from the world
     if (get_edgetype(ins[p]) == EdgeType::Boolean) {
       bool found = false;
       for (const std::pair<Bit, EdgeVec>& pair :
