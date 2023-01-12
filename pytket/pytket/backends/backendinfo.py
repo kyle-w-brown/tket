@@ -245,6 +245,8 @@ class BackendInfo:
 
         self_dict = asdict(self)
         self_dict["architecture"] = self_dict["architecture"].to_dict()
+        #print("#############################################")
+        #print(self_dict["architecture"])
         self_dict["gate_set"] = [op.value for op in self_dict["gate_set"]]
         self_dict["all_node_gate_errors"] = _serialize_all_node_gate_errors(
             self_dict["all_node_gate_errors"]
@@ -258,6 +260,10 @@ class BackendInfo:
         self_dict["averaged_node_gate_errors"] = _serialize_averaged_node_gate_errors(
             self_dict["averaged_node_gate_errors"]
         )
+        print("#######################################")
+        print("all_node_gate_errors")
+        print(self_dict["averaged_node_gate_errors"])
+        # all_node_gate_errors
         self_dict["averaged_edge_gate_errors"] = _serialize_averaged_edge_gate_errors(
             self_dict["averaged_edge_gate_errors"]
         )
