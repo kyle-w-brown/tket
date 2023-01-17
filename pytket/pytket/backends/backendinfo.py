@@ -27,8 +27,16 @@ _Edge = Tuple[Node, Node]
 def _serialize_all_node_gate_errors(
     d: Optional[Dict[Node, _OpTypeErrs]]
 ) -> Optional[List[List]]:
+    print(d)
     if d is None:
         return None
+    print("##########################")
+    for n, errs in d.items():
+        for ot, err in errs.items():
+            print(ot.name)
+    
+    print("##########################")
+    
     return [
         [n.to_list(), {ot.name: err for ot, err in errs.items()}]
         for n, errs in d.items()
@@ -51,6 +59,11 @@ def _serialize_all_edge_gate_errors(
 ) -> Optional[List]:
     if d is None:
         return None
+    for (n0, n1), errs in d.items():
+        for ot, err in errs.items():
+            print(ot.name)
+            if str(ot.name) == "???":
+                assert 1 == 2
     return [
         [[n0.to_list(), n1.to_list()], {ot.name: err for ot, err in errs.items()}]
         for (n0, n1), errs in d.items()
