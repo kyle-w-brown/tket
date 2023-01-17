@@ -49,6 +49,11 @@ Circuit::Circuit(const Circuit &circ) : Circuit() {
   copy_graph(circ);
   phase = circ.get_phase();
   name = circ.name;
+  if (circ.wasm_added) {
+    add_wasm_register();
+    // throw std::logic_error("problem with wasm in copy circ\n\n");
+    std::cout << "issue\n";
+  }
 }
 
 // copy assignment. Moves boundary pointers.
@@ -59,6 +64,8 @@ Circuit &Circuit::operator=(const Circuit &other)  // (1)
   copy_graph(other);
   phase = other.get_phase();
   name = other.name;
+  if (other.wasm_added) add_wasm_register();
+
   return *this;
 }
 
@@ -688,6 +695,10 @@ bool Circuit::detect_initial_Op(const Vertex &vertex) const {
 
 bool Circuit::detect_final_Op(const Vertex &vertex) const {
   OpType type = get_OpType_from_Vertex(vertex);
+  std::cout << "final op type: " << std::endl;
+  if (type == OpType::WASM) {
+    std::cout << "found wasm\n";
+  }
   return is_final_q_type(type) || type == OpType::ClOutput ||
          type == OpType::WASMOutput;
 }

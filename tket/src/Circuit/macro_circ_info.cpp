@@ -332,7 +332,7 @@ Edge Circuit::skip_irrelevant_edges(Edge current) const {
   return current;
 }
 
-static std::shared_ptr<unit_frontier_t> get_next_u_frontier(
+static std::shared_ptr<unit_frontier_t> get_next_u_frontier(  // todo melf
     const Circuit& circ, std::shared_ptr<const unit_frontier_t> u_frontier,
     const VertexSet& next_slice_lookup) {
   std::shared_ptr<unit_frontier_t> next_frontier =
@@ -389,12 +389,23 @@ static std::shared_ptr<b_frontier_t> get_next_b_frontier(
 CutFrontier Circuit::next_cut(
     std::shared_ptr<const unit_frontier_t> u_frontier,
     std::shared_ptr<const b_frontier_t> b_frontier) const {
+  std::cout << "##########QQQQQQQQQQQQQQQQQ######################\n";
+  std::cout << "#################################################\n";
+  std::cout << "#################################################\n";
+  std::cout << "#################################################\n";
+
   auto next_slice = std::make_shared<Slice>();
   VertexSet next_slice_lookup;
   VertexSet bad_vertices;
   std::list<Edge> all_edges;
   EdgeSet edge_lookup;
+  bool found_wasm = false;
   for (const std::pair<UnitID, Edge>& pair : u_frontier->get<TagKey>()) {
+    std::cout << "UID - Edge: " << pair.first.repr() << " - " << pair.second
+              << std::endl;
+    if (pair.first.type() == UnitType::WASMUIDT) {
+      found_wasm = true;
+    }
     if (pair.first.type() == UnitType::Bit) {
       Vertex targ = target(pair.second);
       b_frontier_t::const_iterator found =
@@ -413,6 +424,15 @@ CutFrontier Circuit::next_cut(
     all_edges.push_back(pair.second);
     edge_lookup.insert(pair.second);
   }
+
+  if (found_wasm) {
+    std::cout << "found wasm uid in circuit\n";
+  } else {
+    std::cout << " NO found wasm uid in circuit\n";
+    if (wasm_added)
+      throw std::logic_error("PROBLEM - NO found wasm uid in circuit");
+  }
+
   for (const std::pair<Bit, EdgeVec>& pair : b_frontier->get<TagKey>()) {
     for (const Edge& e : pair.second) {
       all_edges.push_back(e);
@@ -450,10 +470,16 @@ CutFrontier Circuit::next_cut(
     std::shared_ptr<const unit_frontier_t> u_frontier,
     std::shared_ptr<const b_frontier_t> b_frontier,
     const std::function<bool(Op_ptr)>& skip_func) const {
+  std::cout << "#################################################\n";
+  std::cout << "#################################################\n";
+  std::cout << "#################################################\n";
+  std::cout << "#################################################\n";
   VertexSet bad_vertices;
   std::list<Edge> all_edges;
   EdgeSet edge_lookup;
   for (const std::pair<UnitID, Edge>& pair : u_frontier->get<TagKey>()) {
+    std::cout << "UID - Edge: " << pair.first.repr() << " - " << pair.second
+              << std::endl;
     Edge e = pair.second;
     all_edges.push_back(e);
     edge_lookup.insert(e);
@@ -770,7 +796,9 @@ Circuit::SliceIterator::SliceIterator(const Circuit& circ)
   // add wasmuid to u_frontier
   if (circ.wasm_added) {
     Vertex in = circ.get_in(circ.wasmwire);
+    cut_.slice->push_back(in);  // why?
     cut_.u_frontier->insert({circ.wasmwire, circ.get_nth_out_edge(in, 0)});
+    // throw std::logic_error("added wasm to u frontier - no skip");
   }
 
   prev_b_frontier_ = cut_.b_frontier;
@@ -812,7 +840,10 @@ Circuit::SliceIterator::SliceIterator(
   if (circ.wasm_added) {
     Vertex in = circ.get_in(circ.wasmwire);
     cut_.u_frontier->insert({circ.wasmwire, circ.get_nth_out_edge(in, 0)});
+    // throw std::logic_error("added wasm to u frontier");
   }
+
+  // why are lowners not added here?
 
   prev_b_frontier_ = cut_.b_frontier;
   cut_ = circ.next_cut(cut_.u_frontier, cut_.b_frontier, skip_func);
@@ -832,12 +863,18 @@ Circuit::SliceIterator::Sliceholder Circuit::SliceIterator::operator++(int) {
 }
 
 Circuit::SliceIterator& Circuit::SliceIterator::operator++() {
+  std::cout << "Circuit::SliceIterator::operator++()\n";
   if (this->finished()) {
+    std::cout << "Circuit::SliceIterator::operator++() - 2\n";
     *this = circ_->slice_end();
+    std::cout << "Circuit::SliceIterator::operator++() - 3\n";
     return *this;
   }
+  std::cout << "Circuit::SliceIterator::operator++() - 4 \n";
   prev_b_frontier_ = cut_.b_frontier;
+  std::cout << "Circuit::SliceIterator::operator++() - 5\n";
   cut_ = circ_->next_cut(cut_.u_frontier, cut_.b_frontier);
+  std::cout << "Circuit::SliceIterator::operator++() - 6\n";
   return *this;
 }
 
@@ -857,14 +894,24 @@ Circuit::CommandIterator::CommandIterator(const Circuit& circ)
     : current_slice_iterator_(circ.slice_begin()),
       current_index_(0),
       circ_(&circ) {
-  if ((*current_slice_iterator_).size() == 0)
+  std::cout << "generate next slice\n";
+  std::cout << "next step - 1\n";
+  if ((*current_slice_iterator_).size() == 0) {
+    std::cout << "next step - 2\n";
     *this = circ.end();
-  else {
+    std::cout << "next step - 3\n";
+  } else {
+    std::cout << "next step - 4\n";
+    // TODO FOUND SOMETHING MELF
     current_vertex_ = (*current_slice_iterator_)[0];
+    std::cout << "next step - 5\n";
     current_command_ = circ.command_from_vertex(
         current_vertex_, current_slice_iterator_.get_u_frontier(),
         current_slice_iterator_.get_prev_b_frontier());
+    std::cout << "next step - 6\n";
   }
+  std::cout << "next step - 7\n";
+  std::cout << "next step - END\n";
 }
 
 Circuit::CommandIterator Circuit::begin() const {
@@ -883,20 +930,39 @@ Circuit::CommandIterator::Commandholder Circuit::CommandIterator::operator++(
 }
 
 Circuit::CommandIterator& Circuit::CommandIterator::operator++() {
+  std::cout << "CommandIterator++ - 001\n";
   if (*this == circ_->end()) return *this;
+  std::cout << "CommandIterator++ - 002\n";
+  std::cout << "current index: " << current_index_ << std::endl;
+  std::cout << "(*current_slice_iterator_).size(): "
+            << (*current_slice_iterator_).size() << std::endl;
   if (current_index_ == (*current_slice_iterator_).size() - 1) {
+    std::cout << "CommandIterator++ - 003\n";
     if (current_slice_iterator_.finished()) {
+      std::cout << "CommandIterator++ - 004\n";
       *this = circ_->end();
+      std::cout << "CommandIterator++ - 005\n";
       return *this;
     }
+    std::cout << "CommandIterator++ - 006\n";
     ++current_slice_iterator_;
+    std::cout << "CommandIterator++ - 007\n";
     current_index_ = 0;
-  } else
+    std::cout << "CommandIterator++ - 008\n";
+  } else {
+    std::cout << "CommandIterator++ - 009\n";
     ++current_index_;
+  }
+  if (current_index_ == (*current_slice_iterator_).size()) {
+    throw std::logic_error("slie is empty");
+  }
+  std::cout << "CommandIterator++ - 010\n";
   current_vertex_ = (*current_slice_iterator_)[current_index_];
+  std::cout << "CommandIterator++ - 011\n";
   current_command_ = circ_->command_from_vertex(
       current_vertex_, current_slice_iterator_.get_u_frontier(),
       current_slice_iterator_.get_prev_b_frontier());
+  std::cout << "CommandIterator++ - 012\n";
   return *this;
 }
 
@@ -906,7 +972,8 @@ unit_vector_t Circuit::args_from_frontier(
   EdgeVec ins = get_in_edges(vert);
   unit_vector_t args;
   for (port_t p = 0; p < ins.size(); ++p) {
-    if (get_edgetype(ins[p]) == EdgeType::WASM) continue;  // hide wasm from the world
+    if (get_edgetype(ins[p]) == EdgeType::WASM)
+      continue;  // hide wasm from the world
     if (get_edgetype(ins[p]) == EdgeType::Boolean) {
       bool found = false;
       for (const std::pair<Bit, EdgeVec>& pair :
@@ -948,9 +1015,13 @@ unit_vector_t Circuit::args_from_frontier(
 Command Circuit::command_from_vertex(
     const Vertex& vert, std::shared_ptr<const unit_frontier_t> u_frontier,
     std::shared_ptr<const b_frontier_t> prev_b_frontier) const {
+  std::cout << "try to get args from frontier\n";
   unit_vector_t args = args_from_frontier(vert, u_frontier, prev_b_frontier);
-  return Command(
+  std::cout << "try to get Command \n";
+  Command com = Command(
       get_Op_ptr_from_Vertex(vert), args, get_opgroup_from_Vertex(vert), vert);
+  std::cout << "finished command_from_vertex\n";
+  return com;
 }
 
 }  // namespace tket

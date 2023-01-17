@@ -1,0 +1,3029 @@
+QQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQ
+QQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQ
+start Circuit from json
+Circuit from json - 001
+Circuit from json - 002
+Circuit from json - 003
+Circuit from json - 004
+ - 0 command from json - 0
+command from json - 1
+command from json - 2
+command from json - 3
+command from json - 4
+command from json - 5
+command from json - 6
+command from json - 7
+command from json - 8 - x
+command from json - 8 - x
+command from json - 8 - x
+command from json - 8 - x
+- 1 - 2 - 3 - loop - 0
+ - 0 command from json - 0
+command from json - 1
+command from json - 2
+command from json - 3
+command from json - 4
+command from json - 5
+command from json - 6
+command from json - 7
+command from json - 8 - x
+command from json - 8 - x
+command from json - 8 - x
+command from json - 8 - x
+- 1 - 2 - 3 - loop - 1
+ - 0 command from json - 0
+command from json - 1
+command from json - 2
+command from json - 3
+command from json - 4
+command from json - 5
+command from json - 6
+command from json - 7
+command from json - 8 - x
+command from json - 8 - x
+command from json - 8 - x
+command from json - 8 - x
+- 1 - 2 - 3 - loop - 2
+ - 0 command from json - 0
+command from json - 1
+command from json - 2
+command from json - 3
+command from json - 4
+command from json - 5
+command from json - 6
+command from json - 7
+command from json - 8 - x
+command from json - 8 - x
+command from json - 8 - x
+command from json - 8 - x
+command from json - 8 - x
+- 1 - 2 - 3 - loop - 3
+ - 0 command from json - 0
+command from json - 1
+command from json - 2
+command from json - 3
+command from json - 4
+command from json - 5
+command from json - 6
+command from json - 7
+command from json - 8 - x
+command from json - 8 - x
+command from json - 8 - x
+command from json - 8 - x
+command from json - 8 - x
+command from json - 8 - x
+command from json - 8 - x
+command from json - 8 - x
+command from json - 8 - x
+- 1 - 2 - 3 - loop - 4
+ - 0 command from json - 0
+command from json - 1
+command from json - 2
+command from json - 3
+command from json - 4
+command from json - 5
+command from json - 6
+command from json - 7
+command from json - 8 - x
+command from json - 8 - x
+command from json - 8 - x
+command from json - 8 - x
+command from json - 8 - x
+- 1 - 2 - 3 - loop - 5
+ - 0 command from json - 0
+command from json - 1
+command from json - 2
+command from json - 3
+command from json - 4
+command from json - 5
+command from json - 6
+command from json - 7
+command from json - 8 - x
+command from json - 8 - x
+command from json - 8 - x
+- 1 - 2 - 3 - loop - 6
+ - 0 command from json - 0
+command from json - 1
+command from json - 2
+command from json - 3
+command from json - 4
+command from json - 5
+command from json - 6
+command from json - 7
+command from json - 8 - x
+command from json - 8 - x
+command from json - 8 - x
+command from json - 8 - x
+command from json - 8 - x
+command from json - 8 - x
+command from json - 8 - x
+command from json - 8 - x
+command from json - 8 - x
+- 1 - 2 - 3 - loop - 7
+ - 0 command from json - 0
+command from json - 1
+command from json - 2
+command from json - 3
+command from json - 4
+command from json - 5
+command from json - 6
+command from json - 7
+command from json - 8 - x
+command from json - 8 - x
+command from json - 8 - x
+- 1 - 2 - 3 - loop - 8
+ - 0 command from json - 0
+command from json - 1
+command from json - 2
+command from json - 3
+command from json - 4
+command from json - 5
+command from json - 6
+command from json - 7
+command from json - 8 - x
+command from json - 8 - x
+command from json - 8 - x
+command from json - 8 - x
+command from json - 8 - x
+- 1 - 2 - 3 - loop - 9
+ - 0 command from json - 0
+command from json - 1
+command from json - 2
+command from json - 3
+command from json - 4
+command from json - 5
+command from json - 6
+command from json - 7
+command from json - 8 - x
+- 1 - 2 - 3 - loop - 10
+ - 0 command from json - 0
+command from json - 1
+command from json - 2
+command from json - 3
+command from json - 4
+command from json - 5
+command from json - 6
+command from json - 7
+command from json - 8 - x
+command from json - 8 - x
+command from json - 8 - x
+command from json - 8 - x
+command from json - 8 - x
+command from json - 8 - x
+command from json - 8 - x
+command from json - 8 - x
+command from json - 8 - x
+- 1 - 2 - 3 - loop - 11
+ - 0 command from json - 0
+command from json - 1
+command from json - 2
+command from json - 3
+command from json - 4
+command from json - 5
+command from json - 6
+command from json - 7
+command from json - 8 - x
+command from json - 8 - x
+- 1 - 2 - 3 - loop - 12
+ - 0 command from json - 0
+command from json - 1
+command from json - 2
+command from json - 3
+command from json - 4
+command from json - 5
+command from json - 6
+command from json - 7
+command from json - 8 - x
+command from json - 8 - x
+command from json - 8 - x
+command from json - 8 - x
+command from json - 8 - x
+- 1 - 2 - 3 - loop - 13
+ - 0 command from json - 0
+command from json - 1
+command from json - 2
+command from json - 3
+command from json - 4
+command from json - 5
+command from json - 6
+command from json - 7
+command from json - 8 - x
+command from json - 8 - x
+- 1 - 2 - 3 - loop - 14
+ - 0 command from json - 0
+command from json - 1
+command from json - 2
+command from json - 3
+command from json - 4
+command from json - 5
+command from json - 6
+command from json - 7
+command from json - 8 - x
+command from json - 8 - x
+- 1 - 2 - 3 - loop - 15
+ - 0 command from json - 0
+command from json - 1
+command from json - 2
+command from json - 3
+command from json - 4
+command from json - 5
+command from json - 6
+command from json - 7
+command from json - 8 - x
+command from json - 8 - x
+command from json - 8 - x
+command from json - 8 - x
+command from json - 8 - x
+command from json - 8 - x
+command from json - 8 - x
+command from json - 8 - x
+found wasm edge
+- 1 - 2 - 3 - loop - 16
+ - 0 command from json - 0
+command from json - 1
+command from json - 2
+command from json - 3
+command from json - 4
+command from json - 5
+command from json - 6
+command from json - 7
+command from json - 8 - x
+command from json - 8 - x
+command from json - 8 - x
+command from json - 8 - x
+command from json - 8 - x
+found wasm edge
+- 1 - 2 - 3 - loop - 17
+Circuit from json - 005
+Circuit from json - 006
+Circuit from json - 007
+######################################
+##########QQQQQQQQQQQQQQQQQ######################
+#################################################
+#################################################
+#################################################
+UID - Edge: _wasm_wire - (0x2edf270,0x2ee1f60)
+UID - Edge: a[0] - (0x2e01030,0x2ee1f60)
+UID - Edge: a[1] - (0x2dae5e0,0x2ee1f60)
+UID - Edge: b[0] - (0x2a0c720,0x2edc540)
+UID - Edge: b[1] - (0x2bbee80,0x2edc540)
+UID - Edge: b[2] - (0x2e78f40,0x2edc540)
+UID - Edge: c[0] - (0x293fdf0,0x2eda070)
+UID - Edge: c[1] - (0x2884250,0x2eda070)
+UID - Edge: c[2] - (0x28bc9a0,0x2eda070)
+UID - Edge: c[3] - (0x27d57d0,0x2eda070)
+UID - Edge: d[0] - (0x2e842c0,0x2edd7b0)
+UID - Edge: q[0] - (0x25989e0,0x2edf030)
+UID - Edge: tk_SCRATCH_BIT[0] - (0x2737d60,0x2eda930)
+UID - Edge: tk_SCRATCH_BIT[1] - (0x2eca770,0x2edebe0)
+found wasm uid in circuit
+final op type: 
+found wasm
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+found wasm
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+found wasm
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+generate next slice
+next step - 1
+next step - 4
+next step - 5
+try to get args from frontier
+try to get Command 
+finished command_from_vertex
+next step - 6
+next step - 7
+next step - END
+next command: 
+CFS: String from command gen SetBits(0100) c[0], c[1], c[2], c[3];
+CommandIterator++ - 001
+CommandIterator++ - 002
+current index: 0
+(*current_slice_iterator_).size(): 3
+CommandIterator++ - 009
+CommandIterator++ - 010
+CommandIterator++ - 011
+try to get args from frontier
+try to get Command 
+finished command_from_vertex
+CommandIterator++ - 012
+next command: 
+CFS: String from command gen ClassicalExpBox a[1], a[0], d[0];
+CommandIterator++ - 001
+CommandIterator++ - 002
+current index: 1
+(*current_slice_iterator_).size(): 3
+CommandIterator++ - 009
+CommandIterator++ - 010
+CommandIterator++ - 011
+try to get args from frontier
+try to get Command 
+finished command_from_vertex
+CommandIterator++ - 012
+next command: 
+CFS: String from command gen RangePredicate([2,2]) b[0], b[1], b[2], tk_SCRATCH_BIT[0];
+CommandIterator++ - 001
+CommandIterator++ - 002
+current index: 2
+(*current_slice_iterator_).size(): 3
+CommandIterator++ - 003
+final op type: 
+found wasm
+CommandIterator++ - 006
+Circuit::SliceIterator::operator++()
+final op type: 
+found wasm
+Circuit::SliceIterator::operator++() - 4 
+Circuit::SliceIterator::operator++() - 5
+##########QQQQQQQQQQQQQQQQQ######################
+#################################################
+#################################################
+#################################################
+UID - Edge: _wasm_wire - (0x2edf270,0x2ee1f60)
+UID - Edge: a[0] - (0x2e01030,0x2ee1f60)
+UID - Edge: a[1] - (0x2dae5e0,0x2ee1f60)
+UID - Edge: b[0] - (0x2a0c720,0x2edc540)
+UID - Edge: b[1] - (0x2bbee80,0x2edc540)
+UID - Edge: b[2] - (0x2e78f40,0x2edc540)
+UID - Edge: c[0] - (0x2eda070,0x2eda810)
+UID - Edge: c[1] - (0x2eda070,0x2eda810)
+UID - Edge: c[2] - (0x2eda070,0x2edb920)
+UID - Edge: c[3] - (0x2eda070,0x2edb920)
+UID - Edge: d[0] - (0x2edd7b0,0x2edd960)
+UID - Edge: q[0] - (0x25989e0,0x2edf030)
+UID - Edge: tk_SCRATCH_BIT[0] - (0x2eda930,0x2eca470)
+UID - Edge: tk_SCRATCH_BIT[1] - (0x2eca770,0x2edebe0)
+found wasm uid in circuit
+final op type: 
+found wasm
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+found wasm
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+found wasm
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+Circuit::SliceIterator::operator++() - 6
+CommandIterator++ - 007
+CommandIterator++ - 008
+CommandIterator++ - 010
+CommandIterator++ - 011
+try to get args from frontier
+try to get Command 
+finished command_from_vertex
+CommandIterator++ - 012
+next command: 
+CFS: String from command gen CopyBits a[0], a[1], c[0], c[1];
+CommandIterator++ - 001
+CommandIterator++ - 002
+current index: 0
+(*current_slice_iterator_).size(): 1
+CommandIterator++ - 003
+final op type: 
+found wasm
+CommandIterator++ - 006
+Circuit::SliceIterator::operator++()
+final op type: 
+found wasm
+Circuit::SliceIterator::operator++() - 4 
+Circuit::SliceIterator::operator++() - 5
+##########QQQQQQQQQQQQQQQQQ######################
+#################################################
+#################################################
+#################################################
+UID - Edge: _wasm_wire - (0x2edf270,0x2ee1f60)
+UID - Edge: a[0] - (0x2e01030,0x2ee1f60)
+UID - Edge: a[1] - (0x2dae5e0,0x2ee1f60)
+UID - Edge: b[0] - (0x2a0c720,0x2edc540)
+UID - Edge: b[1] - (0x2bbee80,0x2edc540)
+UID - Edge: b[2] - (0x2e78f40,0x2edc540)
+UID - Edge: c[0] - (0x2eda810,0x2edb920)
+UID - Edge: c[1] - (0x2eda810,0x2edb440)
+UID - Edge: c[2] - (0x2eda070,0x2edb920)
+UID - Edge: c[3] - (0x2eda070,0x2edb920)
+UID - Edge: d[0] - (0x2edd7b0,0x2edd960)
+UID - Edge: q[0] - (0x25989e0,0x2edf030)
+UID - Edge: tk_SCRATCH_BIT[0] - (0x2eda930,0x2eca470)
+UID - Edge: tk_SCRATCH_BIT[1] - (0x2eca770,0x2edebe0)
+found wasm uid in circuit
+final op type: 
+found wasm
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+found wasm
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+found wasm
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+Circuit::SliceIterator::operator++() - 6
+CommandIterator++ - 007
+CommandIterator++ - 008
+CommandIterator++ - 010
+CommandIterator++ - 011
+try to get args from frontier
+try to get Command 
+finished command_from_vertex
+CommandIterator++ - 012
+next command: 
+CFS: String from command gen IF ([tk_SCRATCH_BIT[0]] == 0) THEN ClassicalExpBox a[1], b[1], a[0], c[1];
+CommandIterator++ - 001
+CommandIterator++ - 002
+current index: 0
+(*current_slice_iterator_).size(): 1
+CommandIterator++ - 003
+final op type: 
+found wasm
+CommandIterator++ - 006
+Circuit::SliceIterator::operator++()
+final op type: 
+found wasm
+Circuit::SliceIterator::operator++() - 4 
+Circuit::SliceIterator::operator++() - 5
+##########QQQQQQQQQQQQQQQQQ######################
+#################################################
+#################################################
+#################################################
+UID - Edge: _wasm_wire - (0x2edf270,0x2ee1f60)
+UID - Edge: a[0] - (0x2e01030,0x2ee1f60)
+UID - Edge: a[1] - (0x2dae5e0,0x2ee1f60)
+UID - Edge: b[0] - (0x2a0c720,0x2edc540)
+UID - Edge: b[1] - (0x2bbee80,0x2edc540)
+UID - Edge: b[2] - (0x2e78f40,0x2edc540)
+UID - Edge: c[0] - (0x2eda810,0x2edb920)
+UID - Edge: c[1] - (0x2edb440,0x2edb920)
+UID - Edge: c[2] - (0x2eda070,0x2edb920)
+UID - Edge: c[3] - (0x2eda070,0x2edb920)
+UID - Edge: d[0] - (0x2edd7b0,0x2edd960)
+UID - Edge: q[0] - (0x25989e0,0x2edf030)
+UID - Edge: tk_SCRATCH_BIT[0] - (0x2eda930,0x2eca470)
+UID - Edge: tk_SCRATCH_BIT[1] - (0x2eca770,0x2edebe0)
+found wasm uid in circuit
+final op type: 
+found wasm
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+found wasm
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+found wasm
+final op type: 
+final op type: 
+final op type: 
+Circuit::SliceIterator::operator++() - 6
+CommandIterator++ - 007
+CommandIterator++ - 008
+CommandIterator++ - 010
+CommandIterator++ - 011
+try to get args from frontier
+try to get Command 
+finished command_from_vertex
+CommandIterator++ - 012
+next command: 
+CFS: String from command gen ClassicalExpBox a[1], b[0], a[0], b[2], b[1], c[0], c[1], c[2], c[3];
+CommandIterator++ - 001
+CommandIterator++ - 002
+current index: 0
+(*current_slice_iterator_).size(): 1
+CommandIterator++ - 003
+final op type: 
+found wasm
+CommandIterator++ - 006
+Circuit::SliceIterator::operator++()
+final op type: 
+found wasm
+Circuit::SliceIterator::operator++() - 4 
+Circuit::SliceIterator::operator++() - 5
+##########QQQQQQQQQQQQQQQQQ######################
+#################################################
+#################################################
+#################################################
+UID - Edge: _wasm_wire - (0x2edf270,0x2ee1f60)
+UID - Edge: a[0] - (0x2e01030,0x2ee1f60)
+UID - Edge: a[1] - (0x2dae5e0,0x2ee1f60)
+UID - Edge: b[0] - (0x2a0c720,0x2edc540)
+UID - Edge: b[1] - (0x2bbee80,0x2edc540)
+UID - Edge: b[2] - (0x2e78f40,0x2edc540)
+UID - Edge: c[0] - (0x2edb920,0x2edcc40)
+UID - Edge: c[1] - (0x2edb920,0x2edcc40)
+UID - Edge: c[2] - (0x2edb920,0x2edcc40)
+UID - Edge: c[3] - (0x2edb920,0x2edcc40)
+UID - Edge: d[0] - (0x2edd7b0,0x2edd960)
+UID - Edge: q[0] - (0x25989e0,0x2edf030)
+UID - Edge: tk_SCRATCH_BIT[0] - (0x2eda930,0x2eca470)
+UID - Edge: tk_SCRATCH_BIT[1] - (0x2eca770,0x2edebe0)
+found wasm uid in circuit
+final op type: 
+found wasm
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+found wasm
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+found wasm
+Circuit::SliceIterator::operator++() - 6
+CommandIterator++ - 007
+CommandIterator++ - 008
+CommandIterator++ - 010
+CommandIterator++ - 011
+try to get args from frontier
+try to get Command 
+finished command_from_vertex
+CommandIterator++ - 012
+next command: 
+CFS: String from command gen ClassicalExpBox a[1], a[0], b[0], b[1], b[2];
+CommandIterator++ - 001
+CommandIterator++ - 002
+current index: 0
+(*current_slice_iterator_).size(): 1
+CommandIterator++ - 003
+final op type: 
+found wasm
+CommandIterator++ - 006
+Circuit::SliceIterator::operator++()
+final op type: 
+found wasm
+Circuit::SliceIterator::operator++() - 4 
+Circuit::SliceIterator::operator++() - 5
+##########QQQQQQQQQQQQQQQQQ######################
+#################################################
+#################################################
+#################################################
+UID - Edge: _wasm_wire - (0x2edf270,0x2ee1f60)
+UID - Edge: a[0] - (0x2e01030,0x2ee1f60)
+UID - Edge: a[1] - (0x2dae5e0,0x2ee1f60)
+UID - Edge: b[0] - (0x2edc540,0x2ede040)
+UID - Edge: b[1] - (0x2edc540,0x2edc820)
+UID - Edge: b[2] - (0x2edc540,0x2ede040)
+UID - Edge: c[0] - (0x2edb920,0x2edcc40)
+UID - Edge: c[1] - (0x2edb920,0x2edcc40)
+UID - Edge: c[2] - (0x2edb920,0x2edcc40)
+UID - Edge: c[3] - (0x2edb920,0x2edcc40)
+UID - Edge: d[0] - (0x2edd7b0,0x2edd960)
+UID - Edge: q[0] - (0x25989e0,0x2edf030)
+UID - Edge: tk_SCRATCH_BIT[0] - (0x2eda930,0x2eca470)
+UID - Edge: tk_SCRATCH_BIT[1] - (0x2eca770,0x2edebe0)
+found wasm uid in circuit
+final op type: 
+found wasm
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+found wasm
+final op type: 
+final op type: 
+final op type: 
+found wasm
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+Circuit::SliceIterator::operator++() - 6
+CommandIterator++ - 007
+CommandIterator++ - 008
+CommandIterator++ - 010
+CommandIterator++ - 011
+try to get args from frontier
+try to get Command 
+finished command_from_vertex
+CommandIterator++ - 012
+next command: 
+CFS: String from command gen ClassicalExpBox b[2], b[0], b[1];
+CommandIterator++ - 001
+CommandIterator++ - 002
+current index: 0
+(*current_slice_iterator_).size(): 1
+CommandIterator++ - 003
+final op type: 
+found wasm
+CommandIterator++ - 006
+Circuit::SliceIterator::operator++()
+final op type: 
+found wasm
+Circuit::SliceIterator::operator++() - 4 
+Circuit::SliceIterator::operator++() - 5
+##########QQQQQQQQQQQQQQQQQ######################
+#################################################
+#################################################
+#################################################
+UID - Edge: _wasm_wire - (0x2edf270,0x2ee1f60)
+UID - Edge: a[0] - (0x2e01030,0x2ee1f60)
+UID - Edge: a[1] - (0x2dae5e0,0x2ee1f60)
+UID - Edge: b[0] - (0x2edc540,0x2ede040)
+UID - Edge: b[1] - (0x2edc820,0x2ede040)
+UID - Edge: b[2] - (0x2edc540,0x2ede040)
+UID - Edge: c[0] - (0x2edb920,0x2edcc40)
+UID - Edge: c[1] - (0x2edb920,0x2edcc40)
+UID - Edge: c[2] - (0x2edb920,0x2edcc40)
+UID - Edge: c[3] - (0x2edb920,0x2edcc40)
+UID - Edge: d[0] - (0x2edd7b0,0x2edd960)
+UID - Edge: q[0] - (0x25989e0,0x2edf030)
+UID - Edge: tk_SCRATCH_BIT[0] - (0x2eda930,0x2eca470)
+UID - Edge: tk_SCRATCH_BIT[1] - (0x2eca770,0x2edebe0)
+found wasm uid in circuit
+final op type: 
+found wasm
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+found wasm
+final op type: 
+final op type: 
+final op type: 
+found wasm
+final op type: 
+final op type: 
+final op type: 
+Circuit::SliceIterator::operator++() - 6
+CommandIterator++ - 007
+CommandIterator++ - 008
+CommandIterator++ - 010
+CommandIterator++ - 011
+try to get args from frontier
+try to get Command 
+finished command_from_vertex
+CommandIterator++ - 012
+next command: 
+CFS: String from command gen ClassicalExpBox a[1], b[0], a[0], b[2], b[1], c[0], c[1], c[2], c[3];
+CommandIterator++ - 001
+CommandIterator++ - 002
+current index: 0
+(*current_slice_iterator_).size(): 1
+CommandIterator++ - 003
+final op type: 
+found wasm
+CommandIterator++ - 006
+Circuit::SliceIterator::operator++()
+final op type: 
+found wasm
+Circuit::SliceIterator::operator++() - 4 
+Circuit::SliceIterator::operator++() - 5
+##########QQQQQQQQQQQQQQQQQ######################
+#################################################
+#################################################
+#################################################
+UID - Edge: _wasm_wire - (0x2edf270,0x2ee1f60)
+UID - Edge: a[0] - (0x2e01030,0x2ee1f60)
+UID - Edge: a[1] - (0x2dae5e0,0x2ee1f60)
+UID - Edge: b[0] - (0x2edc540,0x2ede040)
+UID - Edge: b[1] - (0x2edc820,0x2ede040)
+UID - Edge: b[2] - (0x2edc540,0x2ede040)
+UID - Edge: c[0] - (0x2edcc40,0x2eddd70)
+UID - Edge: c[1] - (0x2edcc40,0x28dd210)
+UID - Edge: c[2] - (0x2edcc40,0x27f0100)
+UID - Edge: c[3] - (0x2edcc40,0x295f8a0)
+UID - Edge: d[0] - (0x2edd7b0,0x2edd960)
+UID - Edge: q[0] - (0x25989e0,0x2edf030)
+UID - Edge: tk_SCRATCH_BIT[0] - (0x2eda930,0x2eca470)
+UID - Edge: tk_SCRATCH_BIT[1] - (0x2eca770,0x2edebe0)
+found wasm uid in circuit
+final op type: 
+found wasm
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+found wasm
+final op type: 
+final op type: 
+found wasm
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+found wasm
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+found wasm
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+found wasm
+Circuit::SliceIterator::operator++() - 6
+CommandIterator++ - 007
+CommandIterator++ - 008
+CommandIterator++ - 010
+CommandIterator++ - 011
+try to get args from frontier
+try to get Command 
+finished command_from_vertex
+CommandIterator++ - 012
+next command: 
+CFS: String from command gen ClassicalExpBox c[0], c[1], c[2], c[3], d[0];
+CommandIterator++ - 001
+CommandIterator++ - 002
+current index: 0
+(*current_slice_iterator_).size(): 1
+CommandIterator++ - 003
+final op type: 
+found wasm
+CommandIterator++ - 006
+Circuit::SliceIterator::operator++()
+final op type: 
+found wasm
+Circuit::SliceIterator::operator++() - 4 
+Circuit::SliceIterator::operator++() - 5
+##########QQQQQQQQQQQQQQQQQ######################
+#################################################
+#################################################
+#################################################
+UID - Edge: _wasm_wire - (0x2edf270,0x2ee1f60)
+UID - Edge: a[0] - (0x2e01030,0x2ee1f60)
+UID - Edge: a[1] - (0x2dae5e0,0x2ee1f60)
+UID - Edge: b[0] - (0x2edc540,0x2ede040)
+UID - Edge: b[1] - (0x2edc820,0x2ede040)
+UID - Edge: b[2] - (0x2edc540,0x2ede040)
+UID - Edge: c[0] - (0x2edcc40,0x2eddd70)
+UID - Edge: c[1] - (0x2edcc40,0x28dd210)
+UID - Edge: c[2] - (0x2edcc40,0x27f0100)
+UID - Edge: c[3] - (0x2edcc40,0x295f8a0)
+UID - Edge: d[0] - (0x2edd960,0x2edea30)
+UID - Edge: q[0] - (0x25989e0,0x2edf030)
+UID - Edge: tk_SCRATCH_BIT[0] - (0x2eda930,0x2eca470)
+UID - Edge: tk_SCRATCH_BIT[1] - (0x2eca770,0x2edebe0)
+found wasm uid in circuit
+final op type: 
+found wasm
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+found wasm
+final op type: 
+final op type: 
+found wasm
+final op type: 
+final op type: 
+final op type: 
+found wasm
+final op type: 
+final op type: 
+final op type: 
+found wasm
+final op type: 
+final op type: 
+final op type: 
+found wasm
+Circuit::SliceIterator::operator++() - 6
+CommandIterator++ - 007
+CommandIterator++ - 008
+CommandIterator++ - 010
+CommandIterator++ - 011
+try to get args from frontier
+try to get Command 
+finished command_from_vertex
+CommandIterator++ - 012
+next command: 
+CFS: String from command gen SetBits(1) c[0];
+CommandIterator++ - 001
+CommandIterator++ - 002
+current index: 0
+(*current_slice_iterator_).size(): 2
+CommandIterator++ - 009
+CommandIterator++ - 010
+CommandIterator++ - 011
+try to get args from frontier
+try to get Command 
+finished command_from_vertex
+CommandIterator++ - 012
+next command: 
+CFS: String from command gen ClassicalExpBox a[0], d[0];
+CommandIterator++ - 001
+CommandIterator++ - 002
+current index: 1
+(*current_slice_iterator_).size(): 2
+CommandIterator++ - 003
+final op type: 
+found wasm
+CommandIterator++ - 006
+Circuit::SliceIterator::operator++()
+final op type: 
+found wasm
+Circuit::SliceIterator::operator++() - 4 
+Circuit::SliceIterator::operator++() - 5
+##########QQQQQQQQQQQQQQQQQ######################
+#################################################
+#################################################
+#################################################
+UID - Edge: _wasm_wire - (0x2edf270,0x2ee1f60)
+UID - Edge: a[0] - (0x2e01030,0x2ee1f60)
+UID - Edge: a[1] - (0x2dae5e0,0x2ee1f60)
+UID - Edge: b[0] - (0x2edc540,0x2ede040)
+UID - Edge: b[1] - (0x2edc820,0x2ede040)
+UID - Edge: b[2] - (0x2edc540,0x2ede040)
+UID - Edge: c[0] - (0x2eddd70,0x2944a50)
+UID - Edge: c[1] - (0x2edcc40,0x28dd210)
+UID - Edge: c[2] - (0x2edcc40,0x27f0100)
+UID - Edge: c[3] - (0x2edcc40,0x295f8a0)
+UID - Edge: d[0] - (0x2edea30,0x2ea8b70)
+UID - Edge: q[0] - (0x25989e0,0x2edf030)
+UID - Edge: tk_SCRATCH_BIT[0] - (0x2eda930,0x2eca470)
+UID - Edge: tk_SCRATCH_BIT[1] - (0x2eca770,0x2edebe0)
+found wasm uid in circuit
+final op type: 
+found wasm
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+found wasm
+final op type: 
+final op type: 
+found wasm
+final op type: 
+final op type: 
+final op type: 
+found wasm
+final op type: 
+final op type: 
+final op type: 
+found wasm
+final op type: 
+final op type: 
+final op type: 
+found wasm
+final op type: 
+final op type: 
+final op type: 
+found wasm
+final op type: 
+Circuit::SliceIterator::operator++() - 6
+CommandIterator++ - 007
+CommandIterator++ - 008
+CommandIterator++ - 010
+CommandIterator++ - 011
+try to get args from frontier
+try to get Command 
+finished command_from_vertex
+CommandIterator++ - 012
+next command: 
+CFS: String from command gen ClassicalExpBox a[1], c[1], c[0], c[3], a[0], c[2], b[0], b[1], b[2];
+CommandIterator++ - 001
+CommandIterator++ - 002
+current index: 0
+(*current_slice_iterator_).size(): 2
+CommandIterator++ - 009
+CommandIterator++ - 010
+CommandIterator++ - 011
+try to get args from frontier
+try to get Command 
+finished command_from_vertex
+CommandIterator++ - 012
+next command: 
+CFS: String from command gen RangePredicate([2,4294967295]) c[0], c[1], c[2], c[3], tk_SCRATCH_BIT[1];
+CommandIterator++ - 001
+CommandIterator++ - 002
+current index: 1
+(*current_slice_iterator_).size(): 2
+CommandIterator++ - 003
+final op type: 
+found wasm
+CommandIterator++ - 006
+Circuit::SliceIterator::operator++()
+final op type: 
+found wasm
+Circuit::SliceIterator::operator++() - 4 
+Circuit::SliceIterator::operator++() - 5
+##########QQQQQQQQQQQQQQQQQ######################
+#################################################
+#################################################
+#################################################
+UID - Edge: _wasm_wire - (0x2edf270,0x2ee1f60)
+UID - Edge: a[0] - (0x2e01030,0x2ee1f60)
+UID - Edge: a[1] - (0x2dae5e0,0x2ee1f60)
+UID - Edge: b[0] - (0x2ede040,0x29584d0)
+UID - Edge: b[1] - (0x2ede040,0x27f0910)
+UID - Edge: b[2] - (0x2ede040,0x2eaa420)
+UID - Edge: c[0] - (0x2eddd70,0x2944a50)
+UID - Edge: c[1] - (0x2edcc40,0x28dd210)
+UID - Edge: c[2] - (0x2edcc40,0x27f0100)
+UID - Edge: c[3] - (0x2edcc40,0x295f8a0)
+UID - Edge: d[0] - (0x2edea30,0x2ea8b70)
+UID - Edge: q[0] - (0x25989e0,0x2edf030)
+UID - Edge: tk_SCRATCH_BIT[0] - (0x2eda930,0x2eca470)
+UID - Edge: tk_SCRATCH_BIT[1] - (0x2edebe0,0x2eca930)
+found wasm uid in circuit
+final op type: 
+found wasm
+final op type: 
+found wasm
+final op type: 
+found wasm
+final op type: 
+final op type: 
+final op type: 
+found wasm
+final op type: 
+found wasm
+final op type: 
+found wasm
+final op type: 
+found wasm
+final op type: 
+found wasm
+final op type: 
+found wasm
+final op type: 
+found wasm
+final op type: 
+found wasm
+final op type: 
+found wasm
+final op type: 
+final op type: 
+Circuit::SliceIterator::operator++() - 6
+CommandIterator++ - 007
+CommandIterator++ - 008
+CommandIterator++ - 010
+CommandIterator++ - 011
+try to get args from frontier
+try to get Command 
+finished command_from_vertex
+CommandIterator++ - 012
+next command: 
+CFS: String from command gen WASM a[0], a[1], b[0], b[1], b[2], a[0], a[1];
+CommandIterator++ - 001
+CommandIterator++ - 002
+current index: 0
+(*current_slice_iterator_).size(): 2
+CommandIterator++ - 009
+CommandIterator++ - 010
+CommandIterator++ - 011
+try to get args from frontier
+try to get Command 
+finished command_from_vertex
+CommandIterator++ - 012
+next command: 
+CFS: String from command gen IF ([tk_SCRATCH_BIT[1]] == 1) THEN H q[0];
+CommandIterator++ - 001
+CommandIterator++ - 002
+current index: 1
+(*current_slice_iterator_).size(): 2
+CommandIterator++ - 003
+final op type: 
+found wasm
+CommandIterator++ - 006
+Circuit::SliceIterator::operator++()
+final op type: 
+found wasm
+Circuit::SliceIterator::operator++() - 4 
+Circuit::SliceIterator::operator++() - 5
+##########QQQQQQQQQQQQQQQQQ######################
+#################################################
+#################################################
+#################################################
+UID - Edge: _wasm_wire - (0x2ee1f60,0x2ee1ee0)
+UID - Edge: a[0] - (0x2ee1f60,0x2dd7480)
+UID - Edge: a[1] - (0x2ee1f60,0x2c88770)
+UID - Edge: b[0] - (0x2ede040,0x29584d0)
+UID - Edge: b[1] - (0x2ede040,0x27f0910)
+UID - Edge: b[2] - (0x2ede040,0x2eaa420)
+UID - Edge: c[0] - (0x2eddd70,0x2944a50)
+UID - Edge: c[1] - (0x2edcc40,0x28dd210)
+UID - Edge: c[2] - (0x2edcc40,0x27f0100)
+UID - Edge: c[3] - (0x2edcc40,0x295f8a0)
+UID - Edge: d[0] - (0x2edea30,0x2ea8b70)
+UID - Edge: q[0] - (0x2edf030,0x2ee1c20)
+UID - Edge: tk_SCRATCH_BIT[0] - (0x2eda930,0x2eca470)
+UID - Edge: tk_SCRATCH_BIT[1] - (0x2edebe0,0x2eca930)
+found wasm uid in circuit
+final op type: 
+found wasm
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+found wasm
+final op type: 
+found wasm
+final op type: 
+found wasm
+final op type: 
+found wasm
+final op type: 
+Circuit::SliceIterator::operator++() - 6
+CommandIterator++ - 007
+CommandIterator++ - 008
+CommandIterator++ - 010
+CommandIterator++ - 011
+try to get args from frontier
+try to get Command 
+finished command_from_vertex
+CommandIterator++ - 012
+next command: 
+CFS: String from command gen WASM c[0], c[1], c[2], c[3];
+CommandIterator++ - 001
+CommandIterator++ - 002
+current index: 0
+(*current_slice_iterator_).size(): 2
+CommandIterator++ - 009
+CommandIterator++ - 010
+CommandIterator++ - 011
+try to get args from frontier
+try to get Command 
+finished command_from_vertex
+CommandIterator++ - 012
+next command: 
+CFS: String from command gen IF ([d[0]] == 1) THEN Rx(1) q[0];
+CommandIterator++ - 001
+CommandIterator++ - 002
+current index: 1
+(*current_slice_iterator_).size(): 2
+CommandIterator++ - 003
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+CommandIterator++ - 004
+CommandIterator++ - 005
+######################################
+end circuit from json
+QQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQ
+QQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQ
+##########QQQQQQQQQQQQQQQQQ######################
+#################################################
+#################################################
+#################################################
+UID - Edge: _wasm_wire - (0x2edf270,0x2ee1f60)
+UID - Edge: a[0] - (0x2e01030,0x2ee1f60)
+UID - Edge: a[1] - (0x2dae5e0,0x2ee1f60)
+UID - Edge: b[0] - (0x2a0c720,0x2edc540)
+UID - Edge: b[1] - (0x2bbee80,0x2edc540)
+UID - Edge: b[2] - (0x2e78f40,0x2edc540)
+UID - Edge: c[0] - (0x293fdf0,0x2eda070)
+UID - Edge: c[1] - (0x2884250,0x2eda070)
+UID - Edge: c[2] - (0x28bc9a0,0x2eda070)
+UID - Edge: c[3] - (0x27d57d0,0x2eda070)
+UID - Edge: d[0] - (0x2e842c0,0x2edd7b0)
+UID - Edge: q[0] - (0x25989e0,0x2edf030)
+UID - Edge: tk_SCRATCH_BIT[0] - (0x2737d60,0x2eda930)
+UID - Edge: tk_SCRATCH_BIT[1] - (0x2eca770,0x2edebe0)
+found wasm uid in circuit
+final op type: 
+found wasm
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+found wasm
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+found wasm
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+generate next slice
+next step - 1
+next step - 4
+next step - 5
+try to get args from frontier
+try to get Command 
+finished command_from_vertex
+next step - 6
+next step - 7
+next step - END
+CFS: String from command gen SetBits(0100) c[0], c[1], c[2], c[3];
+CommandIterator++ - 001
+CommandIterator++ - 002
+current index: 0
+(*current_slice_iterator_).size(): 3
+CommandIterator++ - 009
+CommandIterator++ - 010
+CommandIterator++ - 011
+try to get args from frontier
+try to get Command 
+finished command_from_vertex
+CommandIterator++ - 012
+CFS: String from command gen ClassicalExpBox a[1], a[0], d[0];
+CommandIterator++ - 001
+CommandIterator++ - 002
+current index: 1
+(*current_slice_iterator_).size(): 3
+CommandIterator++ - 009
+CommandIterator++ - 010
+CommandIterator++ - 011
+try to get args from frontier
+try to get Command 
+finished command_from_vertex
+CommandIterator++ - 012
+CFS: String from command gen RangePredicate([2,2]) b[0], b[1], b[2], tk_SCRATCH_BIT[0];
+CommandIterator++ - 001
+CommandIterator++ - 002
+current index: 2
+(*current_slice_iterator_).size(): 3
+CommandIterator++ - 003
+final op type: 
+found wasm
+CommandIterator++ - 006
+Circuit::SliceIterator::operator++()
+final op type: 
+found wasm
+Circuit::SliceIterator::operator++() - 4 
+Circuit::SliceIterator::operator++() - 5
+##########QQQQQQQQQQQQQQQQQ######################
+#################################################
+#################################################
+#################################################
+UID - Edge: _wasm_wire - (0x2edf270,0x2ee1f60)
+UID - Edge: a[0] - (0x2e01030,0x2ee1f60)
+UID - Edge: a[1] - (0x2dae5e0,0x2ee1f60)
+UID - Edge: b[0] - (0x2a0c720,0x2edc540)
+UID - Edge: b[1] - (0x2bbee80,0x2edc540)
+UID - Edge: b[2] - (0x2e78f40,0x2edc540)
+UID - Edge: c[0] - (0x2eda070,0x2eda810)
+UID - Edge: c[1] - (0x2eda070,0x2eda810)
+UID - Edge: c[2] - (0x2eda070,0x2edb920)
+UID - Edge: c[3] - (0x2eda070,0x2edb920)
+UID - Edge: d[0] - (0x2edd7b0,0x2edd960)
+UID - Edge: q[0] - (0x25989e0,0x2edf030)
+UID - Edge: tk_SCRATCH_BIT[0] - (0x2eda930,0x2eca470)
+UID - Edge: tk_SCRATCH_BIT[1] - (0x2eca770,0x2edebe0)
+found wasm uid in circuit
+final op type: 
+found wasm
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+found wasm
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+found wasm
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+Circuit::SliceIterator::operator++() - 6
+CommandIterator++ - 007
+CommandIterator++ - 008
+CommandIterator++ - 010
+CommandIterator++ - 011
+try to get args from frontier
+try to get Command 
+finished command_from_vertex
+CommandIterator++ - 012
+CFS: String from command gen CopyBits a[0], a[1], c[0], c[1];
+CommandIterator++ - 001
+CommandIterator++ - 002
+current index: 0
+(*current_slice_iterator_).size(): 1
+CommandIterator++ - 003
+final op type: 
+found wasm
+CommandIterator++ - 006
+Circuit::SliceIterator::operator++()
+final op type: 
+found wasm
+Circuit::SliceIterator::operator++() - 4 
+Circuit::SliceIterator::operator++() - 5
+##########QQQQQQQQQQQQQQQQQ######################
+#################################################
+#################################################
+#################################################
+UID - Edge: _wasm_wire - (0x2edf270,0x2ee1f60)
+UID - Edge: a[0] - (0x2e01030,0x2ee1f60)
+UID - Edge: a[1] - (0x2dae5e0,0x2ee1f60)
+UID - Edge: b[0] - (0x2a0c720,0x2edc540)
+UID - Edge: b[1] - (0x2bbee80,0x2edc540)
+UID - Edge: b[2] - (0x2e78f40,0x2edc540)
+UID - Edge: c[0] - (0x2eda810,0x2edb920)
+UID - Edge: c[1] - (0x2eda810,0x2edb440)
+UID - Edge: c[2] - (0x2eda070,0x2edb920)
+UID - Edge: c[3] - (0x2eda070,0x2edb920)
+UID - Edge: d[0] - (0x2edd7b0,0x2edd960)
+UID - Edge: q[0] - (0x25989e0,0x2edf030)
+UID - Edge: tk_SCRATCH_BIT[0] - (0x2eda930,0x2eca470)
+UID - Edge: tk_SCRATCH_BIT[1] - (0x2eca770,0x2edebe0)
+found wasm uid in circuit
+final op type: 
+found wasm
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+found wasm
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+found wasm
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+Circuit::SliceIterator::operator++() - 6
+CommandIterator++ - 007
+CommandIterator++ - 008
+CommandIterator++ - 010
+CommandIterator++ - 011
+try to get args from frontier
+try to get Command 
+finished command_from_vertex
+CommandIterator++ - 012
+CFS: String from command gen IF ([tk_SCRATCH_BIT[0]] == 0) THEN ClassicalExpBox a[1], b[1], a[0], c[1];
+CommandIterator++ - 001
+CommandIterator++ - 002
+current index: 0
+(*current_slice_iterator_).size(): 1
+CommandIterator++ - 003
+final op type: 
+found wasm
+CommandIterator++ - 006
+Circuit::SliceIterator::operator++()
+final op type: 
+found wasm
+Circuit::SliceIterator::operator++() - 4 
+Circuit::SliceIterator::operator++() - 5
+##########QQQQQQQQQQQQQQQQQ######################
+#################################################
+#################################################
+#################################################
+UID - Edge: _wasm_wire - (0x2edf270,0x2ee1f60)
+UID - Edge: a[0] - (0x2e01030,0x2ee1f60)
+UID - Edge: a[1] - (0x2dae5e0,0x2ee1f60)
+UID - Edge: b[0] - (0x2a0c720,0x2edc540)
+UID - Edge: b[1] - (0x2bbee80,0x2edc540)
+UID - Edge: b[2] - (0x2e78f40,0x2edc540)
+UID - Edge: c[0] - (0x2eda810,0x2edb920)
+UID - Edge: c[1] - (0x2edb440,0x2edb920)
+UID - Edge: c[2] - (0x2eda070,0x2edb920)
+UID - Edge: c[3] - (0x2eda070,0x2edb920)
+UID - Edge: d[0] - (0x2edd7b0,0x2edd960)
+UID - Edge: q[0] - (0x25989e0,0x2edf030)
+UID - Edge: tk_SCRATCH_BIT[0] - (0x2eda930,0x2eca470)
+UID - Edge: tk_SCRATCH_BIT[1] - (0x2eca770,0x2edebe0)
+found wasm uid in circuit
+final op type: 
+found wasm
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+found wasm
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+found wasm
+final op type: 
+final op type: 
+final op type: 
+Circuit::SliceIterator::operator++() - 6
+CommandIterator++ - 007
+CommandIterator++ - 008
+CommandIterator++ - 010
+CommandIterator++ - 011
+try to get args from frontier
+try to get Command 
+finished command_from_vertex
+CommandIterator++ - 012
+CFS: String from command gen ClassicalExpBox a[1], b[0], a[0], b[2], b[1], c[0], c[1], c[2], c[3];
+CommandIterator++ - 001
+CommandIterator++ - 002
+current index: 0
+(*current_slice_iterator_).size(): 1
+CommandIterator++ - 003
+final op type: 
+found wasm
+CommandIterator++ - 006
+Circuit::SliceIterator::operator++()
+final op type: 
+found wasm
+Circuit::SliceIterator::operator++() - 4 
+Circuit::SliceIterator::operator++() - 5
+##########QQQQQQQQQQQQQQQQQ######################
+#################################################
+#################################################
+#################################################
+UID - Edge: _wasm_wire - (0x2edf270,0x2ee1f60)
+UID - Edge: a[0] - (0x2e01030,0x2ee1f60)
+UID - Edge: a[1] - (0x2dae5e0,0x2ee1f60)
+UID - Edge: b[0] - (0x2a0c720,0x2edc540)
+UID - Edge: b[1] - (0x2bbee80,0x2edc540)
+UID - Edge: b[2] - (0x2e78f40,0x2edc540)
+UID - Edge: c[0] - (0x2edb920,0x2edcc40)
+UID - Edge: c[1] - (0x2edb920,0x2edcc40)
+UID - Edge: c[2] - (0x2edb920,0x2edcc40)
+UID - Edge: c[3] - (0x2edb920,0x2edcc40)
+UID - Edge: d[0] - (0x2edd7b0,0x2edd960)
+UID - Edge: q[0] - (0x25989e0,0x2edf030)
+UID - Edge: tk_SCRATCH_BIT[0] - (0x2eda930,0x2eca470)
+UID - Edge: tk_SCRATCH_BIT[1] - (0x2eca770,0x2edebe0)
+found wasm uid in circuit
+final op type: 
+found wasm
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+found wasm
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+found wasm
+Circuit::SliceIterator::operator++() - 6
+CommandIterator++ - 007
+CommandIterator++ - 008
+CommandIterator++ - 010
+CommandIterator++ - 011
+try to get args from frontier
+try to get Command 
+finished command_from_vertex
+CommandIterator++ - 012
+CFS: String from command gen ClassicalExpBox a[1], a[0], b[0], b[1], b[2];
+CommandIterator++ - 001
+CommandIterator++ - 002
+current index: 0
+(*current_slice_iterator_).size(): 1
+CommandIterator++ - 003
+final op type: 
+found wasm
+CommandIterator++ - 006
+Circuit::SliceIterator::operator++()
+final op type: 
+found wasm
+Circuit::SliceIterator::operator++() - 4 
+Circuit::SliceIterator::operator++() - 5
+##########QQQQQQQQQQQQQQQQQ######################
+#################################################
+#################################################
+#################################################
+UID - Edge: _wasm_wire - (0x2edf270,0x2ee1f60)
+UID - Edge: a[0] - (0x2e01030,0x2ee1f60)
+UID - Edge: a[1] - (0x2dae5e0,0x2ee1f60)
+UID - Edge: b[0] - (0x2edc540,0x2ede040)
+UID - Edge: b[1] - (0x2edc540,0x2edc820)
+UID - Edge: b[2] - (0x2edc540,0x2ede040)
+UID - Edge: c[0] - (0x2edb920,0x2edcc40)
+UID - Edge: c[1] - (0x2edb920,0x2edcc40)
+UID - Edge: c[2] - (0x2edb920,0x2edcc40)
+UID - Edge: c[3] - (0x2edb920,0x2edcc40)
+UID - Edge: d[0] - (0x2edd7b0,0x2edd960)
+UID - Edge: q[0] - (0x25989e0,0x2edf030)
+UID - Edge: tk_SCRATCH_BIT[0] - (0x2eda930,0x2eca470)
+UID - Edge: tk_SCRATCH_BIT[1] - (0x2eca770,0x2edebe0)
+found wasm uid in circuit
+final op type: 
+found wasm
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+found wasm
+final op type: 
+final op type: 
+final op type: 
+found wasm
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+Circuit::SliceIterator::operator++() - 6
+CommandIterator++ - 007
+CommandIterator++ - 008
+CommandIterator++ - 010
+CommandIterator++ - 011
+try to get args from frontier
+try to get Command 
+finished command_from_vertex
+CommandIterator++ - 012
+CFS: String from command gen ClassicalExpBox b[2], b[0], b[1];
+CommandIterator++ - 001
+CommandIterator++ - 002
+current index: 0
+(*current_slice_iterator_).size(): 1
+CommandIterator++ - 003
+final op type: 
+found wasm
+CommandIterator++ - 006
+Circuit::SliceIterator::operator++()
+final op type: 
+found wasm
+Circuit::SliceIterator::operator++() - 4 
+Circuit::SliceIterator::operator++() - 5
+##########QQQQQQQQQQQQQQQQQ######################
+#################################################
+#################################################
+#################################################
+UID - Edge: _wasm_wire - (0x2edf270,0x2ee1f60)
+UID - Edge: a[0] - (0x2e01030,0x2ee1f60)
+UID - Edge: a[1] - (0x2dae5e0,0x2ee1f60)
+UID - Edge: b[0] - (0x2edc540,0x2ede040)
+UID - Edge: b[1] - (0x2edc820,0x2ede040)
+UID - Edge: b[2] - (0x2edc540,0x2ede040)
+UID - Edge: c[0] - (0x2edb920,0x2edcc40)
+UID - Edge: c[1] - (0x2edb920,0x2edcc40)
+UID - Edge: c[2] - (0x2edb920,0x2edcc40)
+UID - Edge: c[3] - (0x2edb920,0x2edcc40)
+UID - Edge: d[0] - (0x2edd7b0,0x2edd960)
+UID - Edge: q[0] - (0x25989e0,0x2edf030)
+UID - Edge: tk_SCRATCH_BIT[0] - (0x2eda930,0x2eca470)
+UID - Edge: tk_SCRATCH_BIT[1] - (0x2eca770,0x2edebe0)
+found wasm uid in circuit
+final op type: 
+found wasm
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+found wasm
+final op type: 
+final op type: 
+final op type: 
+found wasm
+final op type: 
+final op type: 
+final op type: 
+Circuit::SliceIterator::operator++() - 6
+CommandIterator++ - 007
+CommandIterator++ - 008
+CommandIterator++ - 010
+CommandIterator++ - 011
+try to get args from frontier
+try to get Command 
+finished command_from_vertex
+CommandIterator++ - 012
+CFS: String from command gen ClassicalExpBox a[1], b[0], a[0], b[2], b[1], c[0], c[1], c[2], c[3];
+CommandIterator++ - 001
+CommandIterator++ - 002
+current index: 0
+(*current_slice_iterator_).size(): 1
+CommandIterator++ - 003
+final op type: 
+found wasm
+CommandIterator++ - 006
+Circuit::SliceIterator::operator++()
+final op type: 
+found wasm
+Circuit::SliceIterator::operator++() - 4 
+Circuit::SliceIterator::operator++() - 5
+##########QQQQQQQQQQQQQQQQQ######################
+#################################################
+#################################################
+#################################################
+UID - Edge: _wasm_wire - (0x2edf270,0x2ee1f60)
+UID - Edge: a[0] - (0x2e01030,0x2ee1f60)
+UID - Edge: a[1] - (0x2dae5e0,0x2ee1f60)
+UID - Edge: b[0] - (0x2edc540,0x2ede040)
+UID - Edge: b[1] - (0x2edc820,0x2ede040)
+UID - Edge: b[2] - (0x2edc540,0x2ede040)
+UID - Edge: c[0] - (0x2edcc40,0x2eddd70)
+UID - Edge: c[1] - (0x2edcc40,0x28dd210)
+UID - Edge: c[2] - (0x2edcc40,0x27f0100)
+UID - Edge: c[3] - (0x2edcc40,0x295f8a0)
+UID - Edge: d[0] - (0x2edd7b0,0x2edd960)
+UID - Edge: q[0] - (0x25989e0,0x2edf030)
+UID - Edge: tk_SCRATCH_BIT[0] - (0x2eda930,0x2eca470)
+UID - Edge: tk_SCRATCH_BIT[1] - (0x2eca770,0x2edebe0)
+found wasm uid in circuit
+final op type: 
+found wasm
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+found wasm
+final op type: 
+final op type: 
+found wasm
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+found wasm
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+found wasm
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+found wasm
+Circuit::SliceIterator::operator++() - 6
+CommandIterator++ - 007
+CommandIterator++ - 008
+CommandIterator++ - 010
+CommandIterator++ - 011
+try to get args from frontier
+try to get Command 
+finished command_from_vertex
+CommandIterator++ - 012
+CFS: String from command gen ClassicalExpBox c[0], c[1], c[2], c[3], d[0];
+CommandIterator++ - 001
+CommandIterator++ - 002
+current index: 0
+(*current_slice_iterator_).size(): 1
+CommandIterator++ - 003
+final op type: 
+found wasm
+CommandIterator++ - 006
+Circuit::SliceIterator::operator++()
+final op type: 
+found wasm
+Circuit::SliceIterator::operator++() - 4 
+Circuit::SliceIterator::operator++() - 5
+##########QQQQQQQQQQQQQQQQQ######################
+#################################################
+#################################################
+#################################################
+UID - Edge: _wasm_wire - (0x2edf270,0x2ee1f60)
+UID - Edge: a[0] - (0x2e01030,0x2ee1f60)
+UID - Edge: a[1] - (0x2dae5e0,0x2ee1f60)
+UID - Edge: b[0] - (0x2edc540,0x2ede040)
+UID - Edge: b[1] - (0x2edc820,0x2ede040)
+UID - Edge: b[2] - (0x2edc540,0x2ede040)
+UID - Edge: c[0] - (0x2edcc40,0x2eddd70)
+UID - Edge: c[1] - (0x2edcc40,0x28dd210)
+UID - Edge: c[2] - (0x2edcc40,0x27f0100)
+UID - Edge: c[3] - (0x2edcc40,0x295f8a0)
+UID - Edge: d[0] - (0x2edd960,0x2edea30)
+UID - Edge: q[0] - (0x25989e0,0x2edf030)
+UID - Edge: tk_SCRATCH_BIT[0] - (0x2eda930,0x2eca470)
+UID - Edge: tk_SCRATCH_BIT[1] - (0x2eca770,0x2edebe0)
+found wasm uid in circuit
+final op type: 
+found wasm
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+found wasm
+final op type: 
+final op type: 
+found wasm
+final op type: 
+final op type: 
+final op type: 
+found wasm
+final op type: 
+final op type: 
+final op type: 
+found wasm
+final op type: 
+final op type: 
+final op type: 
+found wasm
+Circuit::SliceIterator::operator++() - 6
+CommandIterator++ - 007
+CommandIterator++ - 008
+CommandIterator++ - 010
+CommandIterator++ - 011
+try to get args from frontier
+try to get Command 
+finished command_from_vertex
+CommandIterator++ - 012
+CFS: String from command gen SetBits(1) c[0];
+CommandIterator++ - 001
+CommandIterator++ - 002
+current index: 0
+(*current_slice_iterator_).size(): 2
+CommandIterator++ - 009
+CommandIterator++ - 010
+CommandIterator++ - 011
+try to get args from frontier
+try to get Command 
+finished command_from_vertex
+CommandIterator++ - 012
+CFS: String from command gen ClassicalExpBox a[0], d[0];
+CommandIterator++ - 001
+CommandIterator++ - 002
+current index: 1
+(*current_slice_iterator_).size(): 2
+CommandIterator++ - 003
+final op type: 
+found wasm
+CommandIterator++ - 006
+Circuit::SliceIterator::operator++()
+final op type: 
+found wasm
+Circuit::SliceIterator::operator++() - 4 
+Circuit::SliceIterator::operator++() - 5
+##########QQQQQQQQQQQQQQQQQ######################
+#################################################
+#################################################
+#################################################
+UID - Edge: _wasm_wire - (0x2edf270,0x2ee1f60)
+UID - Edge: a[0] - (0x2e01030,0x2ee1f60)
+UID - Edge: a[1] - (0x2dae5e0,0x2ee1f60)
+UID - Edge: b[0] - (0x2edc540,0x2ede040)
+UID - Edge: b[1] - (0x2edc820,0x2ede040)
+UID - Edge: b[2] - (0x2edc540,0x2ede040)
+UID - Edge: c[0] - (0x2eddd70,0x2944a50)
+UID - Edge: c[1] - (0x2edcc40,0x28dd210)
+UID - Edge: c[2] - (0x2edcc40,0x27f0100)
+UID - Edge: c[3] - (0x2edcc40,0x295f8a0)
+UID - Edge: d[0] - (0x2edea30,0x2ea8b70)
+UID - Edge: q[0] - (0x25989e0,0x2edf030)
+UID - Edge: tk_SCRATCH_BIT[0] - (0x2eda930,0x2eca470)
+UID - Edge: tk_SCRATCH_BIT[1] - (0x2eca770,0x2edebe0)
+found wasm uid in circuit
+final op type: 
+found wasm
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+found wasm
+final op type: 
+final op type: 
+found wasm
+final op type: 
+final op type: 
+final op type: 
+found wasm
+final op type: 
+final op type: 
+final op type: 
+found wasm
+final op type: 
+final op type: 
+final op type: 
+found wasm
+final op type: 
+final op type: 
+final op type: 
+found wasm
+final op type: 
+Circuit::SliceIterator::operator++() - 6
+CommandIterator++ - 007
+CommandIterator++ - 008
+CommandIterator++ - 010
+CommandIterator++ - 011
+try to get args from frontier
+try to get Command 
+finished command_from_vertex
+CommandIterator++ - 012
+CFS: String from command gen ClassicalExpBox a[1], c[1], c[0], c[3], a[0], c[2], b[0], b[1], b[2];
+CommandIterator++ - 001
+CommandIterator++ - 002
+current index: 0
+(*current_slice_iterator_).size(): 2
+CommandIterator++ - 009
+CommandIterator++ - 010
+CommandIterator++ - 011
+try to get args from frontier
+try to get Command 
+finished command_from_vertex
+CommandIterator++ - 012
+CFS: String from command gen RangePredicate([2,4294967295]) c[0], c[1], c[2], c[3], tk_SCRATCH_BIT[1];
+CommandIterator++ - 001
+CommandIterator++ - 002
+current index: 1
+(*current_slice_iterator_).size(): 2
+CommandIterator++ - 003
+final op type: 
+found wasm
+CommandIterator++ - 006
+Circuit::SliceIterator::operator++()
+final op type: 
+found wasm
+Circuit::SliceIterator::operator++() - 4 
+Circuit::SliceIterator::operator++() - 5
+##########QQQQQQQQQQQQQQQQQ######################
+#################################################
+#################################################
+#################################################
+UID - Edge: _wasm_wire - (0x2edf270,0x2ee1f60)
+UID - Edge: a[0] - (0x2e01030,0x2ee1f60)
+UID - Edge: a[1] - (0x2dae5e0,0x2ee1f60)
+UID - Edge: b[0] - (0x2ede040,0x29584d0)
+UID - Edge: b[1] - (0x2ede040,0x27f0910)
+UID - Edge: b[2] - (0x2ede040,0x2eaa420)
+UID - Edge: c[0] - (0x2eddd70,0x2944a50)
+UID - Edge: c[1] - (0x2edcc40,0x28dd210)
+UID - Edge: c[2] - (0x2edcc40,0x27f0100)
+UID - Edge: c[3] - (0x2edcc40,0x295f8a0)
+UID - Edge: d[0] - (0x2edea30,0x2ea8b70)
+UID - Edge: q[0] - (0x25989e0,0x2edf030)
+UID - Edge: tk_SCRATCH_BIT[0] - (0x2eda930,0x2eca470)
+UID - Edge: tk_SCRATCH_BIT[1] - (0x2edebe0,0x2eca930)
+found wasm uid in circuit
+final op type: 
+found wasm
+final op type: 
+found wasm
+final op type: 
+found wasm
+final op type: 
+final op type: 
+final op type: 
+found wasm
+final op type: 
+found wasm
+final op type: 
+found wasm
+final op type: 
+found wasm
+final op type: 
+found wasm
+final op type: 
+found wasm
+final op type: 
+found wasm
+final op type: 
+found wasm
+final op type: 
+found wasm
+final op type: 
+final op type: 
+Circuit::SliceIterator::operator++() - 6
+CommandIterator++ - 007
+CommandIterator++ - 008
+CommandIterator++ - 010
+CommandIterator++ - 011
+try to get args from frontier
+try to get Command 
+finished command_from_vertex
+CommandIterator++ - 012
+CFS: String from command gen WASM a[0], a[1], b[0], b[1], b[2], a[0], a[1];
+CommandIterator++ - 001
+CommandIterator++ - 002
+current index: 0
+(*current_slice_iterator_).size(): 2
+CommandIterator++ - 009
+CommandIterator++ - 010
+CommandIterator++ - 011
+try to get args from frontier
+try to get Command 
+finished command_from_vertex
+CommandIterator++ - 012
+CFS: String from command gen IF ([tk_SCRATCH_BIT[1]] == 1) THEN H q[0];
+CommandIterator++ - 001
+CommandIterator++ - 002
+current index: 1
+(*current_slice_iterator_).size(): 2
+CommandIterator++ - 003
+final op type: 
+found wasm
+CommandIterator++ - 006
+Circuit::SliceIterator::operator++()
+final op type: 
+found wasm
+Circuit::SliceIterator::operator++() - 4 
+Circuit::SliceIterator::operator++() - 5
+##########QQQQQQQQQQQQQQQQQ######################
+#################################################
+#################################################
+#################################################
+UID - Edge: _wasm_wire - (0x2ee1f60,0x2ee1ee0)
+UID - Edge: a[0] - (0x2ee1f60,0x2dd7480)
+UID - Edge: a[1] - (0x2ee1f60,0x2c88770)
+UID - Edge: b[0] - (0x2ede040,0x29584d0)
+UID - Edge: b[1] - (0x2ede040,0x27f0910)
+UID - Edge: b[2] - (0x2ede040,0x2eaa420)
+UID - Edge: c[0] - (0x2eddd70,0x2944a50)
+UID - Edge: c[1] - (0x2edcc40,0x28dd210)
+UID - Edge: c[2] - (0x2edcc40,0x27f0100)
+UID - Edge: c[3] - (0x2edcc40,0x295f8a0)
+UID - Edge: d[0] - (0x2edea30,0x2ea8b70)
+UID - Edge: q[0] - (0x2edf030,0x2ee1c20)
+UID - Edge: tk_SCRATCH_BIT[0] - (0x2eda930,0x2eca470)
+UID - Edge: tk_SCRATCH_BIT[1] - (0x2edebe0,0x2eca930)
+found wasm uid in circuit
+final op type: 
+found wasm
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+found wasm
+final op type: 
+found wasm
+final op type: 
+found wasm
+final op type: 
+found wasm
+final op type: 
+Circuit::SliceIterator::operator++() - 6
+CommandIterator++ - 007
+CommandIterator++ - 008
+CommandIterator++ - 010
+CommandIterator++ - 011
+try to get args from frontier
+try to get Command 
+finished command_from_vertex
+CommandIterator++ - 012
+CFS: String from command gen WASM c[0], c[1], c[2], c[3];
+CommandIterator++ - 001
+CommandIterator++ - 002
+current index: 0
+(*current_slice_iterator_).size(): 2
+CommandIterator++ - 009
+CommandIterator++ - 010
+CommandIterator++ - 011
+try to get args from frontier
+try to get Command 
+finished command_from_vertex
+CommandIterator++ - 012
+CFS: String from command gen IF ([d[0]] == 1) THEN Rx(1) q[0];
+CommandIterator++ - 001
+CommandIterator++ - 002
+current index: 1
+(*current_slice_iterator_).size(): 2
+CommandIterator++ - 003
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+CommandIterator++ - 004
+CommandIterator++ - 005
+QQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQ
+QQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQ
+##########QQQQQQQQQQQQQQQQQ######################
+#################################################
+#################################################
+#################################################
+UID - Edge: a[0] - (0x2ee5ab0,0x2ee7320)
+UID - Edge: a[1] - (0x2ee5bb0,0x2ee7320)
+UID - Edge: b[0] - (0x2ee5e20,0x2ee6ae0)
+UID - Edge: b[1] - (0x2ee5fa0,0x2ee6ae0)
+UID - Edge: b[2] - (0x2ee6120,0x2ee6ae0)
+UID - Edge: c[0] - (0x2ee56b0,0x2ee6720)
+UID - Edge: c[1] - (0x2ee57b0,0x2ee6720)
+UID - Edge: c[2] - (0x2ee58b0,0x2ee6720)
+UID - Edge: c[3] - (0x2ee59b0,0x2ee6720)
+UID - Edge: d[0] - (0x2ee62a0,0x2ee6d20)
+UID - Edge: q[0] - (0x2ee1d40,0x2ee71a0)
+UID - Edge: tk_SCRATCH_BIT[0] - (0x2ee6420,0x2ee68a0)
+UID - Edge: tk_SCRATCH_BIT[1] - (0x2ee65a0,0x2ee70e0)
+ NO found wasm uid in circuit
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+found wasm
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+found wasm
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+generate next slice
+next step - 1
+next step - 4
+next step - 5
+try to get args from frontier
+try to get Command 
+finished command_from_vertex
+next step - 6
+next step - 7
+next step - END
+try to get next command
+CommandIterator++ - 001
+CommandIterator++ - 002
+current index: 0
+(*current_slice_iterator_).size(): 3
+CommandIterator++ - 009
+CommandIterator++ - 010
+CommandIterator++ - 011
+try to get args from frontier
+try to get Command 
+finished command_from_vertex
+CommandIterator++ - 012
+try to get next command
+CommandIterator++ - 001
+CommandIterator++ - 002
+current index: 1
+(*current_slice_iterator_).size(): 3
+CommandIterator++ - 009
+CommandIterator++ - 010
+CommandIterator++ - 011
+try to get args from frontier
+try to get Command 
+finished command_from_vertex
+CommandIterator++ - 012
+try to get next command
+CommandIterator++ - 001
+CommandIterator++ - 002
+current index: 2
+(*current_slice_iterator_).size(): 3
+CommandIterator++ - 003
+final op type: 
+found wasm
+CommandIterator++ - 006
+Circuit::SliceIterator::operator++()
+final op type: 
+found wasm
+Circuit::SliceIterator::operator++() - 4 
+Circuit::SliceIterator::operator++() - 5
+##########QQQQQQQQQQQQQQQQQ######################
+#################################################
+#################################################
+#################################################
+UID - Edge: a[0] - (0x2ee5ab0,0x2ee7320)
+UID - Edge: a[1] - (0x2ee5bb0,0x2ee7320)
+UID - Edge: b[0] - (0x2ee5e20,0x2ee6ae0)
+UID - Edge: b[1] - (0x2ee5fa0,0x2ee6ae0)
+UID - Edge: b[2] - (0x2ee6120,0x2ee6ae0)
+UID - Edge: c[0] - (0x2ee6720,0x2ee67e0)
+UID - Edge: c[1] - (0x2ee6720,0x2ee67e0)
+UID - Edge: c[2] - (0x2ee6720,0x2ee6a20)
+UID - Edge: c[3] - (0x2ee6720,0x2ee6a20)
+UID - Edge: d[0] - (0x2ee6d20,0x2ee6de0)
+UID - Edge: q[0] - (0x2ee1d40,0x2ee71a0)
+UID - Edge: tk_SCRATCH_BIT[0] - (0x2ee68a0,0x2ee64e0)
+UID - Edge: tk_SCRATCH_BIT[1] - (0x2ee65a0,0x2ee70e0)
+ NO found wasm uid in circuit
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+found wasm
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+found wasm
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+Circuit::SliceIterator::operator++() - 6
+CommandIterator++ - 007
+CommandIterator++ - 008
+CommandIterator++ - 010
+CommandIterator++ - 011
+try to get args from frontier
+try to get Command 
+finished command_from_vertex
+CommandIterator++ - 012
+try to get next command
+CommandIterator++ - 001
+CommandIterator++ - 002
+current index: 0
+(*current_slice_iterator_).size(): 1
+CommandIterator++ - 003
+final op type: 
+found wasm
+CommandIterator++ - 006
+Circuit::SliceIterator::operator++()
+final op type: 
+found wasm
+Circuit::SliceIterator::operator++() - 4 
+Circuit::SliceIterator::operator++() - 5
+##########QQQQQQQQQQQQQQQQQ######################
+#################################################
+#################################################
+#################################################
+UID - Edge: a[0] - (0x2ee5ab0,0x2ee7320)
+UID - Edge: a[1] - (0x2ee5bb0,0x2ee7320)
+UID - Edge: b[0] - (0x2ee5e20,0x2ee6ae0)
+UID - Edge: b[1] - (0x2ee5fa0,0x2ee6ae0)
+UID - Edge: b[2] - (0x2ee6120,0x2ee6ae0)
+UID - Edge: c[0] - (0x2ee67e0,0x2ee6a20)
+UID - Edge: c[1] - (0x2ee67e0,0x2ee6960)
+UID - Edge: c[2] - (0x2ee6720,0x2ee6a20)
+UID - Edge: c[3] - (0x2ee6720,0x2ee6a20)
+UID - Edge: d[0] - (0x2ee6d20,0x2ee6de0)
+UID - Edge: q[0] - (0x2ee1d40,0x2ee71a0)
+UID - Edge: tk_SCRATCH_BIT[0] - (0x2ee68a0,0x2ee64e0)
+UID - Edge: tk_SCRATCH_BIT[1] - (0x2ee65a0,0x2ee70e0)
+ NO found wasm uid in circuit
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+found wasm
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+found wasm
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+Circuit::SliceIterator::operator++() - 6
+CommandIterator++ - 007
+CommandIterator++ - 008
+CommandIterator++ - 010
+CommandIterator++ - 011
+try to get args from frontier
+try to get Command 
+finished command_from_vertex
+CommandIterator++ - 012
+try to get next command
+CommandIterator++ - 001
+CommandIterator++ - 002
+current index: 0
+(*current_slice_iterator_).size(): 1
+CommandIterator++ - 003
+final op type: 
+found wasm
+CommandIterator++ - 006
+Circuit::SliceIterator::operator++()
+final op type: 
+found wasm
+Circuit::SliceIterator::operator++() - 4 
+Circuit::SliceIterator::operator++() - 5
+##########QQQQQQQQQQQQQQQQQ######################
+#################################################
+#################################################
+#################################################
+UID - Edge: a[0] - (0x2ee5ab0,0x2ee7320)
+UID - Edge: a[1] - (0x2ee5bb0,0x2ee7320)
+UID - Edge: b[0] - (0x2ee5e20,0x2ee6ae0)
+UID - Edge: b[1] - (0x2ee5fa0,0x2ee6ae0)
+UID - Edge: b[2] - (0x2ee6120,0x2ee6ae0)
+UID - Edge: c[0] - (0x2ee67e0,0x2ee6a20)
+UID - Edge: c[1] - (0x2ee6960,0x2ee6a20)
+UID - Edge: c[2] - (0x2ee6720,0x2ee6a20)
+UID - Edge: c[3] - (0x2ee6720,0x2ee6a20)
+UID - Edge: d[0] - (0x2ee6d20,0x2ee6de0)
+UID - Edge: q[0] - (0x2ee1d40,0x2ee71a0)
+UID - Edge: tk_SCRATCH_BIT[0] - (0x2ee68a0,0x2ee64e0)
+UID - Edge: tk_SCRATCH_BIT[1] - (0x2ee65a0,0x2ee70e0)
+ NO found wasm uid in circuit
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+found wasm
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+found wasm
+final op type: 
+final op type: 
+final op type: 
+Circuit::SliceIterator::operator++() - 6
+CommandIterator++ - 007
+CommandIterator++ - 008
+CommandIterator++ - 010
+CommandIterator++ - 011
+try to get args from frontier
+try to get Command 
+finished command_from_vertex
+CommandIterator++ - 012
+try to get next command
+CommandIterator++ - 001
+CommandIterator++ - 002
+current index: 0
+(*current_slice_iterator_).size(): 1
+CommandIterator++ - 003
+final op type: 
+found wasm
+CommandIterator++ - 006
+Circuit::SliceIterator::operator++()
+final op type: 
+found wasm
+Circuit::SliceIterator::operator++() - 4 
+Circuit::SliceIterator::operator++() - 5
+##########QQQQQQQQQQQQQQQQQ######################
+#################################################
+#################################################
+#################################################
+UID - Edge: a[0] - (0x2ee5ab0,0x2ee7320)
+UID - Edge: a[1] - (0x2ee5bb0,0x2ee7320)
+UID - Edge: b[0] - (0x2ee5e20,0x2ee6ae0)
+UID - Edge: b[1] - (0x2ee5fa0,0x2ee6ae0)
+UID - Edge: b[2] - (0x2ee6120,0x2ee6ae0)
+UID - Edge: c[0] - (0x2ee6a20,0x2ee6c60)
+UID - Edge: c[1] - (0x2ee6a20,0x2ee6c60)
+UID - Edge: c[2] - (0x2ee6a20,0x2ee6c60)
+UID - Edge: c[3] - (0x2ee6a20,0x2ee6c60)
+UID - Edge: d[0] - (0x2ee6d20,0x2ee6de0)
+UID - Edge: q[0] - (0x2ee1d40,0x2ee71a0)
+UID - Edge: tk_SCRATCH_BIT[0] - (0x2ee68a0,0x2ee64e0)
+UID - Edge: tk_SCRATCH_BIT[1] - (0x2ee65a0,0x2ee70e0)
+ NO found wasm uid in circuit
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+found wasm
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+found wasm
+Circuit::SliceIterator::operator++() - 6
+CommandIterator++ - 007
+CommandIterator++ - 008
+CommandIterator++ - 010
+CommandIterator++ - 011
+try to get args from frontier
+try to get Command 
+finished command_from_vertex
+CommandIterator++ - 012
+try to get next command
+CommandIterator++ - 001
+CommandIterator++ - 002
+current index: 0
+(*current_slice_iterator_).size(): 1
+CommandIterator++ - 003
+final op type: 
+found wasm
+CommandIterator++ - 006
+Circuit::SliceIterator::operator++()
+final op type: 
+found wasm
+Circuit::SliceIterator::operator++() - 4 
+Circuit::SliceIterator::operator++() - 5
+##########QQQQQQQQQQQQQQQQQ######################
+#################################################
+#################################################
+#################################################
+UID - Edge: a[0] - (0x2ee5ab0,0x2ee7320)
+UID - Edge: a[1] - (0x2ee5bb0,0x2ee7320)
+UID - Edge: b[0] - (0x2ee6ae0,0x2ee6f60)
+UID - Edge: b[1] - (0x2ee6ae0,0x2ee6ba0)
+UID - Edge: b[2] - (0x2ee6ae0,0x2ee6f60)
+UID - Edge: c[0] - (0x2ee6a20,0x2ee6c60)
+UID - Edge: c[1] - (0x2ee6a20,0x2ee6c60)
+UID - Edge: c[2] - (0x2ee6a20,0x2ee6c60)
+UID - Edge: c[3] - (0x2ee6a20,0x2ee6c60)
+UID - Edge: d[0] - (0x2ee6d20,0x2ee6de0)
+UID - Edge: q[0] - (0x2ee1d40,0x2ee71a0)
+UID - Edge: tk_SCRATCH_BIT[0] - (0x2ee68a0,0x2ee64e0)
+UID - Edge: tk_SCRATCH_BIT[1] - (0x2ee65a0,0x2ee70e0)
+ NO found wasm uid in circuit
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+found wasm
+final op type: 
+final op type: 
+final op type: 
+found wasm
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+Circuit::SliceIterator::operator++() - 6
+CommandIterator++ - 007
+CommandIterator++ - 008
+CommandIterator++ - 010
+CommandIterator++ - 011
+try to get args from frontier
+try to get Command 
+finished command_from_vertex
+CommandIterator++ - 012
+try to get next command
+CommandIterator++ - 001
+CommandIterator++ - 002
+current index: 0
+(*current_slice_iterator_).size(): 1
+CommandIterator++ - 003
+final op type: 
+found wasm
+CommandIterator++ - 006
+Circuit::SliceIterator::operator++()
+final op type: 
+found wasm
+Circuit::SliceIterator::operator++() - 4 
+Circuit::SliceIterator::operator++() - 5
+##########QQQQQQQQQQQQQQQQQ######################
+#################################################
+#################################################
+#################################################
+UID - Edge: a[0] - (0x2ee5ab0,0x2ee7320)
+UID - Edge: a[1] - (0x2ee5bb0,0x2ee7320)
+UID - Edge: b[0] - (0x2ee6ae0,0x2ee6f60)
+UID - Edge: b[1] - (0x2ee6ba0,0x2ee6f60)
+UID - Edge: b[2] - (0x2ee6ae0,0x2ee6f60)
+UID - Edge: c[0] - (0x2ee6a20,0x2ee6c60)
+UID - Edge: c[1] - (0x2ee6a20,0x2ee6c60)
+UID - Edge: c[2] - (0x2ee6a20,0x2ee6c60)
+UID - Edge: c[3] - (0x2ee6a20,0x2ee6c60)
+UID - Edge: d[0] - (0x2ee6d20,0x2ee6de0)
+UID - Edge: q[0] - (0x2ee1d40,0x2ee71a0)
+UID - Edge: tk_SCRATCH_BIT[0] - (0x2ee68a0,0x2ee64e0)
+UID - Edge: tk_SCRATCH_BIT[1] - (0x2ee65a0,0x2ee70e0)
+ NO found wasm uid in circuit
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+found wasm
+final op type: 
+final op type: 
+final op type: 
+found wasm
+final op type: 
+final op type: 
+final op type: 
+Circuit::SliceIterator::operator++() - 6
+CommandIterator++ - 007
+CommandIterator++ - 008
+CommandIterator++ - 010
+CommandIterator++ - 011
+try to get args from frontier
+try to get Command 
+finished command_from_vertex
+CommandIterator++ - 012
+try to get next command
+CommandIterator++ - 001
+CommandIterator++ - 002
+current index: 0
+(*current_slice_iterator_).size(): 1
+CommandIterator++ - 003
+final op type: 
+found wasm
+CommandIterator++ - 006
+Circuit::SliceIterator::operator++()
+final op type: 
+found wasm
+Circuit::SliceIterator::operator++() - 4 
+Circuit::SliceIterator::operator++() - 5
+##########QQQQQQQQQQQQQQQQQ######################
+#################################################
+#################################################
+#################################################
+UID - Edge: a[0] - (0x2ee5ab0,0x2ee7320)
+UID - Edge: a[1] - (0x2ee5bb0,0x2ee7320)
+UID - Edge: b[0] - (0x2ee6ae0,0x2ee6f60)
+UID - Edge: b[1] - (0x2ee6ba0,0x2ee6f60)
+UID - Edge: b[2] - (0x2ee6ae0,0x2ee6f60)
+UID - Edge: c[0] - (0x2ee6c60,0x2ee6ea0)
+UID - Edge: c[1] - (0x2ee6c60,0x2ee5830)
+UID - Edge: c[2] - (0x2ee6c60,0x2ee5930)
+UID - Edge: c[3] - (0x2ee6c60,0x2ee5a30)
+UID - Edge: d[0] - (0x2ee6d20,0x2ee6de0)
+UID - Edge: q[0] - (0x2ee1d40,0x2ee71a0)
+UID - Edge: tk_SCRATCH_BIT[0] - (0x2ee68a0,0x2ee64e0)
+UID - Edge: tk_SCRATCH_BIT[1] - (0x2ee65a0,0x2ee70e0)
+ NO found wasm uid in circuit
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+found wasm
+final op type: 
+final op type: 
+found wasm
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+found wasm
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+found wasm
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+found wasm
+Circuit::SliceIterator::operator++() - 6
+CommandIterator++ - 007
+CommandIterator++ - 008
+CommandIterator++ - 010
+CommandIterator++ - 011
+try to get args from frontier
+try to get Command 
+finished command_from_vertex
+CommandIterator++ - 012
+try to get next command
+CommandIterator++ - 001
+CommandIterator++ - 002
+current index: 0
+(*current_slice_iterator_).size(): 1
+CommandIterator++ - 003
+final op type: 
+found wasm
+CommandIterator++ - 006
+Circuit::SliceIterator::operator++()
+final op type: 
+found wasm
+Circuit::SliceIterator::operator++() - 4 
+Circuit::SliceIterator::operator++() - 5
+##########QQQQQQQQQQQQQQQQQ######################
+#################################################
+#################################################
+#################################################
+UID - Edge: a[0] - (0x2ee5ab0,0x2ee7320)
+UID - Edge: a[1] - (0x2ee5bb0,0x2ee7320)
+UID - Edge: b[0] - (0x2ee6ae0,0x2ee6f60)
+UID - Edge: b[1] - (0x2ee6ba0,0x2ee6f60)
+UID - Edge: b[2] - (0x2ee6ae0,0x2ee6f60)
+UID - Edge: c[0] - (0x2ee6c60,0x2ee6ea0)
+UID - Edge: c[1] - (0x2ee6c60,0x2ee5830)
+UID - Edge: c[2] - (0x2ee6c60,0x2ee5930)
+UID - Edge: c[3] - (0x2ee6c60,0x2ee5a30)
+UID - Edge: d[0] - (0x2ee6de0,0x2ee7020)
+UID - Edge: q[0] - (0x2ee1d40,0x2ee71a0)
+UID - Edge: tk_SCRATCH_BIT[0] - (0x2ee68a0,0x2ee64e0)
+UID - Edge: tk_SCRATCH_BIT[1] - (0x2ee65a0,0x2ee70e0)
+ NO found wasm uid in circuit
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+found wasm
+final op type: 
+final op type: 
+found wasm
+final op type: 
+final op type: 
+final op type: 
+found wasm
+final op type: 
+final op type: 
+final op type: 
+found wasm
+final op type: 
+final op type: 
+final op type: 
+found wasm
+Circuit::SliceIterator::operator++() - 6
+CommandIterator++ - 007
+CommandIterator++ - 008
+CommandIterator++ - 010
+CommandIterator++ - 011
+try to get args from frontier
+try to get Command 
+finished command_from_vertex
+CommandIterator++ - 012
+try to get next command
+CommandIterator++ - 001
+CommandIterator++ - 002
+current index: 0
+(*current_slice_iterator_).size(): 2
+CommandIterator++ - 009
+CommandIterator++ - 010
+CommandIterator++ - 011
+try to get args from frontier
+try to get Command 
+finished command_from_vertex
+CommandIterator++ - 012
+try to get next command
+CommandIterator++ - 001
+CommandIterator++ - 002
+current index: 1
+(*current_slice_iterator_).size(): 2
+CommandIterator++ - 003
+final op type: 
+found wasm
+CommandIterator++ - 006
+Circuit::SliceIterator::operator++()
+final op type: 
+found wasm
+Circuit::SliceIterator::operator++() - 4 
+Circuit::SliceIterator::operator++() - 5
+##########QQQQQQQQQQQQQQQQQ######################
+#################################################
+#################################################
+#################################################
+UID - Edge: a[0] - (0x2ee5ab0,0x2ee7320)
+UID - Edge: a[1] - (0x2ee5bb0,0x2ee7320)
+UID - Edge: b[0] - (0x2ee6ae0,0x2ee6f60)
+UID - Edge: b[1] - (0x2ee6ba0,0x2ee6f60)
+UID - Edge: b[2] - (0x2ee6ae0,0x2ee6f60)
+UID - Edge: c[0] - (0x2ee6ea0,0x2ee5730)
+UID - Edge: c[1] - (0x2ee6c60,0x2ee5830)
+UID - Edge: c[2] - (0x2ee6c60,0x2ee5930)
+UID - Edge: c[3] - (0x2ee6c60,0x2ee5a30)
+UID - Edge: d[0] - (0x2ee7020,0x2ee6360)
+UID - Edge: q[0] - (0x2ee1d40,0x2ee71a0)
+UID - Edge: tk_SCRATCH_BIT[0] - (0x2ee68a0,0x2ee64e0)
+UID - Edge: tk_SCRATCH_BIT[1] - (0x2ee65a0,0x2ee70e0)
+ NO found wasm uid in circuit
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+found wasm
+final op type: 
+final op type: 
+found wasm
+final op type: 
+final op type: 
+final op type: 
+found wasm
+final op type: 
+final op type: 
+final op type: 
+found wasm
+final op type: 
+final op type: 
+final op type: 
+found wasm
+final op type: 
+final op type: 
+final op type: 
+found wasm
+final op type: 
+Circuit::SliceIterator::operator++() - 6
+CommandIterator++ - 007
+CommandIterator++ - 008
+CommandIterator++ - 010
+CommandIterator++ - 011
+try to get args from frontier
+try to get Command 
+finished command_from_vertex
+CommandIterator++ - 012
+try to get next command
+CommandIterator++ - 001
+CommandIterator++ - 002
+current index: 0
+(*current_slice_iterator_).size(): 2
+CommandIterator++ - 009
+CommandIterator++ - 010
+CommandIterator++ - 011
+try to get args from frontier
+try to get Command 
+finished command_from_vertex
+CommandIterator++ - 012
+try to get next command
+CommandIterator++ - 001
+CommandIterator++ - 002
+current index: 1
+(*current_slice_iterator_).size(): 2
+CommandIterator++ - 003
+final op type: 
+found wasm
+CommandIterator++ - 006
+Circuit::SliceIterator::operator++()
+final op type: 
+found wasm
+Circuit::SliceIterator::operator++() - 4 
+Circuit::SliceIterator::operator++() - 5
+##########QQQQQQQQQQQQQQQQQ######################
+#################################################
+#################################################
+#################################################
+UID - Edge: a[0] - (0x2ee5ab0,0x2ee7320)
+UID - Edge: a[1] - (0x2ee5bb0,0x2ee7320)
+UID - Edge: b[0] - (0x2ee6f60,0x2ee5ee0)
+UID - Edge: b[1] - (0x2ee6f60,0x2ee6060)
+UID - Edge: b[2] - (0x2ee6f60,0x2ee61e0)
+UID - Edge: c[0] - (0x2ee6ea0,0x2ee5730)
+UID - Edge: c[1] - (0x2ee6c60,0x2ee5830)
+UID - Edge: c[2] - (0x2ee6c60,0x2ee5930)
+UID - Edge: c[3] - (0x2ee6c60,0x2ee5a30)
+UID - Edge: d[0] - (0x2ee7020,0x2ee6360)
+UID - Edge: q[0] - (0x2ee1d40,0x2ee71a0)
+UID - Edge: tk_SCRATCH_BIT[0] - (0x2ee68a0,0x2ee64e0)
+UID - Edge: tk_SCRATCH_BIT[1] - (0x2ee70e0,0x2ee6660)
+ NO found wasm uid in circuit
+final op type: 
+found wasm
+final op type: 
+found wasm
+final op type: 
+final op type: 
+final op type: 
+found wasm
+final op type: 
+found wasm
+final op type: 
+found wasm
+final op type: 
+found wasm
+final op type: 
+found wasm
+final op type: 
+found wasm
+final op type: 
+found wasm
+final op type: 
+found wasm
+final op type: 
+found wasm
+final op type: 
+final op type: 
+Circuit::SliceIterator::operator++() - 6
+CommandIterator++ - 007
+CommandIterator++ - 008
+CommandIterator++ - 010
+CommandIterator++ - 011
+try to get args from frontier
+try to get Command 
+finished command_from_vertex
+CommandIterator++ - 012
+try to get next command
+CommandIterator++ - 001
+CommandIterator++ - 002
+current index: 0
+(*current_slice_iterator_).size(): 1
+CommandIterator++ - 003
+final op type: 
+found wasm
+CommandIterator++ - 006
+Circuit::SliceIterator::operator++()
+final op type: 
+found wasm
+Circuit::SliceIterator::operator++() - 4 
+Circuit::SliceIterator::operator++() - 5
+##########QQQQQQQQQQQQQQQQQ######################
+#################################################
+#################################################
+#################################################
+UID - Edge: a[0] - (0x2ee5ab0,0x2ee7320)
+UID - Edge: a[1] - (0x2ee5bb0,0x2ee7320)
+UID - Edge: b[0] - (0x2ee6f60,0x2ee5ee0)
+UID - Edge: b[1] - (0x2ee6f60,0x2ee6060)
+UID - Edge: b[2] - (0x2ee6f60,0x2ee61e0)
+UID - Edge: c[0] - (0x2ee6ea0,0x2ee5730)
+UID - Edge: c[1] - (0x2ee6c60,0x2ee5830)
+UID - Edge: c[2] - (0x2ee6c60,0x2ee5930)
+UID - Edge: c[3] - (0x2ee6c60,0x2ee5a30)
+UID - Edge: d[0] - (0x2ee7020,0x2ee6360)
+UID - Edge: q[0] - (0x2ee71a0,0x2ee7260)
+UID - Edge: tk_SCRATCH_BIT[0] - (0x2ee68a0,0x2ee64e0)
+UID - Edge: tk_SCRATCH_BIT[1] - (0x2ee70e0,0x2ee6660)
+ NO found wasm uid in circuit
+final op type: 
+found wasm
+final op type: 
+found wasm
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+found wasm
+final op type: 
+found wasm
+final op type: 
+found wasm
+final op type: 
+found wasm
+final op type: 
+found wasm
+final op type: 
+found wasm
+final op type: 
+found wasm
+final op type: 
+found wasm
+final op type: 
+found wasm
+final op type: 
+Circuit::SliceIterator::operator++() - 6
+CommandIterator++ - 007
+CommandIterator++ - 008
+CommandIterator++ - 010
+CommandIterator++ - 011
+try to get args from frontier
+try to get Command 
+finished command_from_vertex
+CommandIterator++ - 012
+try to get next command
+CommandIterator++ - 001
+CommandIterator++ - 002
+current index: 0
+(*current_slice_iterator_).size(): 1
+CommandIterator++ - 003
+final op type: 
+found wasm
+CommandIterator++ - 006
+Circuit::SliceIterator::operator++()
+final op type: 
+found wasm
+Circuit::SliceIterator::operator++() - 4 
+Circuit::SliceIterator::operator++() - 5
+##########QQQQQQQQQQQQQQQQQ######################
+#################################################
+#################################################
+#################################################
+UID - Edge: a[0] - (0x2ee5ab0,0x2ee7320)
+UID - Edge: a[1] - (0x2ee5bb0,0x2ee7320)
+UID - Edge: b[0] - (0x2ee6f60,0x2ee5ee0)
+UID - Edge: b[1] - (0x2ee6f60,0x2ee6060)
+UID - Edge: b[2] - (0x2ee6f60,0x2ee61e0)
+UID - Edge: c[0] - (0x2ee6ea0,0x2ee5730)
+UID - Edge: c[1] - (0x2ee6c60,0x2ee5830)
+UID - Edge: c[2] - (0x2ee6c60,0x2ee5930)
+UID - Edge: c[3] - (0x2ee6c60,0x2ee5a30)
+UID - Edge: d[0] - (0x2ee7020,0x2ee6360)
+UID - Edge: q[0] - (0x2ee7260,0x2edf4d0)
+UID - Edge: tk_SCRATCH_BIT[0] - (0x2ee68a0,0x2ee64e0)
+UID - Edge: tk_SCRATCH_BIT[1] - (0x2ee70e0,0x2ee6660)
+ NO found wasm uid in circuit
+final op type: 
+found wasm
+final op type: 
+found wasm
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+final op type: 
+found wasm
+final op type: 
+found wasm
+final op type: 
+found wasm
+final op type: 
+found wasm
+final op type: 
+found wasm
+final op type: 
+found wasm
+final op type: 
+found wasm
+final op type: 
+found wasm
+final op type: 
+try test_extended_qasm - 1
+try test_extended_qasm - 2
+try test_extended_qasm - 3
+{'commands': [{'args': [['c', [0]], ['c', [1]], ['c', [2]], ['c', [3]]], 'op': {'classical': {'values': [False, True, False, False]}, 'type': 'SetBits'}}, {'args': [['a', [0]], ['a', [1]], ['c', [0]], ['c', [1]]], 'op': {'classical': {'n_i': 2}, 'type': 'CopyBits'}}, {'args': [['b', [0]], ['b', [1]], ['b', [2]], ['tk_SCRATCH_BIT', [0]]], 'op': {'classical': {'lower': 2, 'n_i': 3, 'upper': 2}, 'type': 'RangePredicate'}}, {'args': [['tk_SCRATCH_BIT', [0]], ['a', [1]], ['b', [1]], ['a', [0]], ['c', [1]]], 'op': {'conditional': {'op': {'box': {'exp': {'op': 'BitWiseOp.OR', 'args': [{'op': 'BitWiseOp.AND', 'args': [['b', [1]], ['a', [1]]]}, ['a', [0]]]}, 'id': '44b0da95-1d6e-4be8-8c8a-1be0fc69f20c', 'type': 'ClassicalExpBox', 'n_i': 3, 'n_io': 0, 'n_o': 1}, 'type': 'ClassicalExpBox'}, 'value': 0, 'width': 1}, 'type': 'Conditional'}}, {'args': [['a', [1]], ['b', [0]], ['a', [0]], ['b', [2]], ['b', [1]], ['c', [0]], ['c', [1]], ['c', [2]], ['c', [3]]], 'op': {'box': {'exp': {'op': 'RegWiseOp.AND', 'args': [{'name': 'b', 'size': 3}, {'name': 'a', 'size': 2}]}, 'id': 'e0e17a5b-ebeb-45c0-9844-4551c254bc30', 'type': 'ClassicalExpBox', 'n_i': 5, 'n_io': 0, 'n_o': 4}, 'type': 'ClassicalExpBox'}}, {'args': [['a', [1]], ['a', [0]], ['b', [0]], ['b', [1]], ['b', [2]]], 'op': {'box': {'exp': {'op': 'RegWiseOp.ADD', 'args': [{'name': 'a', 'size': 2}, {'name': 'b', 'size': 3}]}, 'id': 'fac46349-a9b4-4bb5-8e38-3cae44f339f0', 'type': 'ClassicalExpBox', 'n_i': 2, 'n_io': 3, 'n_o': 0}, 'type': 'ClassicalExpBox'}}, {'args': [['b', [2]], ['b', [0]], ['b', [1]]], 'op': {'box': {'exp': {'op': 'BitWiseOp.XOR', 'args': [['b', [0]], {'op': 'BitWiseOp.NOT', 'args': [['b', [2]]]}]}, 'id': '7e1dad5e-4548-435e-8d6e-e7f4bc19a053', 'type': 'ClassicalExpBox', 'n_i': 2, 'n_io': 0, 'n_o': 1}, 'type': 'ClassicalExpBox'}}, {'args': [['a', [1]], ['b', [0]], ['a', [0]], ['b', [2]], ['b', [1]], ['c', [0]], ['c', [1]], ['c', [2]], ['c', [3]]], 'op': {'box': {'exp': {'op': 'RegWiseOp.SUB', 'args': [{'name': 'a', 'size': 2}, {'op': 'RegWiseOp.POW', 'args': [{'name': 'b', 'size': 3}, {'name': 'c', 'size': 4}]}]}, 'id': 'e080a3f4-f6c8-4678-8881-f0cce001f499', 'type': 'ClassicalExpBox', 'n_i': 5, 'n_io': 4, 'n_o': 0}, 'type': 'ClassicalExpBox'}}, {'args': [['a', [1]], ['a', [0]], ['d', [0]]], 'op': {'box': {'exp': {'op': 'RegWiseOp.LSH', 'args': [{'name': 'a', 'size': 2}, 1]}, 'id': '86e1a74b-d05e-40ea-9071-e616c340924c', 'type': 'ClassicalExpBox', 'n_i': 2, 'n_io': 0, 'n_o': 1}, 'type': 'ClassicalExpBox'}}, {'args': [['c', [0]], ['c', [1]], ['c', [2]], ['c', [3]], ['d', [0]]], 'op': {'box': {'exp': {'op': 'RegWiseOp.RSH', 'args': [{'name': 'c', 'size': 4}, 2]}, 'id': 'a6a7af3a-d0c9-4c73-9a8b-f1165452bae2', 'type': 'ClassicalExpBox', 'n_i': 4, 'n_io': 0, 'n_o': 1}, 'type': 'ClassicalExpBox'}}, {'args': [['c', [0]]], 'op': {'classical': {'values': [True]}, 'type': 'SetBits'}}, {'args': [['a', [1]], ['c', [1]], ['c', [0]], ['c', [3]], ['a', [0]], ['c', [2]], ['b', [0]], ['b', [1]], ['b', [2]]], 'op': {'box': {'exp': {'op': 'RegWiseOp.DIV', 'args': [{'op': 'RegWiseOp.MUL', 'args': [{'name': 'a', 'size': 2}, {'name': 'c', 'size': 4}]}, {'name': 'b', 'size': 3}]}, 'id': '00fa354d-abc2-407b-9082-604d03e8b353', 'type': 'ClassicalExpBox', 'n_i': 6, 'n_io': 3, 'n_o': 0}, 'type': 'ClassicalExpBox'}}, {'args': [['a', [0]], ['d', [0]]], 'op': {'box': {'exp': {'op': 'BitWiseOp.XOR', 'args': [['a', [0]], 1]}, 'id': 'd4c3518d-69ab-48ff-818b-bd8fdd0db9a7', 'type': 'ClassicalExpBox', 'n_i': 1, 'n_io': 0, 'n_o': 1}, 'type': 'ClassicalExpBox'}}, {'args': [['c', [0]], ['c', [1]], ['c', [2]], ['c', [3]], ['tk_SCRATCH_BIT', [1]]], 'op': {'classical': {'lower': 2, 'n_i': 4, 'upper': 4294967295}, 'type': 'RangePredicate'}}, {'args': [['tk_SCRATCH_BIT', [1]], ['q', [0]]], 'op': {'conditional': {'op': {'type': 'H'}, 'value': 1, 'width': 1}, 'type': 'Conditional'}}, {'args': [['d', [0]], ['q', [0]]], 'op': {'conditional': {'op': {'type': 'Rx', 'params': ['(((0.5 + 0.5) * pi))/pi']}, 'value': 1, 'width': 1}, 'type': 'Conditional'}}, {'args': [['a', [0]], ['a', [1]], ['b', [0]], ['b', [1]], ['b', [2]], ['a', [0]], ['a', [1]]], 'op': {'type': 'WASM', 'wasm': {'func_name': 'CCE2', 'n': 7, 'ni_vec': [2, 3], 'no_vec': [2], 'wasm_uid': '332940d7bf36f2a17ef59ddf13a042ce'}}}, {'args': [['c', [0]], ['c', [1]], ['c', [2]], ['c', [3]]], 'op': {'type': 'WASM', 'wasm': {'func_name': 'CCE1', 'n': 4, 'ni_vec': [4], 'no_vec': [], 'wasm_uid': '332940d7bf36f2a17ef59ddf13a042ce'}}}], 'qubits': [['q', [0]]], 'bits': [['c', [0]], ['c', [1]], ['c', [2]], ['c', [3]], ['a', [0]], ['a', [1]], ['b', [0]], ['b', [1]], ['b', [2]], ['d', [0]], ['tk_SCRATCH_BIT', [0]], ['tk_SCRATCH_BIT', [1]]], 'implicit_permutation': [[['q', [0]], ['q', [0]]]], 'phase': '0.0'}
+try test_extended_qasm - 4
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+<tket::Circuit, qubits=1, gates=18>
+Command list of the circuit: 
+found wasm
+Circuit::SliceIterator::operator++() - 6
+CommandIterator++ - 007
+CommandIterator++ - 008

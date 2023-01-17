@@ -115,10 +115,13 @@ void init_circuit(py::module &m) {
           py::keep_alive<
               0, 1>() /* Essential: keep object alive while iterator exists */)
       .def(
-          "get_commands",
+          "get_commands",  // todo melf
           [](const Circuit &circ) {
             std::vector<Command> out;
-            for (Command c : circ) out.push_back(c);
+            for (Command c : circ) { // for (Command c : circ) {
+              std::cout << "try to get next command\n";
+              out.push_back(c);
+            };
             return out;
           },
           ":return: a list of all the Commands in the circuit")
@@ -539,7 +542,20 @@ void init_circuit(py::module &m) {
           ":return: a JSON serializable dictionary representation of "
           "the Circuit")
       .def_static(
-          "from_dict", [](const json &j) { return j.get<Circuit>(); },
+          "from_dict",
+          [](const json &j) {
+            std::cout << "QQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQ\n";
+            std::cout << "QQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQ\n";
+            auto c = j.get<Circuit>();
+            std::cout << "QQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQ\n";
+            std::cout << "QQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQ\n";
+            for (Command com : c) {
+              std::cout << com << std::endl;
+            }
+            std::cout << "QQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQ\n";
+            std::cout << "QQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQ\n";
+            return c;
+          },
           "Construct Circuit instance from JSON serializable "
           "dictionary representation of the Circuit.")
       .def(py::pickle(

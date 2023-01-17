@@ -97,9 +97,12 @@ void from_json(const nlohmann::json& j, Circuit& circ) {
       circ.qubit_discard(q);
     }
   }
+  std::cout << "######################################\n";
   for (auto c : circ) {
+    std::cout << "next command: \n";
     std::cout << c << std::endl;
   }
+  std::cout << "######################################\n";
   std::cout << "end circuit from json\n";
 }
 
