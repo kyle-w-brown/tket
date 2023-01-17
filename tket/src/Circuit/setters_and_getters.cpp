@@ -695,10 +695,10 @@ bool Circuit::detect_initial_Op(const Vertex &vertex) const {
 
 bool Circuit::detect_final_Op(const Vertex &vertex) const {
   OpType type = get_OpType_from_Vertex(vertex);
-  std::cout << "final op type: " << std::endl;
-  if (type == OpType::WASM) {
+  // std::cout << "final op type: " << std::endl;
+  /*if (type == OpType::WASM) {
     std::cout << "found wasm\n";
-  }
+  }*/
   return is_final_q_type(type) || type == OpType::ClOutput ||
          type == OpType::WASMOutput;
 }

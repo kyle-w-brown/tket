@@ -412,8 +412,8 @@ def test_extended_qasm() -> None:
     print("try test_extended_qasm - 3")
     c = circuit_from_qasm_wasm(fname, "testfile.wasm")
     print("try test_extended_qasm - 4")    
-    print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
-    print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
+    #print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
+    #print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
     print(c)
     print("Command list of the circuit: ")
     print(c.get_commands())
@@ -421,8 +421,8 @@ def test_extended_qasm() -> None:
         print(type(g))
         print(g.__repr__())
         print(g)
-    print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
-    print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
+    #print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
+    #print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
 
     out_qasm = circuit_to_qasm_str(c, "hqslib1")
     print("try test_extended_qasm - 5")
@@ -437,11 +437,10 @@ def test_extended_qasm() -> None:
 
     with pytest.raises(DecomposeClassicalError) as e:
         DecomposeClassicalExp().apply(c)#""")
-    assert 1 == 2
 
 
 def test_decomposable_extended() -> None:
-    print("""
+    
     fname = str(curr_file_path / "qasm_test_files/test18.qasm")
     out_fname = str(curr_file_path / "qasm_test_files/test18_output.qasm")
 
@@ -450,8 +449,7 @@ def test_decomposable_extended() -> None:
 
     out_qasm = circuit_to_qasm_str(c, "hqslib1")
     with open(out_fname) as f:
-        assert out_qasm == f.read()#""")
-    assert 1 == 2
+        assert out_qasm == f.read()
 
 
 def test_opaque() -> None:

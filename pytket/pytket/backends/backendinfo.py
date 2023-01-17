@@ -260,9 +260,9 @@ class BackendInfo:
         self_dict["averaged_node_gate_errors"] = _serialize_averaged_node_gate_errors(
             self_dict["averaged_node_gate_errors"]
         )
-        print("#######################################")
-        print("all_node_gate_errors")
-        print(self_dict["averaged_node_gate_errors"])
+        #print("#######################################")
+        #print("all_node_gate_errors")
+        #print(self_dict["averaged_node_gate_errors"])
         # all_node_gate_errors
         self_dict["averaged_edge_gate_errors"] = _serialize_averaged_edge_gate_errors(
             self_dict["averaged_edge_gate_errors"]

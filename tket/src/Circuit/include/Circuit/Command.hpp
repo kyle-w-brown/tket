@@ -72,12 +72,13 @@ class Command {
   std::string to_str() const {
     // std::cout << "COMMAND TO STR: ";
     std::stringstream cmd_str;
-    cmd_str << "String from command gen ";
+    //cmd_str << "String from command gen ";
     if (opgroup) {
       cmd_str << "[" << opgroup.value() << "] ";
     }
     cmd_str << op_ptr->get_command_str(args);
-    return "CFS: " + cmd_str.str();
+    // return "CFS: " + cmd_str.str();
+    return cmd_str.str();
   }
   friend std::ostream &operator<<(std::ostream &out, const Command &c) {
     out << c.to_str();
