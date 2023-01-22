@@ -1,0 +1,13 @@
+#!/usr/bin/env python
+
+import json
+import sys
+
+lib = sys.argv[1]
+
+with open("libinfo.json") as f:
+    info = json.load(f)
+
+libcomps = [comp for comp in info if comp["reference"].startswith(f"{lib}/")]
+assert len(libcomps) == 1
+print(libcomps[0]["build_folder"])
