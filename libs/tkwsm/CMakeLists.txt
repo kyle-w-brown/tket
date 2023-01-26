@@ -17,6 +17,7 @@ project(tkwsm CXX)
 
 find_package(tkassert CONFIG REQUIRED)
 find_package(tkrng CONFIG REQUIRED)
+find_package(Boost CONFIG REQUIRED)
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_EXTENSIONS OFF)
@@ -53,6 +54,7 @@ ENDIF()
 target_include_directories(tkwsm PUBLIC include/tkwsm)
 target_link_libraries(tkwsm PRIVATE tkassert::tkassert)
 target_link_libraries(tkwsm PRIVATE tkrng::tkrng)
+target_link_libraries(tkwsm PRIVATE boost::boost)
 
 target_sources(tkwsm
     PRIVATE

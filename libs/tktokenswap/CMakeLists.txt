@@ -18,6 +18,7 @@ project(tktokenswap CXX)
 find_package(tklog CONFIG REQUIRED)
 find_package(tkassert CONFIG REQUIRED)
 find_package(tkrng CONFIG REQUIRED)
+find_package(Boost CONFIG REQUIRED)
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_EXTENSIONS OFF)
@@ -55,6 +56,7 @@ target_include_directories(tktokenswap PUBLIC include/tktokenswap)
 target_link_libraries(tktokenswap PRIVATE tklog::tklog)
 target_link_libraries(tktokenswap PRIVATE tkassert::tkassert)
 target_link_libraries(tktokenswap PRIVATE tkrng::tkrng)
+target_link_libraries(tktokenswap PRIVATE boost::boost)
 
 target_sources(tktokenswap
     PRIVATE
