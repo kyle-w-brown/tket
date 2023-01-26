@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - develop
+      - test-conan2-libs.1
   pull_request:
     branches:
       - develop
@@ -34,11 +35,11 @@ jobs:
   build_libraries:
     name: build library
     needs: changes
-    if: ${{ needs.changes.outputs.libs != '[]' && needs.changes.outputs.libs != '' }}
+    # if: ${{ needs.changes.outputs.libs != '[]' && needs.changes.outputs.libs != '' }}
     strategy:
       matrix:
         os: ['ubuntu-22.04', 'macos-12', 'windows-2022']
-        lib: ${{ fromJson(needs.changes.outputs.libs) }}
+        lib: ['tklog', 'tkrng']
         build_type: ['Release', 'Debug']
         shared: ['True', 'False']
     runs-on: ${{ matrix.os }}
@@ -92,17 +93,17 @@ jobs:
     - name: upload package (dry run)
       if: github.event_name == 'pull_request'
       run: conan upload ${{ matrix.lib }}/${{ env.LIB_VER }}@tket/stable --all -r=tket-libs --skip-upload
-    - name: upload package
-      if: github.event_name == 'push'
-      run: conan upload ${{ matrix.lib }}/${{ env.LIB_VER }}@tket/stable --all -r=tket-libs
+    # - name: upload package
+    #   if: github.event_name == 'push'
+    #   run: conan upload ${{ matrix.lib }}/${{ env.LIB_VER }}@tket/stable --all -r=tket-libs
   macos-m1:
     name: build library (macos-m1)
     needs: changes
-    if: ${{ needs.changes.outputs.libs != '[]' && needs.changes.outputs.libs != '' }}
+    # if: ${{ needs.changes.outputs.libs != '[]' && needs.changes.outputs.libs != '' }}
     runs-on: ['self-hosted', 'macOS', 'ARM64']
     strategy:
       matrix:
-        lib: ${{ fromJson(needs.changes.outputs.libs) }}
+        lib: ['tklog', 'tkrng']
         build_type: ['Release', 'Debug']
         shared: ['True', 'False']
     env:
@@ -128,19 +129,19 @@ jobs:
     - name: upload package (dry run)
       if: github.event_name == 'pull_request'
       run: conan upload ${{ matrix.lib }}/${LIB_VER}@tket/stable --all -r=tket-libs --skip-upload
-    - name: upload package
-      if: github.event_name == 'push'
-      run: conan upload ${{ matrix.lib }}/${LIB_VER}@tket/stable --all -r=tket-libs
+    # - name: upload package
+    #   if: github.event_name == 'push'
+    #   run: conan upload ${{ matrix.lib }}/${LIB_VER}@tket/stable --all -r=tket-libs
     - name: unauthenticate
       run: conan user -c
   manylinux:
     name: build library (manylinux)
     needs: changes
-    if: ${{ needs.changes.outputs.libs != '[]' && needs.changes.outputs.libs != '' }}
+    # if: ${{ needs.changes.outputs.libs != '[]' && needs.changes.outputs.libs != '' }}
     runs-on: ubuntu-22.04
     strategy:
       matrix:
-        lib: ${{ fromJson(needs.changes.outputs.libs) }}
+        lib: ['tklog', 'tkrng']
     env:
       UPLOAD_PACKAGE: "NO"
     steps:
@@ -150,9 +151,9 @@ jobs:
         docker create --name linux_build -i -v /:/host quay.io/pypa/manylinux2014_x86_64:latest /bin/bash
         docker cp ./libs/${{ matrix.lib }} linux_build:/
         docker cp ./.github/workflows/linuxbuildlib linux_build:/
-    - name: determine whether to upload package
-      if: github.event_name == 'push'
-      run: echo "UPLOAD_PACKAGE=YES" >> ${GITHUB_ENV}
+    # - name: determine whether to upload package
+    #   if: github.event_name == 'push'
+    #   run: echo "UPLOAD_PACKAGE=YES" >> ${GITHUB_ENV}
     - name: build ${{ matrix.lib }}
       run: |
         docker start linux_build
