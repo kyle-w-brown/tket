@@ -26,12 +26,8 @@ class test_tketRecipe(ConanFile):
     description = "Unit tests for tket"
     topics = ("quantum", "computation", "compiler")
     settings = "os", "compiler", "build_type", "arch"
-    options = {
-        "with_coverage": [True, False],
-        "full": [True, False],
-        "long": [True, False],
-    }
-    default_options = {"with_coverage": False, "full": False, "long": False}
+    options = {"with_coverage": [True, False]}
+    default_options = {"with_coverage": False}
     exports_sources = "CMakeLists.txt", "src/*"
 
     def configure(self):
