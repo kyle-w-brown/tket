@@ -1,4 +1,4 @@
-// Copyright 2019-2022 Cambridge Quantum Computing
+// Copyright 2019-2023 Cambridge Quantum Computing
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -24,6 +24,7 @@ namespace Transforms {
 // removes gate-inverse pairs, merges rotations, removes identity rotations,
 // and removes redundant gates before measure Expects: Any gates Produces: The
 // same gate set
+bool redundancy_removal(Circuit& circuit);
 Transform remove_redundancies();
 
 /**

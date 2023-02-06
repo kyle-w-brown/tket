@@ -1,4 +1,4 @@
-// Copyright 2019-2022 Cambridge Quantum Computing
+// Copyright 2019-2023 Cambridge Quantum Computing
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -416,7 +416,8 @@ void from_json(const nlohmann::json& j, PassPtr& pp) {
     } else if (passname == "SquashCustom") {
       throw PassNotSerializable(passname);
     } else if (passname == "DelayMeasures") {
-      pp = DelayMeasures();
+      bool allow_partial = content.at("allow_partial").get<bool>();
+      pp = DelayMeasures(allow_partial);
     } else if (passname == "ZZPhaseToRz") {
       pp = ZZPhaseToRz();
     } else if (passname == "RemoveDiscarded") {
@@ -460,6 +461,8 @@ void from_json(const nlohmann::json& j, PassPtr& pp) {
       pp = DecomposeBridges();
     } else if (passname == "CnXPairwiseDecomposition") {
       pp = CnXPairwiseDecomposition();
+    } else if (passname == "RemoveImplicitQubitPermutation") {
+      pp = RemoveImplicitQubitPermutation();
     } else if (passname == "OptimisePhaseGadgets") {
       pp = gen_optimise_phase_gadgets(
           content.at("cx_config").get<CXConfigType>());

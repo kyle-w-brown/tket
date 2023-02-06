@@ -1,4 +1,4 @@
-// Copyright 2019-2022 Cambridge Quantum Computing
+// Copyright 2019-2023 Cambridge Quantum Computing
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -17,7 +17,9 @@
 #include <memory>
 
 #include "Circuit/CircPool.hpp"
+#include "CompilationUnit.hpp"
 #include "PassGenerators.hpp"
+#include "Predicates.hpp"
 #include "Predicates/CompilerPass.hpp"
 #include "Transformations/BasicOptimisation.hpp"
 #include "Transformations/Decomposition.hpp"
@@ -354,20 +356,32 @@ const PassPtr &RemoveBarriers() {
   return pp;
 }
 
-const PassPtr &DelayMeasures() {
-  static const PassPtr pp([]() {
-    Transform t = Transforms::delay_measures();
-    PredicatePtr midmeaspred = std::make_shared<NoMidMeasurePredicate>();
-    PredicatePtrMap spec_postcons = {
-        CompilationUnit::make_type_pair(midmeaspred)};
-    PostConditions postcon = {spec_postcons, {}, Guarantee::Preserve};
-    PredicatePtrMap precons;
-    // record pass config
+const PassPtr &DelayMeasures(const bool allow_partial) {
+  auto f = [](bool allow_partial) {
+    Transform t = Transforms::delay_measures(allow_partial);
+
+    PredicatePtrMap precon;
+    PostConditions postcon;
+
+    if (!allow_partial) {
+      PredicatePtr delaymeaspred =
+          std::make_shared<CommutableMeasuresPredicate>();
+      precon = {CompilationUnit::make_type_pair(delaymeaspred)};
+
+      PredicatePtr midmeaspred = std::make_shared<NoMidMeasurePredicate>();
+      PredicatePtrMap spec_postcons = {
+          CompilationUnit::make_type_pair(midmeaspred)};
+      postcon = {spec_postcons, {}, Guarantee::Preserve};
+    }
+
     nlohmann::json j;
     j["name"] = "DelayMeasures";
-    return std::make_shared<StandardPass>(precons, t, postcon, j);
-  }());
-  return pp;
+    j["allow_partial"] = allow_partial;
+    return std::make_shared<StandardPass>(precon, t, postcon, j);
+  };
+  static const PassPtr delay(f(false));
+  static const PassPtr try_delay(f(true));
+  return allow_partial ? try_delay : delay;
 }
 
 const PassPtr &RemoveDiscarded() {
@@ -461,6 +475,31 @@ const PassPtr &CnXPairwiseDecomposition() {
     nlohmann::json j;
     j["name"] = "CnXPairwiseDecomposition";
     return std::make_shared<StandardPass>(s_ps, t, postcon, j);
+  }());
+  return pp;
+}
+
+const PassPtr &RemoveImplicitQubitPermutation() {
+  static const PassPtr pp([]() {
+    Transform t = Transform([](Circuit &circ) {
+      bool has_implicit_wire_swaps = circ.has_implicit_wireswaps();
+      circ.replace_all_implicit_wire_swaps();
+      return has_implicit_wire_swaps;
+    });
+    PredicatePtrMap precons;
+    PredicatePtr no_wire_swap = std::make_shared<NoWireSwapsPredicate>();
+    PredicatePtrMap specific_postcons = {
+        CompilationUnit::make_type_pair(no_wire_swap)};
+    PredicateClassGuarantees generic_postcons;
+    Guarantee default_postcon = Guarantee::Preserve;
+    PostConditions postcons{
+        specific_postcons, generic_postcons, default_postcon};
+    PredicateClassGuarantees g_postcons = {
+        {typeid(GateSetPredicate), Guarantee::Clear},
+        {typeid(NoMidMeasurePredicate), Guarantee::Clear}};
+    nlohmann::json j;
+    j["name"] = "RemoveImplicitQubitPermutation";
+    return std::make_shared<StandardPass>(precons, t, postcons, j);
   }());
   return pp;
 }

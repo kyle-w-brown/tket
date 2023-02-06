@@ -1,4 +1,4 @@
-# Copyright 2019-2022 Cambridge Quantum Computing
+# Copyright 2019-2023 Cambridge Quantum Computing
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -22,6 +22,7 @@ add_library(tket-${COMP}
     Combinator.cpp
     Rebase.cpp
     BasicOptimisation.cpp
+    RedundancyRemoval.cpp
     PauliOptimisation.cpp
     CliffordOptimisation.cpp
     CliffordReductionPass.cpp

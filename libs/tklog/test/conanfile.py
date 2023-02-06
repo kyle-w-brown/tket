@@ -1,4 +1,4 @@
-# Copyright 2019-2022 Cambridge Quantum Computing
+# Copyright 2019-2023 Cambridge Quantum Computing
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -27,7 +27,7 @@ class TestTklogConan(ConanFile):
     default_options = {"with_coverage": False}
     generators = "cmake"
     exports_sources = "*"
-    requires = ["tklog/0.1.2", "catch2/3.1.0"]
+    requires = ["tklog/0.1.2", "catch2/3.3.0"]
 
     _cmake = None
 

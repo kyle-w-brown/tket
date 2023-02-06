@@ -1,4 +1,4 @@
-# Copyright 2019-2022 Cambridge Quantum Computing
+# Copyright 2019-2023 Cambridge Quantum Computing
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -130,6 +130,7 @@ NONPARAM_PREDICATES = [
     "CliffordCircuitPredicate",
     "DefaultRegisterPredicate",
     "NoBarriersPredicate",
+    "CommutableMeasuresPredicate",
     "NoMidMeasurePredicate",
     "NoSymbolsPredicate",
     "GlobalPhasedXPredicate",
@@ -261,6 +262,12 @@ TWO_WAY_PARAM_PASSES = {
             "x_circuit": example_1q_circuit,
         }
     ),
+    "DelayMeasures": standard_pass_dict(
+        {
+            "name": "DelayMeasures",
+            "allow_partial": False,
+        }
+    ),
 }
 
 # non-parametrized passes that satisfy pass.from_dict(d).to_dict()==d
@@ -282,13 +289,13 @@ TWO_WAY_NONPARAM_PASSES = [
     "SquashTK1",
     "SquashRzPhasedX",
     "FlattenRegisters",
-    "DelayMeasures",
     "ZZPhaseToRz",
     "RemoveDiscarded",
     "SimplifyMeasured",
     "RemoveBarriers",
     "DecomposeBridges",
     "CnXPairwiseDecomposition",
+    "RemoveImplicitQubitPermutation",
 ]
 
 TWO_WAY_PASSES = {name: nonparam_pass_dict(name) for name in TWO_WAY_NONPARAM_PASSES}
@@ -632,6 +639,7 @@ def test_pass_deserialisation_only() -> None:
     np_pass = dm_pass.get_sequence()[0].get_sequence()[2]
     d_pass = dm_pass.get_sequence()[1]
     assert d_pass.to_dict()["StandardPass"]["name"] == "DelayMeasures"
+    assert d_pass.to_dict()["StandardPass"]["allow_partial"] == False
     assert p_pass.to_dict()["StandardPass"]["name"] == "PlacementPass"
     assert np_pass.to_dict()["StandardPass"]["name"] == "NaivePlacementPass"
     assert r_pass.to_dict()["StandardPass"]["name"] == "RoutingPass"
@@ -681,6 +689,7 @@ def test_pass_deserialisation_only() -> None:
     p001 = p00.get_sequence()[1]
     assert p000.to_dict()["pass_class"] == "SequencePass"
     assert p001.to_dict()["StandardPass"]["name"] == "DelayMeasures"
+    assert p001.to_dict()["StandardPass"]["allow_partial"] == False
     p0000 = p000.get_sequence()[0]
     p0001 = p000.get_sequence()[1]
     assert p0000.to_dict()["StandardPass"]["name"] == "RebaseCustom"

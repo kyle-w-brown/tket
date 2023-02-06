@@ -1,4 +1,4 @@
-// Copyright 2019-2022 Cambridge Quantum Computing
+// Copyright 2019-2023 Cambridge Quantum Computing
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -458,7 +458,7 @@ PYBIND11_MODULE(passes, m) {
       "The `allow_swaps` parameter has no effect when the target gate is TK2."
       "\n\n:param allow_swaps: whether to allow implicit wire swaps",
       py::arg("allow_swaps") = true, py::arg("target_2qb_gate") = OpType::CX);
-  m.def("RebaseTket", &RebaseTket, "Converts all gates to CX and TK1.");
+  m.def("RebaseTket", &RebaseTket, "Converts all gates to CX, TK1 and Phase.");
   m.def(
       "RemoveRedundancies", &RemoveRedundancies,
       "Removes gate-inverse pairs, merges rotations, removes identity "
@@ -469,19 +469,19 @@ PYBIND11_MODULE(passes, m) {
   m.def(
       "SynthesiseHQS", &SynthesiseHQS,
       "Optimises and converts a circuit consisting of CX and single-qubit "
-      "gates into one containing only ZZMax, PhasedX and Rz.");
+      "gates into one containing only ZZMax, PhasedX, Rz and Phase.");
   m.def(
       "SynthesiseTK", &SynthesiseTK,
-      "Optimises and converts all gates to TK2 and TK1 gates.");
+      "Optimises and converts all gates to TK2, TK1 and Phase gates.");
   m.def(
       "SynthesiseTket", &SynthesiseTket,
-      "Optimises and converts all gates to CX and TK1 gates.");
+      "Optimises and converts all gates to CX, TK1 and Phase gates.");
   m.def(
       "SynthesiseOQC", &SynthesiseOQC,
-      "Optimises and converts all gates to ECR, Rz and SX.");
+      "Optimises and converts all gates to ECR, Rz, SX and Phase.");
   m.def(
       "SynthesiseUMD", &SynthesiseUMD,
-      "Optimises and converts all gates to XXPhase, PhasedX and Rz.");
+      "Optimises and converts all gates to XXPhase, PhasedX, Rz and Phase.");
   m.def(
       "SquashTK1", &SquashTK1,
       "Squash sequences of single-qubit gates to TK1 gates.");
@@ -510,7 +510,12 @@ PYBIND11_MODULE(passes, m) {
       "Commutes Measure operations to the end of the circuit. Throws an "
       "exception when this is not possible because of gates following the "
       "measure which are dependent on either the resulting quantum state "
-      "or classical values.");
+      "or classical values."
+      "\n\n:param allow_partial: Whether to allow measurements that cannot be "
+      "commuted to "
+      "the end, and delay them as much as possible instead. If false, the pass "
+      "includes a :py:class:`CommutableMeasuresPredicate` precondition.",
+      py::arg("allow_partial") = true);
   m.def(
       "RemoveDiscarded", &RemoveDiscarded,
       "A pass to remove all operations that have no ``OpType.Output`` or "
@@ -551,7 +556,8 @@ PYBIND11_MODULE(passes, m) {
       "\n:param tk1_replacement: a function which, given the parameters of an "
       "Rz(a)Rx(b)Rz(c) triple, returns an equivalent circuit in the desired "
       "basis"
-      "\n:return: a pass that rebases to the given gate set",
+      "\n:return: a pass that rebases to the given gate set (possibly "
+      "including conditional and phase operations)",
       py::arg("gateset"), py::arg("cx_replacement"),
       py::arg("tk1_replacement"));
 
@@ -575,7 +581,8 @@ PYBIND11_MODULE(passes, m) {
       ":param tk1_replacement: a function which, given the parameters (a,b,c) "
       "of an Rz(a)Rx(b)Rz(c) triple, returns an equivalent circuit in the "
       "desired basis\n"
-      ":return: a pass that rebases to the given gate set");
+      ":return: a pass that rebases to the given gate set (possibly including "
+      "conditional and phase operations)");
 
   m.def(
       "EulerAngleReduction", &gen_euler_pass,
@@ -735,7 +742,7 @@ PYBIND11_MODULE(passes, m) {
   m.def(
       "OptimisePhaseGadgets", &gen_optimise_phase_gadgets,
       "Construct a pass that synthesises phase gadgets and converts to a "
-      "circuit containing only CX and TK1 gates."
+      "circuit containing only CX, TK1 and Phase gates."
       "\n\n:param cx_config: A configuration of CXs to convert phase "
       "gadgets into."
       "\n:return: a pass to perform the synthesis",
@@ -830,6 +837,13 @@ PYBIND11_MODULE(passes, m) {
       "Decompose CnX gates to 2-qubit gates and single qubit gates. "
       "For every two CnX gates, reorder their control qubits to improve "
       "the chance of gate cancellation");
+
+  m.def(
+      "RemoveImplicitQubitPermutation", &RemoveImplicitQubitPermutation,
+      "Remove any implicit qubit permutation by appending SWAP gates."
+      "\n\n"
+      "Note that if the circuit contains measurements, they may become "
+      "mid-circuit measurements in the transformed circuit.");
 
   m.def(
       "CustomPass", &CustomPass,

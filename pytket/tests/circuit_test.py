@@ -1,4 +1,4 @@
-# Copyright 2019-2022 Cambridge Quantum Computing
+# Copyright 2019-2023 Cambridge Quantum Computing
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -27,6 +27,9 @@ from pytket.circuit import (  # type: ignore
     Unitary1qBox,
     Unitary2qBox,
     Unitary3qBox,
+    MultiplexorBox,
+    MultiplexedRotationBox,
+    MultiplexedU2Box,
     ExpBox,
     PauliExpBox,
     QControlBox,
@@ -47,6 +50,7 @@ from pytket.predicates import CompilationUnit  # type: ignore
 from pytket.transform import Transform, PauliSynthStrat  # type: ignore
 
 import numpy as np
+from scipy.linalg import block_diag  # type: ignore
 import sympy  # type: ignore
 from sympy import Symbol, pi, sympify, functions  # type: ignore
 from math import sqrt
@@ -156,13 +160,27 @@ def test_circuit_gen() -> None:
     c.SXdg(0)
     c.Measure(3, 3)
     c.Measure(1, 1)
+    c.U1(0.25, 1)
+    c.U2(0.25, 0.25, 3)
+    c.U3(0.25, 0.25, 0.25, 2)
+    c.TK1(0.3, 0.3, 0.3, 0)
+    c.TK2(0.3, 0.3, 0.3, 0, 1)
+    c.CU1(0.25, 0, 1)
+    c.CU3(0.25, 0.25, 0.25, 0, 1)
+    c.ISWAP(0.4, 1, 2)
+    c.PhasedISWAP(0.5, 0.6, 2, 3)
+    c.PhasedX(0.2, 0.3, 3)
+    c.ESWAP(0.9, 3, 0)
+    c.FSim(0.2, 0.4, 0, 1)
+    c.Sycamore(1, 2)
+    c.ISWAPMax(2, 3)
 
     assert c.n_qubits == 4
-    assert c._n_vertices() == 31
-    assert c.n_gates == 15
+    assert c._n_vertices() == 45
+    assert c.n_gates == 29
 
     commands = c.get_commands()
-    assert len(commands) == 15
+    assert len(commands) == 29
     assert str(commands[0]) == "X q[0];"
     assert str(commands[2]) == "CX q[2], q[0];"
     assert str(commands[4]) == "CRz(0.5) q[0], q[3];"
@@ -176,6 +194,20 @@ def test_circuit_gen() -> None:
     assert str(commands[12]) == "SX q[3];"
     assert str(commands[13]) == "Measure q[1] --> c[1];"
     assert str(commands[14]) == "Measure q[3] --> c[3];"
+    assert str(commands[15]) == "TK1(0.3, 0.3, 0.3) q[0];"
+    assert str(commands[16]) == "U3(0.25, 0.25, 0.25) q[2];"
+    assert str(commands[17]) == "U1(0.25) q[1];"
+    assert str(commands[18]) == "U2(0.25, 0.25) q[3];"
+    assert str(commands[19]) == "TK2(0.3, 0.3, 0.3) q[0], q[1];"
+    assert str(commands[20]) == "CU1(0.25) q[0], q[1];"
+    assert str(commands[21]) == "CU3(0.25, 0.25, 0.25) q[0], q[1];"
+    assert str(commands[22]) == "ISWAP(0.4) q[1], q[2];"
+    assert str(commands[23]) == "PhasedISWAP(0.5, 0.6) q[2], q[3];"
+    assert str(commands[24]) == "PhasedX(0.2, 0.3) q[3];"
+    assert str(commands[25]) == "ESWAP(0.9) q[3], q[0];"
+    assert str(commands[26]) == "FSim(0.2, 0.4) q[0], q[1];"
+    assert str(commands[27]) == "Sycamore q[1], q[2];"
+    assert str(commands[28]) == "ISWAPMax q[2], q[3];"
 
     assert commands[14].qubits == [Qubit(3)]
     assert commands[14].bits == [Bit(3)]
@@ -413,6 +445,47 @@ def test_boxes() -> None:
     d.add_toffolibox(tb, [0, 1])
     assert d.n_gates == 8
 
+    # MultiplexedU2Box, MultiplexedU2Box
+    op_map = {(0, 0): Op.create(OpType.Rz, 0.3), (1, 1): Op.create(OpType.H)}
+    multiplexor = MultiplexorBox(op_map)
+    ucu2_box = MultiplexedU2Box(op_map)
+    c0 = multiplexor.get_circuit()
+    DecomposeBoxes().apply(c0)
+    unitary0 = c0.get_unitary()
+    c1 = ucu2_box.get_circuit()
+    DecomposeBoxes().apply(c1)
+    unitary1 = c1.get_unitary()
+    comparison = block_diag(
+        Circuit(1).Rz(0.3, 0).get_unitary(),
+        np.eye(2),
+        np.eye(2),
+        Circuit(1).H(0).get_unitary(),
+    )
+    assert np.allclose(unitary0, comparison)
+    assert np.allclose(unitary1, comparison)
+    d.add_multiplexor(multiplexor, [Qubit(0), Qubit(1), Qubit(2)])
+    d.add_multiplexedu2(ucu2_box, [Qubit(0), Qubit(1), Qubit(2)])
+    assert d.n_gates == 10
+    # MultiplexedRotationBox
+    op_map = {(0, 0): Op.create(OpType.Rz, 0.3), (1, 1): Op.create(OpType.Rz, 1.7)}
+    multiplexor = MultiplexedRotationBox(op_map)
+    c0 = multiplexor.get_circuit()
+    unitary = c0.get_unitary()
+    comparison = block_diag(
+        Circuit(1).Rz(0.3, 0).get_unitary(),
+        np.eye(2),
+        np.eye(2),
+        Circuit(1).Rz(1.7, 0).get_unitary(),
+    )
+    assert np.allclose(unitary, comparison)
+    d.add_multiplexedrotation(multiplexor, [Qubit(0), Qubit(1), Qubit(2)])
+    assert d.n_gates == 11
+    multiplexor = MultiplexedRotationBox([0.3, 0, 0, 1.7], OpType.Rz)
+    unitary = multiplexor.get_circuit().get_unitary()
+    assert np.allclose(unitary, comparison)
+    d.add_multiplexedrotation(multiplexor, [Qubit(0), Qubit(1), Qubit(2)])
+    assert d.n_gates == 12
+
 
 def test_u1q_stability() -> None:
     # https://github.com/CQCL/tket/issues/222
@@ -564,12 +637,14 @@ def test_phase_return_circ() -> None:
 
 
 @given(st.circuits())
+@settings(deadline=None)
 def test_circuit_to_serializable_json_roundtrip(circuit: Circuit) -> None:
     serializable_form = circuit.to_dict()
     assert json.loads(json.dumps(serializable_form)) == serializable_form
 
 
 @given(st.circuits())
+@settings(deadline=None)
 def test_circuit_pickle_roundtrip(circuit: Circuit) -> None:
     assert pickle.loads(pickle.dumps(circuit)) == circuit
 

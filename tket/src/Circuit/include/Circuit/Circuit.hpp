@@ -1,4 +1,4 @@
-// Copyright 2019-2022 Cambridge Quantum Computing
+// Copyright 2019-2023 Cambridge Quantum Computing
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -436,19 +436,18 @@ class Circuit {
   std::map<Bit, unsigned> bit_readout() const;
 
   /**
-   * If a Measure op is the last operation on both its qubit and bit, this
-   * will map that qubit id to the same readout index as the bit. This is
-   * useful to extract from the circuit before compilation to correctly
+   * If a Measure op is the last operation (ignoring Barriers) on both its qubit
+   * and bit, this will map that qubit id to the same readout index as the bit.
+   * This is useful to extract from the circuit before compilation to correctly
    * interpret the readouts, and after compilation to identify how to apply
    * corrections for error mitigation.
    */
   std::map<Qubit, unsigned> qubit_readout() const;
 
   /**
-   * If a Measure op is the last operation on both its qubit and bit, this
-   * will map that qubit id to bit id. This is
-   * useful after compilation to identify how to apply
-   * corrections for error mitigation.
+   * If a Measure op is the last operation (ignoring Barriers) on both its qubit
+   * and bit, this will map that qubit id to bit id. This is useful after
+   * compilation to identify how to apply corrections for error mitigation.
    */
   std::map<Qubit, Bit> qubit_to_bit_map() const;
 
@@ -1465,6 +1464,10 @@ class Circuit {
 
   /**
    * Adds a condition to every op in the circuit.
+   *
+   * If the circuit has a global phase, this is expressed by appending a
+   * conditional Phase operation.
+   *
    * Will throw a CircuitInvalidity error if the circuit contains implicit
    * wireswaps (as these cannot be applied conditionally) or writes to the
    * condition bits at any point.
@@ -1535,6 +1538,13 @@ class Circuit {
    * of qubits and \f$ D \f$ is the circuit depth.
    */
   std::vector<Command> get_commands() const;
+
+  /**
+   * All vertices of the DAG.
+   *
+   * @return vector of vertices
+   */
+  std::vector<Vertex> all_vertices() const;
 
   /**
    * Set the vertex indices in the DAG.

@@ -1,4 +1,4 @@
-// Copyright 2019-2022 Cambridge Quantum Computing
+// Copyright 2019-2023 Cambridge Quantum Computing
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -450,6 +450,12 @@ QubitPauliTensor QubitPauliTensor::operator*(
     p2i++;
   }
   return result;
+}
+
+void QubitPauliTensor::transpose() {
+  for (const std::pair<const Qubit, Pauli> &pair : string.map) {
+    if (pair.second == Pauli::Y) coeff *= -1.;
+  }
 }
 
 bool QubitPauliTensor::operator==(const QubitPauliTensor &other) const {

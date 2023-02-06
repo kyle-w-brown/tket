@@ -1,4 +1,4 @@
-# Copyright 2019-2022 Cambridge Quantum Computing
+# Copyright 2019-2023 Cambridge Quantum Computing
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -15,6 +15,7 @@
 from io import StringIO
 import re
 from pathlib import Path
+from typing import List
 
 import pytest  # type: ignore
 
@@ -24,6 +25,7 @@ from pytket.circuit import (  # type: ignore
     OpType,
     fresh_symbol,
     Qubit,
+    Bit,
     reg_eq,
     reg_neq,
     reg_lt,
@@ -50,7 +52,7 @@ from pytket.qasm.includes.load_includes import (
     _load_gdict,
 )
 from pytket.transform import Transform  # type: ignore
-from pytket.passes import DecomposeClassicalExp  # type: ignore
+from pytket.passes import DecomposeClassicalExp, DecomposeBoxes  # type: ignore
 
 curr_file_path = Path(__file__).resolve().parent
 
@@ -524,6 +526,7 @@ def test_non_lib_gates() -> None:
     c.add_gate(OpType.ESWAP, [0.7], [0, 1])
     c.add_gate(OpType.FSim, [0.3, 0.4], [1, 2])
     c.add_gate(OpType.ISWAPMax, [1, 2])
+    c.add_gate(OpType.ECR, [2, 0])
     # add copies
     c.add_gate(OpType.TK2, [0.3, 0.6, 0.8], [2, 1])
     c.add_gate(OpType.CV, [1, 0])
@@ -537,6 +540,7 @@ def test_non_lib_gates() -> None:
     c.add_gate(OpType.ESWAP, [0.8], [2, 1])
     c.add_gate(OpType.FSim, [0.9, 0.2], [0, 2])
     c.add_gate(OpType.ISWAPMax, [0, 2])
+    c.add_gate(OpType.ECR, [0, 1])
 
     qs = circuit_to_qasm_str(c)
     c2 = circuit_from_qasm_str(qs)
@@ -614,6 +618,95 @@ def test_scratch_bits_filtering() -> None:
     with open(qasm_out, "r") as f:
         fstr = f.read()
         assert f"creg {_TEMP_BIT_REG_BASE}_0[32]" in fstr
+
+
+def test_qasm_phase() -> None:
+    c = Circuit(1, 1)
+    c.H(0)
+    c.Phase(0.5)
+    c.Phase(0.5, condition_bits=[Bit(0)], condition_value=1)
+    c.add_barrier([0])
+    c.H(0)
+    c.add_phase(0.5)
+    c0 = Circuit(1, 1)
+    c0.H(0)
+    c0.add_barrier([0])
+    c0.H(0)
+    for header in ["qelib1", "hqslib1"]:
+        qstr = circuit_to_qasm_str(c, header)
+        c1 = circuit_from_qasm_str(qstr)
+        assert c1 == c0
+
+
+def test_CopyBits() -> None:
+    input_qasm = """OPENQASM 2.0;\ninclude "hqslib1.inc";\n\ncreg c0[1];
+creg c1[3];\nc0[0] = c1[1];\n"""
+    c = circuit_from_qasm_str(input_qasm)
+    result_circ_qasm = circuit_to_qasm_str(c, "hqslib1")
+    assert input_qasm == result_circ_qasm
+
+    c = Circuit()
+    creg0 = c.add_c_register("c0", 1)
+    creg1 = c.add_c_register("c1", 2)
+    creg2 = c.add_c_register("c2", 2)
+    # should output bit-wise assignment
+    c.add_c_copybits([creg1[1]], [creg0[0]])
+    # should output register-wise assignment
+    c.add_c_copybits([creg2[0], creg2[1]], [creg1[0], creg1[1]])
+    # should output bit-wise assignment
+    c.add_c_copybits([creg2[0], creg2[1]], [creg1[1], creg1[0]])
+    result_circ_qasm = circuit_to_qasm_str(c, "hqslib1")
+
+    correct_qasm = """OPENQASM 2.0;\ninclude "hqslib1.inc";\n\ncreg c0[1];
+creg c1[2];\ncreg c2[2];\nc0[0] = c1[1];\nc1 = c2;\nc1[1] = c2[0];\nc1[0] = c2[1];\n"""
+    assert result_circ_qasm == correct_qasm
+
+
+def test_RZZ_read_from() -> None:
+    c = circuit_from_qasm_str(
+        """
+    OPENQASM 2.0;
+    include "hqslib1.inc";
+
+    qreg q[2];
+    RZZ(0.5*pi) q[0],q[1];
+    """
+    )
+    DecomposeBoxes().apply(c)
+    assert "RZZ(0.5*pi) q[0],q[1];" in circuit_to_qasm_str(c, header="hqslib1")
+    assert "rzz(0.5*pi) q[0],q[1];" in circuit_to_qasm_str(c)
+
+
+def test_conditional_expressions() -> None:
+    def cond_circ(bits: List[int]) -> Circuit:
+        c = Circuit(4, 4)
+        c.X(0)
+        c.X(1)
+        c.X(2)
+        c.Measure(0, 0)
+        c.Measure(1, 1)
+        c.Measure(2, 2)
+        c.X(3, condition_bits=bits, condition_value=3)
+        c.Measure(3, 3)
+        return c
+
+    c1 = cond_circ([1])
+    with pytest.raises(QASMUnsupportedError):
+        circuit_to_qasm_str(c1)
+    assert "if(c[1]==3)" in circuit_to_qasm_str(c1, header="hqslib1")
+    c12 = cond_circ([1, 2])
+    with pytest.raises(QASMUnsupportedError):
+        circuit_to_qasm_str(c12)
+    with pytest.raises(QASMUnsupportedError):
+        circuit_to_qasm_str(c12, header="hqslib1")
+    c0123 = cond_circ([0, 1, 2, 3])
+    assert "if(c==3)" in circuit_to_qasm_str(c0123)
+    assert "if(c==3)" in circuit_to_qasm_str(c0123, header="hqslib1")
+    c0132 = cond_circ([0, 1, 3, 2])
+    with pytest.raises(QASMUnsupportedError):
+        circuit_to_qasm_str(c0132)
+    with pytest.raises(QASMUnsupportedError):
+        circuit_to_qasm_str(c0132, header="hqslib1")
 
 
 if __name__ == "__main__":

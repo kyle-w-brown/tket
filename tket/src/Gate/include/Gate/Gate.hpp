@@ -1,4 +1,4 @@
-// Copyright 2019-2022 Cambridge Quantum Computing
+// Copyright 2019-2023 Cambridge Quantum Computing
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -68,6 +68,8 @@ class Gate : public Op {
 
   std::optional<double> is_identity() const override;
   bool is_clifford() const override;
+  bool has_symmetry(unsigned port1, unsigned port2) const override;
+
   Eigen::MatrixXcd get_unitary() const override;
 
   ~Gate() override {}

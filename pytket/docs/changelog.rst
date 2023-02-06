@@ -1,6 +1,113 @@
 Changelog
 =========
 
+Unreleased
+----------
+
+Minor new features:
+
+* New ``CommutableMeasuresPredicate`` predicate, added as precondition to the
+  ``DelayMeasures`` pass.
+* Added an ``allow_partial`` parameter to the ``DelayMeasures`` pass to delay
+  the measurements as much as possible when they cannot be fully delayed to the
+  end.
+* Update to ``pytket-circuit-renderer`` 0.5.
+
+Fixes:
+
+* ``DelayMeasures`` pass now correctly handles circuits with ``CircBox``es.
+
+
+1.11.1 (January 2023)
+---------------------
+
+General:
+
+* Support for MacOS >= 11.0 on both x86_64 and arm64.
+
+1.11.0 (January 2023)
+---------------------
+
+Major new features:
+
+* New boxes to implement multiplexor gates (i.e. uniformly controlled operations):
+  ``MultiplexorBox``, ``MultiplexedRotationBox`` and ``MultiplexedU2Box``.
+
+General:
+
+* Python 3.11 support added; 3.8 dropped.
+
+Minor new features:
+
+* Circuit methods ``qubit_readout`` and ``qubit_to_bit_map`` now ignore barriers.
+* New pass ``RemoveImplicitQubitPermutation``.
+* ``PauliSimp`` pass accepts circuits containing implicit wire swaps.
+
+Fixes:
+
+* ``MultiGateReorderRoutingMethod`` raising unknown edge missing error.
+* ``LexiRouteLabellingMethod`` hitting assertion during dynamic qubit allocation.
+* ``PauliSimp`` pass preserves circuit name.
+
+1.10.0 (December 2022)
+----------------------
+
+Minor new features:
+
+* Add support for PhasedX gates in Pauli graph synthesis.
+
+Fixes:
+
+* Handle 0-qubit operations in connectivity check.
+* Fix handling of Tdg, CY, ZZMax and Clifford-angle YYPhase gates in Pauli
+  graph synthesis.
+* Disallow conversion to QASM of operations conditioned on strict subregisters
+  larger than one bit, or reordered registers.
+
+1.9.1 (December 2022)
+---------------------
+
+Minor new features:
+
+* New ``view_browser`` function for opening a browser with circuit render.
+
+Fixes:
+
+* Warn rather than abort when significant rounding errors are detected in
+  TK2-to-CX rebase.
+* Fix incorrect QASM output for ``OpType.CopyBits``.
+* Fix incorrect QASM read in ``OpType.ZZPhase``.
+
+1.9.0 (November 2022)
+---------------------
+
+Fixes:
+
+* Rebase and synthesis passes now respect conditional phase, by adding
+  conditional ``OpType.Phase`` operations to the rebased circuit. Any code that
+  relies on the circuit having gates only in the specified gate set should be
+  updated to handle ``OpType.Phase`` as well when conditional operations are
+  present.
+* A bug where the sequence of ``RoutingMethod`` used in ``DefaultMappingPass`` could 
+  add a cycle to the ``Circuit`` DAG has been fixed.
+* Fix support for ECR gate in QASM converters.
+
+API changes:
+
+* The default value of ``optimisation_level`` in ``Backend`` methods that have
+  this parameter (such as ``get_compiled_circuit()``) has been changed from 1 to
+  2.
+
+Minor new features:
+
+* Added shortcuts for adding ``U1``, ``U2``, ``U3``, ``TK1``, ``TK2``, ``CU1``, 
+  ``CU3``, ``ISWAP``, ``PhasedISWAP``, ``ESWAP``, ``PhasedX``, ``FSim``, ``Sycamore``
+  and ``ISWAPMax`` gates to a ``pytket`` ``Circuit``.
+* New ``Circuit`` methods ``n_1qb_gates``, ``n_2qb_gates``, ``n_nqb_gates``.
+* New ``EmpriricalDistribution`` and ``ProbabilityDistribution`` utility classes
+  for manipulating distributions, and methods to extract them from
+  ``BackendResult`` objects.
+
 1.8.1 (November 2022)
 ---------------------
 

@@ -1,4 +1,4 @@
-// Copyright 2019-2022 Cambridge Quantum Computing
+// Copyright 2019-2023 Cambridge Quantum Computing
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -64,6 +64,18 @@ class Predicate {
 };
 
 // all Predicate subclasses must inherit from `Predicate`
+
+/**
+ * Asserts that all operations are in the specified set of types.
+ *
+ * Note that the following are always permitted and do not need to be included
+ * in the permitted set:
+ * - "meta" operations (inputs, outputs, barriers);
+ * - OpType::Phase gates (which have no input or output wires).
+ *
+ * Classically conditioned operations are permitted provided that the
+ * conditional operation is of a permitted type.
+ */
 class GateSetPredicate : public Predicate {
  public:
   explicit GateSetPredicate(const OpTypeSet& allowed_types)
@@ -219,6 +231,18 @@ class MaxNQubitsPredicate : public Predicate {
  * Asserts that the circuit contains no \ref OpType::Barrier
  */
 class NoBarriersPredicate : public Predicate {
+ public:
+  bool verify(const Circuit& circ) const override;
+  bool implies(const Predicate& other) const override;
+  PredicatePtr meet(const Predicate& other) const override;
+  std::string to_string() const override;
+};
+
+/**
+ * Asserts that any internal measurements can be commuted to the end of the
+ * circuit
+ */
+class CommutableMeasuresPredicate : public Predicate {
  public:
   bool verify(const Circuit& circ) const override;
   bool implies(const Predicate& other) const override;

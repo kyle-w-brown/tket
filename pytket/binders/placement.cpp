@@ -1,4 +1,4 @@
-// Copyright 2019-2022 Cambridge Quantum Computing
+// Copyright 2019-2023 Cambridge Quantum Computing
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -164,7 +164,7 @@ PYBIND11_MODULE(placement, m) {
           ":param maximum_matches: The total number of weighted subgraph "
           "monomorphisms that can be found before matches are "
           "returned.\n"
-          ":param timeout: Total time in seconds before stopping "
+          ":param timeout: Total time in milliseconds before stopping "
           "search for monomorphisms.\n"
           ":param maximum_pattern_gates: The upper bound on the number of "
           "circuit gates used to construct the pattern graph for finding "
@@ -219,8 +219,8 @@ PYBIND11_MODULE(placement, m) {
           "architecture to average measurement readout errors.\n"
           ":param maximum_matches: The total number of weighted subgraph "
           "monomorphisms that can be found before matches are returned.\n"
-          ":param timeout: Total time in seconds before stopping search for "
-          "monomorphisms.\n"
+          ":param timeout: Total time in milliseconds before stopping search "
+          "for monomorphisms.\n"
           ":param maximum_pattern_gates: The upper bound on the number of "
           "circuit gates used to construct the pattern graph for finding "
           "subgraph monomorphisms.\n"

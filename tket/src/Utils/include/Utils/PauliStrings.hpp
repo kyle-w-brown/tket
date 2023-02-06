@@ -1,4 +1,4 @@
-// Copyright 2019-2022 Cambridge Quantum Computing
+// Copyright 2019-2023 Cambridge Quantum Computing
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -409,6 +409,13 @@ class QubitPauliTensor {
    */
   QubitPauliTensor(const QubitPauliMap &_map, Complex _coeff)
       : string(_map), coeff(_coeff) {}
+
+  /**
+   * Transpose as a tensor
+   * Since all Paulis are self-adjoint, this is the same as complex conjugate
+   * Adds a -1 phase if the string contains an odd number of Y's
+   */
+  void transpose();
 
   /**
    * Calculate the product of two tensors

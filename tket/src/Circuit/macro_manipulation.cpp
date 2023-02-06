@@ -1,4 +1,4 @@
-// Copyright 2019-2022 Cambridge Quantum Computing
+// Copyright 2019-2023 Cambridge Quantum Computing
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -21,7 +21,10 @@
 
 #include "Circuit.hpp"
 #include "Gate/Gate.hpp"
+#include "Gate/OpPtrFunctions.hpp"
 #include "Ops/ClassicalOps.hpp"
+#include "Ops/OpPtr.hpp"
+#include "Utils/Expression.hpp"
 #include "Utils/UnitID.hpp"
 namespace tket {
 
@@ -659,7 +662,13 @@ Circuit Circuit::conditional_circuit(
     args.insert(args.begin(), bits.begin(), bits.end());
     cond_circ.add_op(cond_op, args);
   }
-  cond_circ.add_phase(get_phase());
+  // Replace global phase with conditional phase:
+  Expr alpha = get_phase();
+  if (!equiv_0(alpha)) {
+    Op_ptr op = get_op_ptr(OpType::Phase, {alpha});
+    Op_ptr cond_op = std::make_shared<Conditional>(op, width, value);
+    cond_circ.add_op(cond_op, bits);
+  }
   return cond_circ;
 }
 

@@ -1,4 +1,4 @@
-# Copyright 2019-2022 Cambridge Quantum Computing
+# Copyright 2019-2023 Cambridge Quantum Computing
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -37,3 +37,8 @@ from .operators import QubitPauliOperator
 from .outcomearray import OutcomeArray, readout_counts
 from .graph import Graph
 from .symbolic import circuit_to_symbolic_unitary, circuit_apply_symbolic_statevector
+from .distribution import (
+    ProbabilityDistribution,
+    EmpiricalDistribution,
+    convex_combination,
+)

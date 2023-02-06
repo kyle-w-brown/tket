@@ -5,17 +5,23 @@ General Installation Instructions
 ------------------------------------------
 To install the core ``pytket`` package, run
 
-``pip install pytket``
+:: 
+    
+    pip install pytket
 
 If the ``pip`` command is linked to a Python 2 distribution, you will need to replace it with ``pip3`` and use ``python3`` for running your code, or use ``python -m pip``.
 
 The additional modules ``pytket-X`` (where ``X`` is ``qiskit``, ``pyquil``, etc.) can be installed in the same way, as
 
-``pip install pytket-X``
+:: 
+    
+    pip install pytket-X
 
 You can update your installation to the most recent version using
 
-``pip install --upgrade pytket``
+::
+    
+    pip install --upgrade pytket
 
 
 Frequently Asked Questions
@@ -24,7 +30,7 @@ Frequently Asked Questions
 Is there a build of ``pytket`` for my system?
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-The non-commercial version of ``pytket``, and most additional modules available through PyPI, are built to work on Linux, MacOS and Windows with Python versions 3.8, 3.9, or 3.10, and ``pip`` version 20.0.0+.
+The non-commercial version of ``pytket``, and most additional modules available through PyPI, are built to work on Linux, MacOS and Windows with Python versions 3.9, 3.10, or 3.11, and ``pip`` version 20.0.0+.
 
 
 Do all versions of ``pytket`` work with Windows?

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Copyright 2019-2022 Cambridge Quantum Computing
+# Copyright 2019-2023 Cambridge Quantum Computing
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -18,6 +18,8 @@ set -evu
 
 cd $GITHUB_WORKSPACE/pytket
 export PYVER=`python -c 'import sys; print(".".join(map(str, sys.version_info[:3])))'`
+# Ensure wheels are compatible with MacOS 11.0 and later:
+export WHEEL_PLAT_NAME=macosx_11_0_arm64
 python -m pip uninstall -y pytket
 python -m pip install -U pip build delocate
 python -m build --outdir "$GITHUB_WORKSPACE/tmp/tmpwheel_${PYVER}"

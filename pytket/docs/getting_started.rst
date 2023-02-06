@@ -7,8 +7,8 @@ NISQ (noisy intermediate-scale quantum) devices. The pytket package provides an
 API for interacting with tket and transpiling to and from other popular quantum
 circuit specifications.
 
-Pytket is compatible with 64-bit Python 3.8, 3.9 and 3.10, on Linux, MacOS
-(10.14 or later) and Windows. Install pytket from PyPI using:
+Pytket is compatible with 64-bit Python 3.9, 3.10 and 3.11, on Linux, MacOS
+(11.0 or later) and Windows. Install pytket from PyPI using:
 
 ::
 
@@ -34,6 +34,7 @@ use them directly.
 ::
 
     from pytket import Circuit
+
     c = Circuit(2,2) # define a circuit with 2 qubits and 2 bits
     c.H(0)           # add a Hadamard gate to qubit 0
     c.Rz(0.25, 0)    # add an Rz gate of angle 0.25*pi to qubit 0
@@ -51,6 +52,7 @@ OpenQASM and Quipper, or embedded python frameworks such as Qiskit and Cirq.
 ::
 
     from pytket.qasm import circuit_from_qasm
+
     c = circuit_from_qasm("my_qasm_file.qasm")
 
 Or, if an extension module like ``pytket-qiskit`` is installed:
@@ -58,9 +60,10 @@ Or, if an extension module like ``pytket-qiskit`` is installed:
 ::
 
     from qiskit import QuantumCircuit
+    from pytket.extensions.qiskit import qiskit_to_tk
+
     qc = QuantumCircuit()
     # ...
-    from pytket.extensions.qiskit import qiskit_to_tk
     c = qiskit_to_tk(qc)
 
 See the
