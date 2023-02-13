@@ -18,6 +18,7 @@
 #include <pybind11/stl.h>
 #include <pybind11/stl_bind.h>
 
+#include "Architecture/BestTsaWithArch.hpp"
 #include "Circuit/Circuit.hpp"
 #include "Mapping/AASLabelling.hpp"
 #include "Mapping/AASRoute.hpp"
@@ -34,8 +35,9 @@ namespace py = pybind11;
 namespace tket {
 
 std::vector<std::pair<Node, Node>> get_ts_swaps(
-    const Architecture& architecture, const NodeMapping& node_mapping) {
-  return get_swaps(architecture, node_mapping);
+    const Architecture& architecture,
+    const BestTsaWithArch::NodeMapping& node_mapping) {
+  return BestTsaWithArch::get_swaps(architecture, node_mapping);
 }
 
 PYBIND11_MODULE(mapping, m) {
