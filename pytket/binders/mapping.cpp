@@ -41,16 +41,11 @@ std::vector<std::pair<Node, Node>> get_ts_swaps(
 }
 
 PYBIND11_MODULE(mapping, m) {
-  m.def(
-      "get_token_swapping_network", &get_ts_swaps,
-      "For a given architecture and map from Node to Node, returns a list of "
-      "tuple of Node corresponding to a sequence of SWAP gates that would map"
-      "a state from the first node to second node. \n\n:param architecture: "
-      "Architecture SWAP network respects. \n:param node_mapping: Node from "
-      "and to "
-      "some logical state must travel.",
-      py::arg("architecture"), py::arg("node_mapping"));
-
+  py::class_<RoutingMethod, std::shared_ptr<RoutingMethod>>(
+      m, "RoutingMethod",
+      "Parent class for RoutingMethod, for inheritance purposes only, not for "
+      "usage.")
+      .def(py::init<>());
   py::class_<
       RoutingMethodCircuit, std::shared_ptr<RoutingMethodCircuit>,
       RoutingMethod>(
@@ -163,5 +158,14 @@ PYBIND11_MODULE(mapping, m) {
           "subcircuits. In given order, each method is sequentially checked "
           "for viability, with the first viable method being used.",
           py::arg("circuit"), py::arg("routing_methods"));
+  m.def(
+      "get_token_swapping_network", &get_ts_swaps,
+      "For a given architecture and map from Node to Node, returns a list of "
+      "tuple of Node corresponding to a sequence of SWAP gates that would map"
+      "a state from the first node to second node. \n\n:param architecture: "
+      "Architecture SWAP network respects. \n:param node_mapping: Node from "
+      "and to "
+      "some logical state must travel.",
+      py::arg("architecture"), py::arg("node_mapping"));
 }
 }  // namespace tket
