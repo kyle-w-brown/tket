@@ -35,6 +35,32 @@ jobs:
         name: Linux_wheels
         path: wheelhouse/
 
+  build_Linux_aarch64_wheels:
+    name: Build manylinux aarch64
+    runs-on: ['self-hosted', 'macOS', 'ARM64']
+    env:
+      PY_VERS: cp39-cp39 cp310-cp310 cp311-cp311
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        fetch-depth: '0'
+    - run: git fetch --depth=1 origin +refs/tags/*:refs/tags/*
+    - name: Set up container
+      run: |
+        docker create --name linux_build -i -v /:/host quay.io/pypa/manylinux2014_x86_64:latest /bin/bash
+        docker cp . linux_build:/tket/
+    - name: Run build
+      run: |
+        docker start linux_build
+        docker exec -e PY_VERS="${PY_VERS}" linux_build /bin/bash -c "/tket/.github/workflows/linuxbuildwheel"
+        mkdir wheelhouse
+        docker cp linux_build:/tket/pytket/audited/. wheelhouse/
+        docker rm --force -v linux_build
+    - uses: actions/upload-artifact@v3
+      with:
+        name: Linux_aarch64_wheels
+        path: wheelhouse/
+
   build_macos_wheels:
     name: Build macos wheels
     runs-on: macos-11
