@@ -19,8 +19,6 @@ jobs:
       run: pip install conan~=2.0
     - name: create profile
       run: conan profile detect --name tket
-    - name: show profile
-      run: conan profile show
   macos-m1:
     name: check profile (macos-m1)
     runs-on: ['self-hosted', 'macOS', 'ARM64']
@@ -29,8 +27,6 @@ jobs:
       run: pip install conan~=2.0
     - name: create profile
       run: conan profile detect --name tket
-    - name: show profile
-      run: conan profile show
     - name: install conan 1
       run: |
         pip uninstall conan
