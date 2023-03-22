@@ -1,0 +1,37 @@
+name: test conan 2
+on:
+  push:
+    branches:
+      - alec/check-default-conan2-profile
+jobs:
+  check_profile:
+    name: check profile
+    strategy:
+      matrix:
+        os: ['ubuntu-22.04', 'macos-12', 'windows-2022']
+    runs-on: ${{ matrix.os }}
+    steps:
+    - name: Set up Python 3.10
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
+    - name: install conan
+      run: pip install conan~=2.0
+    - name: create profile
+      run: conan profile detect --name tket
+    - name: show profile
+      run: conan profile show
+  macos-m1:
+    name: check profile (macos-m1)
+    runs-on: ['self-hosted', 'macOS', 'ARM64']
+    steps:
+    - name: install conan
+      run: pip install conan~=2.0
+    - name: create profile
+      run: conan profile detect --name tket
+    - name: show profile
+      run: conan profile show
+    - name: install conan 1
+      run: |
+        pip uninstall conan
+        pin install conan~=1.54
