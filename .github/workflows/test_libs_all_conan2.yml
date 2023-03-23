@@ -27,10 +27,13 @@ jobs:
       run: conan create libs/${{ matrix.lib }} --build=missing
     - name: build ${{ matrix.lib }} tests
       run: |
-        conan install libs/${{ matrix.lib }}/test --output-folder=build/test-${{ matrix.lib }} --build=missing
-        conan build libs/${{ matrix.lib }}/test --output-folder=build/test-${{ matrix.lib }}
+        conan create libs/${{ matrix.lib }}/test --build=missing --format json > test-${{ matrix.lib }}.json
     - name: run ${{ matrix.lib }} tests
-      run: ./build/test-${{ matrix.lib }}/build/Release/test-${{ matrix.lib }}
+      shell: bash
+      run: |
+        PKGPATH=`./rootpath test-${{ matrix.lib }}.json test-${{ matrix.lib }}`
+        cd ${PKGPATH}/bin
+        ./test-${{ matrix.lib }}
   macos-m1:
     name: test library (macos-m1)
     runs-on: ['self-hosted', 'macOS', 'ARM64']
@@ -53,7 +56,9 @@ jobs:
       run: conan create libs/${{ matrix.lib }} --build=missing
     - name: build ${{ matrix.lib }} tests
       run: |
-        conan install libs/${{ matrix.lib }}/test --output-folder=build/test-${{ matrix.lib }} --build=missing
-        conan build libs/${{ matrix.lib }}/test --output-folder=build/test-${{ matrix.lib }}
+        conan create libs/${{ matrix.lib }}/test --build=missing --format json > test-${{ matrix.lib }}.json
     - name: run ${{ matrix.lib }} tests
-      run: ./build/test-${{ matrix.lib }}/build/Release/test-${{ matrix.lib }}
+      run: |
+        PKGPATH=`./rootpath test-${{ matrix.lib }}.json test-${{ matrix.lib }}`
+        cd ${PKGPATH}/bin
+        ./test-${{ matrix.lib }}
