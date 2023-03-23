@@ -49,7 +49,7 @@ jobs:
       shell: bash
       run: cp conan2-profiles/github-runners/macos-armv8 `conan config home`/profiles/tket
     - name: add remote
-      run: conan remote add tket-libs https://quantinuumsw.jfrog.io/artifactory/api/conan/tket1-libs
+      run: conan remote add tket-libs https://quantinuumsw.jfrog.io/artifactory/api/conan/tket1-libs --force
     - name: build ${{ matrix.lib }}
       run: conan create --profile:build=tket libs/${{ matrix.lib }} --build=missing
     - name: build ${{ matrix.lib }} tests
