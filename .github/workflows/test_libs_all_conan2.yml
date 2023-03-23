@@ -20,11 +20,11 @@ jobs:
     - name: create profile
       shell: bash
       run: |
-        conan profile detect --name tket
+        conan profile detect
     - name: add remote
       run: conan remote add tket-libs https://quantinuumsw.jfrog.io/artifactory/api/conan/tket1-libs
     - name: build ${{ matrix.lib }}
-      run: conan create --profile=tket libs/${{ matrix.lib }} --build=missing
+      run: conan create libs/${{ matrix.lib }} --build=missing
     - name: build ${{ matrix.lib }} tests
       run: |
         conan install libs/${{ matrix.lib }}/test --output-folder=build/test-${{ matrix.lib }} --profile=tket --build=missing
@@ -46,11 +46,11 @@ jobs:
     - name: create profile
       shell: bash
       run: |
-        conan profile detect --name tket --force
+        conan profile detect --force
     - name: add remote
       run: conan remote add tket-libs https://quantinuumsw.jfrog.io/artifactory/api/conan/tket1-libs --force
     - name: build ${{ matrix.lib }}
-      run: conan create --profile=tket libs/${{ matrix.lib }} --build=missing
+      run: conan create libs/${{ matrix.lib }} --build=missing
     - name: build ${{ matrix.lib }} tests
       run: |
         conan install libs/${{ matrix.lib }}/test --output-folder=build/test-${{ matrix.lib }} --profile=tket --build=missing
