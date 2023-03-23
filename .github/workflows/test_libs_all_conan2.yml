@@ -1,8 +1,8 @@
 name: test all libraries (conan 2)
 on:
-  schedule:
-    # 04:00 every Wednesday morning
-    - cron: '0 4 * * 3'
+  push:
+    branches:
+      - test-conan2-tklibs
 jobs:
   test_libraries:
     name: test library
