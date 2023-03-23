@@ -22,18 +22,24 @@ To build the library `tkxxx`:
 conan create --profile=tket libs/tkxxx --build=missing
 ```
 
-To build the unit tests inside a `build` directory:
+To build the unit tests, writing package information to `test-tkxxx.json`:
 
 ```shell
-conan install libs/tkxxx/test --install-folder=build/test-tkxxx --output-folder=build/test-tkxxx --profile=tket
-conan build libs/tkxxx/test --configure --build-folder=build/test-tkxxx --source-folder=libs/tkxxx/test
-conan build libs/tkxxx/test --build --build-folder=build/test-tkxxx
+conan create --profile=tket libs/tkxxx/test --build=missing --json test-tkxxx.json
 ```
 
-To run them:
+To extract the root package path to environment variable:
 
 ```shell
-./build/test-tkxxx/build/Release/test-tkxxx
+PKGPATH=`./rootpath test-tkxxx.json test-tkxxx`
+```
+
+To run the unit tests:
+
+```shell
+cd ${PKGPATH}/bin
+./test-tkxxx
+cd -
 ```
 
 ## conan 2
@@ -44,15 +50,22 @@ To build the library `tkxxx`:
 conan create --profile=tket libs/tkxxx --build=missing
 ```
 
-To build the unit tests inside a `build` directory:
-
-```
-conan install libs/tkxxx/test --output-folder=build/test-tkxxx --profile=tket
-conan build libs/tkxxx/test --output-folder=build/test-tkxxx
-```
-
-To run them:
+To build the unit tests:
 
 ```shell
-./build/test-tkxxx/build/Release/test-tkxxx
+conan create --profile=tket libs/tkxxx/test --build=missing --format json > test-tkxxx.json
+```
+
+To extract the root package path to environment variable:
+
+```shell
+PKGPATH=`./rootpath test-tkxxx.json test-tkxxx`
+```
+
+To run the unit tests:
+
+```shell
+cd ${PKGPATH}/bin
+./test-tkxxx
+cd -
 ```
