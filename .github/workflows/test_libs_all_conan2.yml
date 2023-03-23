@@ -27,7 +27,7 @@ jobs:
       run: conan create libs/${{ matrix.lib }} --build=missing
     - name: build ${{ matrix.lib }} tests
       run: |
-        conan install libs/${{ matrix.lib }}/test --output-folder=build/test-${{ matrix.lib }} --profile=tket --build=missing
+        conan install libs/${{ matrix.lib }}/test --output-folder=build/test-${{ matrix.lib }} --build=missing
         conan build libs/${{ matrix.lib }}/test --output-folder=build/test-${{ matrix.lib }}
     - name: run ${{ matrix.lib }} tests
       run: ./build/test-${{ matrix.lib }}/build/Release/test-${{ matrix.lib }}
@@ -53,7 +53,7 @@ jobs:
       run: conan create libs/${{ matrix.lib }} --build=missing
     - name: build ${{ matrix.lib }} tests
       run: |
-        conan install libs/${{ matrix.lib }}/test --output-folder=build/test-${{ matrix.lib }} --profile=tket --build=missing
+        conan install libs/${{ matrix.lib }}/test --output-folder=build/test-${{ matrix.lib }} --build=missing
         conan build libs/${{ matrix.lib }}/test --output-folder=build/test-${{ matrix.lib }}
     - name: run ${{ matrix.lib }} tests
       run: ./build/test-${{ matrix.lib }}/build/Release/test-${{ matrix.lib }}
