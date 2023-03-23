@@ -19,7 +19,10 @@ jobs:
         version: '2.0.2'
     - name: create profile
       shell: bash
-      run: cp conan2-profiles/github-runners/${{ matrix.os }} `conan config home`/profiles/tket
+      run: |
+        CONAN2_PROFILES=`conan config home`/profiles
+        mkdir -p ${CONAN2_PROFILES}
+        cp conan2-profiles/github-runners/${{ matrix.os }} ${CONAN2_PROFILES}/tket
     - name: add remote
       run: conan remote add tket-libs https://quantinuumsw.jfrog.io/artifactory/api/conan/tket1-libs
     - name: build ${{ matrix.lib }}
