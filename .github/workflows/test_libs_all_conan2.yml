@@ -20,13 +20,12 @@ jobs:
     - name: create profile
       shell: bash
       run: |
-        CONAN2_PROFILES=`conan config home`/profiles
-        mkdir -p ${CONAN2_PROFILES}
-        cp conan2-profiles/github-runners/${{ matrix.os }} ${CONAN2_PROFILES}/tket
+        conan profile detect
+        cp conan2-profiles/github-runners/${{ matrix.os }} `conan config home`/profiles/tket
     - name: add remote
       run: conan remote add tket-libs https://quantinuumsw.jfrog.io/artifactory/api/conan/tket1-libs
     - name: build ${{ matrix.lib }}
-      run: conan create --profile:build=tket --profile:host=tket libs/${{ matrix.lib }} --build=missing
+      run: conan create --profile=tket libs/${{ matrix.lib }} --build=missing
     - name: build ${{ matrix.lib }} tests
       run: |
         conan install libs/${{ matrix.lib }}/test --output-folder=build/test-${{ matrix.lib }} --profile=tket
@@ -47,11 +46,13 @@ jobs:
         version: '2.0.2'
     - name: create profile
       shell: bash
-      run: cp conan2-profiles/github-runners/macos-armv8 `conan config home`/profiles/tket
+      run: |
+        conan profile detect --force
+        cp conan2-profiles/github-runners/macos-armv8 `conan config home`/profiles/tket
     - name: add remote
       run: conan remote add tket-libs https://quantinuumsw.jfrog.io/artifactory/api/conan/tket1-libs --force
     - name: build ${{ matrix.lib }}
-      run: conan create --profile:build=tket --profile:host=tket libs/${{ matrix.lib }} --build=missing
+      run: conan create --profile=tket libs/${{ matrix.lib }} --build=missing
     - name: build ${{ matrix.lib }} tests
       run: |
         conan install libs/${{ matrix.lib }}/test --output-folder=build/test-${{ matrix.lib }} --profile=tket
