@@ -1,0 +1,57 @@
+name: test all libraries (conan 2)
+on:
+  schedule:
+    # 04:00 every Wednesday morning
+    - cron: '0 4 * * 3'
+jobs:
+  test_libraries:
+    name: test library
+    strategy:
+      matrix:
+        os: ['ubuntu-22.04', 'macos-12', 'windows-2022']
+        lib: ['tklog', 'tkassert', 'tkrng', 'tktokenswap', 'tkwsm']
+    runs-on: ${{ matrix.os }}
+    steps:
+    - uses: actions/checkout@v3
+    - name: Install conan
+      uses: turtlebrowser/get-conan@v1.2
+      with:
+        version: '2.0.2'
+    - name: create profile
+      shell: bash
+      run: cp conan2-profiles/github-runners/${{ matrix.os }} `conan config home`/profiles/tket
+    - name: add remote
+      run: conan remote add tket-libs https://quantinuumsw.jfrog.io/artifactory/api/conan/tket1-libs
+    - name: build ${{ matrix.lib }}
+      run: conan create --profile=tket libs/${{ matrix.lib }} --build=missing
+    - name: build ${{ matrix.lib }} tests
+      run: |
+        conan install libs/${{ matrix.lib }}/test --output-folder=build/test-${{ matrix.lib }} --profile=tket
+        conan build libs/${{ matrix.lib }}/test --output-folder=build/test-${{ matrix.lib }}
+    - name: run ${{ matrix.lib }} tests
+      run: ./build/test-${{ matrix.lib }}/build/Release/test-${{ matrix.lib }}
+  macos-m1:
+    name: test library (macos-m1)
+    runs-on: ['self-hosted', 'macOS', 'ARM64']
+    strategy:
+      matrix:
+        lib: ['tklog', 'tkassert', 'tkrng', 'tktokenswap', 'tkwsm']
+    steps:
+    - uses: actions/checkout@v3
+    - name: Install conan
+      uses: turtlebrowser/get-conan@v1.2
+      with:
+        version: '2.0.2'
+    - name: create profile
+      shell: bash
+      run: cp conan2-profiles/github-runners/macos-armv8 `conan config home`/profiles/tket
+    - name: add remote
+      run: conan remote add tket-libs https://quantinuumsw.jfrog.io/artifactory/api/conan/tket1-libs
+    - name: build ${{ matrix.lib }}
+      run: conan create --profile=tket libs/${{ matrix.lib }} --build=missing
+    - name: build ${{ matrix.lib }} tests
+      run: |
+        conan install libs/${{ matrix.lib }}/test --output-folder=build/test-${{ matrix.lib }} --profile=tket
+        conan build libs/${{ matrix.lib }}/test --output-folder=build/test-${{ matrix.lib }}
+    - name: run ${{ matrix.lib }} tests
+      run: ./build/test-${{ matrix.lib }}/build/Release/test-${{ matrix.lib }}
