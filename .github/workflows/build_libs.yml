@@ -104,7 +104,7 @@ jobs:
     - name: create profile
       run: conan profile detect --force
     - name: add remote
-      run: conan remote add tket-libs https://quantinuumsw.jfrog.io/artifactory/api/conan/tket1-libs
+      run: conan remote add tket-libs https://quantinuumsw.jfrog.io/artifactory/api/conan/tket1-libs --force
     - name: build ${{ matrix.lib }}
       run: conan create -s build_type=${{ matrix.build_type }} -o ${{ matrix.lib }}/*:shared=${{ matrix.shared }} libs/${{ matrix.lib }} --build=missing --user=tket --channel=stable --format json > ${{ matrix.lib }}.json
     - name: authenticate to repository
