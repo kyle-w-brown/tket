@@ -32,7 +32,7 @@ ${CONAN_CMD} remote login -p ${JFROG_ARTIFACTORY_TOKEN_2} tket-libs ${JFROG_ARTI
 
 ${CONAN_CMD} create -o ${TKLIB}/*:shared=False ${TKLIB} --build=missing --user=tket --channel=stable --format json > ${TKLIB}.json
 
-LIB_LABEL=$(${PYBIN} ./libver ${TKLIB}.json ${TKLIB})
+LIB_LABEL=$(${PYBIN}/python ./libver ${TKLIB}.json ${TKLIB})
 
 if [ ${UPLOAD_PACKAGE} == "YES" ]
 then
