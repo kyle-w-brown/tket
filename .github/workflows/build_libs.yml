@@ -137,6 +137,7 @@ jobs:
       run: |
         docker create --name linux_build -i -v /:/host quay.io/pypa/manylinux2014_x86_64:latest /bin/bash
         docker cp ./libs/${{ matrix.lib }} linux_build:/
+        docker cp ./libver linux_build:/
         docker cp ./.github/workflows/linuxbuildlib linux_build:/
     - name: determine whether to upload package
       if: github.event_name == 'push'
