@@ -43,7 +43,7 @@ jobs:
         os: ['ubuntu-22.04', 'macos-12', 'windows-2022']
         lib: ['tklog', 'tkassert', 'tkrng', 'tktokenswap', 'tkwsm']
         build_type: ['Release', 'Debug']
-        shared: ['True', 'False']
+        shared: ['False']
     runs-on: ${{ matrix.os }}
     steps:
     - uses: actions/checkout@v3
@@ -94,7 +94,7 @@ jobs:
       matrix:
         lib: ['tklog', 'tkassert', 'tkrng', 'tktokenswap', 'tkwsm']
         build_type: ['Release', 'Debug']
-        shared: ['True', 'False']
+        shared: ['False']
     steps:
     - uses: actions/checkout@v3
     - name: Install conan
