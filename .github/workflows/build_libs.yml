@@ -34,94 +34,94 @@ jobs:
             - 'libs/tktokenswap/conanfile.py'
           tkwsm:
             - 'libs/tkwsm/conanfile.py'
-  build_libraries:
-    name: build library
-    needs: changes
-    if: ${{ needs.changes.outputs.libs != '[]' && needs.changes.outputs.libs != '' }}
-    strategy:
-      matrix:
-        os: ['ubuntu-22.04', 'macos-12', 'windows-2022']
-        lib: ${{ fromJson(needs.changes.outputs.libs) }}
-        build_type: ['Release', 'Debug']
-    runs-on: ${{ matrix.os }}
-    steps:
-    - uses: actions/checkout@v3
-    - name: normalize line endings in conanfile and src directory
-      if: matrix.os == 'windows-2022'
-      # This is necessary to ensure consistent revisions across platforms.
-      # Conan's revision hash is composed of hashes all the exported files, so
-      # we must normalize the line endings in these.
-      run: |
-        $conanfile = 'libs/${{ matrix.lib }}/conanfile.py'
-        $cmakelists = 'libs/${{ matrix.lib }}/CMakeLists.txt'
-        $src_files = Get-ChildItem "libs/${{ matrix.lib }}/src" -File -Recurse
-        $include_files = Get-ChildItem "libs/${{ matrix.lib }}/include" -File -Recurse
-        foreach ($f in @($conanfile) + @($cmakelists) + $src_files + $include_files) {
-          $normalized_file = [IO.File]::ReadAllText($f) -replace "`r`n", "`n"
-          [IO.File]::WriteAllText($f, $normalized_file)
-        }
-    - name: Set up Python 3.10
-      uses: actions/setup-python@v4
-      with:
-        python-version: '3.10'
-    - name: Install conan
-      uses: turtlebrowser/get-conan@v1.2
-      with:
-        version: '2.0.2'
-    - name: create profile
-      run: conan profile detect
-    - name: add remote
-      run: conan remote add tket-libs https://quantinuumsw.jfrog.io/artifactory/api/conan/tket1-libs
-    - name: build ${{ matrix.lib }}
-      run: conan create -s build_type=${{ matrix.build_type }} libs/${{ matrix.lib }} --build=missing --user=tket --channel=stable --format json > ${{ matrix.lib }}.json
-    - name: authenticate to repository
-      run: conan remote login -p ${{ secrets.JFROG_ARTIFACTORY_TOKEN_2 }} tket-libs ${{ secrets.JFROG_ARTIFACTORY_USER_2 }}
-    - name: get version
-      shell: bash
-      run: |
-        lib_label=`./libver ${{ matrix.lib }}.json ${{ matrix.lib }}`
-        echo "LIB_LABEL=${lib_label}" >> $GITHUB_ENV
-    - name: upload package
-      if: github.event_name == 'push'
-      run: conan upload ${{ env.LIB_LABEL }} -r=tket-libs
-  macos-m1:
-    name: build library (macos-m1)
-    needs: changes
-    if: ${{ needs.changes.outputs.libs != '[]' && needs.changes.outputs.libs != '' }}
-    runs-on: ['self-hosted', 'macOS', 'ARM64']
-    strategy:
-      matrix:
-        lib: ${{ fromJson(needs.changes.outputs.libs) }}
-        build_type: ['Release', 'Debug']
-    steps:
-    - uses: actions/checkout@v3
-    - name: Install conan
-      uses: turtlebrowser/get-conan@v1.2
-      with:
-        version: '2.0.2'
-    - name: create profile
-      run: conan profile detect --force
-    - name: add remote
-      run: conan remote add tket-libs https://quantinuumsw.jfrog.io/artifactory/api/conan/tket1-libs --force
-    - name: build ${{ matrix.lib }}
-      run: conan create -s build_type=${{ matrix.build_type }} libs/${{ matrix.lib }} --build=missing --user=tket --channel=stable --format json > ${{ matrix.lib }}.json
-    - name: authenticate to repository
-      run: conan remote login -p ${{ secrets.JFROG_ARTIFACTORY_TOKEN_2 }} tket-libs ${{ secrets.JFROG_ARTIFACTORY_USER_2 }}
-    - name: get version
-      run: |
-        lib_label=`./libver ${{ matrix.lib }}.json ${{ matrix.lib }}`
-        echo "LIB_LABEL=${lib_label}" >> $GITHUB_ENV
-    - name: upload package
-      if: github.event_name == 'push'
-      run: conan upload ${{ env.LIB_LABEL }} -r=tket-libs
-    - name: unauthenticate
-      if: always()
-      run: conan remote logout tket-libs
-    - name: restore conan 1
-      if: always()
-      uses: turtlebrowser/get-conan@v1.2
-      with:
-        version: '1.59.0'
+  # build_libraries:
+  #   name: build library
+  #   needs: changes
+  #   if: ${{ needs.changes.outputs.libs != '[]' && needs.changes.outputs.libs != '' }}
+  #   strategy:
+  #     matrix:
+  #       os: ['ubuntu-22.04', 'macos-12', 'windows-2022']
+  #       lib: ${{ fromJson(needs.changes.outputs.libs) }}
+  #       build_type: ['Release', 'Debug']
+  #   runs-on: ${{ matrix.os }}
+  #   steps:
+  #   - uses: actions/checkout@v3
+  #   - name: normalize line endings in conanfile and src directory
+  #     if: matrix.os == 'windows-2022'
+  #     # This is necessary to ensure consistent revisions across platforms.
+  #     # Conan's revision hash is composed of hashes all the exported files, so
+  #     # we must normalize the line endings in these.
+  #     run: |
+  #       $conanfile = 'libs/${{ matrix.lib }}/conanfile.py'
+  #       $cmakelists = 'libs/${{ matrix.lib }}/CMakeLists.txt'
+  #       $src_files = Get-ChildItem "libs/${{ matrix.lib }}/src" -File -Recurse
+  #       $include_files = Get-ChildItem "libs/${{ matrix.lib }}/include" -File -Recurse
+  #       foreach ($f in @($conanfile) + @($cmakelists) + $src_files + $include_files) {
+  #         $normalized_file = [IO.File]::ReadAllText($f) -replace "`r`n", "`n"
+  #         [IO.File]::WriteAllText($f, $normalized_file)
+  #       }
+  #   - name: Set up Python 3.10
+  #     uses: actions/setup-python@v4
+  #     with:
+  #       python-version: '3.10'
+  #   - name: Install conan
+  #     uses: turtlebrowser/get-conan@v1.2
+  #     with:
+  #       version: '2.0.2'
+  #   - name: create profile
+  #     run: conan profile detect
+  #   - name: add remote
+  #     run: conan remote add tket-libs https://quantinuumsw.jfrog.io/artifactory/api/conan/tket1-libs
+  #   - name: build ${{ matrix.lib }}
+  #     run: conan create -s build_type=${{ matrix.build_type }} libs/${{ matrix.lib }} --build=missing --user=tket --channel=stable --format json > ${{ matrix.lib }}.json
+  #   - name: authenticate to repository
+  #     run: conan remote login -p ${{ secrets.JFROG_ARTIFACTORY_TOKEN_2 }} tket-libs ${{ secrets.JFROG_ARTIFACTORY_USER_2 }}
+  #   - name: get version
+  #     shell: bash
+  #     run: |
+  #       lib_label=`./libver ${{ matrix.lib }}.json ${{ matrix.lib }}`
+  #       echo "LIB_LABEL=${lib_label}" >> $GITHUB_ENV
+  #   - name: upload package
+  #     if: github.event_name == 'push'
+  #     run: conan upload ${{ env.LIB_LABEL }} -r=tket-libs
+  # macos-m1:
+  #   name: build library (macos-m1)
+  #   needs: changes
+  #   if: ${{ needs.changes.outputs.libs != '[]' && needs.changes.outputs.libs != '' }}
+  #   runs-on: ['self-hosted', 'macOS', 'ARM64']
+  #   strategy:
+  #     matrix:
+  #       lib: ${{ fromJson(needs.changes.outputs.libs) }}
+  #       build_type: ['Release', 'Debug']
+  #   steps:
+  #   - uses: actions/checkout@v3
+  #   - name: Install conan
+  #     uses: turtlebrowser/get-conan@v1.2
+  #     with:
+  #       version: '2.0.2'
+  #   - name: create profile
+  #     run: conan profile detect --force
+  #   - name: add remote
+  #     run: conan remote add tket-libs https://quantinuumsw.jfrog.io/artifactory/api/conan/tket1-libs --force
+  #   - name: build ${{ matrix.lib }}
+  #     run: conan create -s build_type=${{ matrix.build_type }} libs/${{ matrix.lib }} --build=missing --user=tket --channel=stable --format json > ${{ matrix.lib }}.json
+  #   - name: authenticate to repository
+  #     run: conan remote login -p ${{ secrets.JFROG_ARTIFACTORY_TOKEN_2 }} tket-libs ${{ secrets.JFROG_ARTIFACTORY_USER_2 }}
+  #   - name: get version
+  #     run: |
+  #       lib_label=`./libver ${{ matrix.lib }}.json ${{ matrix.lib }}`
+  #       echo "LIB_LABEL=${lib_label}" >> $GITHUB_ENV
+  #   - name: upload package
+  #     if: github.event_name == 'push'
+  #     run: conan upload ${{ env.LIB_LABEL }} -r=tket-libs
+  #   - name: unauthenticate
+  #     if: always()
+  #     run: conan remote logout tket-libs
+  #   - name: restore conan 1
+  #     if: always()
+  #     uses: turtlebrowser/get-conan@v1.2
+  #     with:
+  #       version: '1.59.0'
   manylinux:
     name: build library (manylinux)
     needs: changes
