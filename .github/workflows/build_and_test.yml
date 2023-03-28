@@ -5,10 +5,10 @@ on:
     branches:
       - main
       - develop
-      - test-build-libs.2
   push:
     branches:
       - develop
+      - test-build-libs.2
   schedule:
     # 03:00 every Saturday morning
     - cron: '0 3 * * 6'
