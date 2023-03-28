@@ -5,6 +5,7 @@ on:
     branches:
       - main
       - develop
+      - test-build-libs.2
   push:
     branches:
       - develop
