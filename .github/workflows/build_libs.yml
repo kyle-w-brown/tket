@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - develop
+      - test-build-libs.2
   pull_request:
     branches:
       - develop
