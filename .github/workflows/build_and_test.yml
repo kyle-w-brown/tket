@@ -22,7 +22,7 @@ jobs:
     name: Check tket library version
     runs-on: ubuntu-22.04
     outputs:
-      tket_changed: ${{ steps.filter.outputs.tket }}
+      tket_changed: true
       tket_tests_changed: ${{ steps.filter.outputs.tket_tests }}
       tket_proptests_changed: ${{ steps.filter.outputs.tket_proptests }}
       pytket_changed: ${{ steps.filter.outputs.pytket }}
