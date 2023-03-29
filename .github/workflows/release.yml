@@ -48,7 +48,7 @@ jobs:
     - name: Set up container
       run: |
         export DOCKER_HOST=unix://${HOME}/.docker/run/docker.sock
-        docker create --name linux_build -i -v /:/host quay.io/pypa/manylinux2014_x86_64:latest /bin/bash
+        docker create --name linux_build -i -v /:/host quay.io/pypa/manylinux2014_aarch64:latest /bin/bash
         docker cp . linux_build:/tket/
     - name: Run build
       run: |
@@ -59,7 +59,7 @@ jobs:
         docker cp linux_build:/tket/pytket/audited/. wheelhouse/
     - name: Remove container
       if: always()
-      run:
+      run: |
         export DOCKER_HOST=unix://${HOME}/.docker/run/docker.sock
         docker rm --force -v linux_build
     - uses: actions/upload-artifact@v3
@@ -236,7 +236,7 @@ jobs:
         run: cd tket/pytket/tests && pytest --ignore=simulator/
 
   test_Linux_aarch64_wheels:
-    name: Test linux wheels
+    name: Test linux aarch64 wheels
     needs: build_Linux_aarch64_wheels
     runs-on: ['self-hosted', 'macOS', 'ARM64']
     env:
@@ -253,7 +253,7 @@ jobs:
     - name: Set up container
       run: |
         export DOCKER_HOST=unix://${HOME}/.docker/run/docker.sock
-        docker create --name linux_build -i -v /:/host quay.io/pypa/manylinux2014_x86_64:latest /bin/bash
+        docker create --name linux_build -i -v /:/host quay.io/pypa/manylinux2014_aarch64:latest /bin/bash
         docker cp . linux_build:/tket/
     - name: Run tests
       run: |
@@ -262,7 +262,7 @@ jobs:
         docker exec -e PY_VERS="${PY_VERS}" linux_build /bin/bash -c "/tket/.github/workflows/linuxtestwheel"
     - name: Remove container
       if: always()
-      run:
+      run: |
         export DOCKER_HOST=unix://${HOME}/.docker/run/docker.sock
         docker rm --force -v linux_build
 
