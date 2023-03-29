@@ -20,7 +20,10 @@ for pyX in $PY_VERS
 do
     export PYEX=/opt/python/${pyX}/bin/python
     export PYVER=`${PYEX} -c 'import sys; print(".".join(map(str, sys.version_info[:3])))'`
-    ${PYEX} -m pip install /tket/wheelhouse/${PYVER}/pytket-*.whl
+    for whl in `ls /tket/wheelhouse/${PYVER}`
+    do
+        ${PYEX} -m pip install /tket/wheelhouse/${PYVER}/${f}
+    done
     cd /tket/pytket/tests
     ${PYEX} -m pip install -r requirements.txt
     pytest --ignore=simulator/
