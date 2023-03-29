@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - develop
+      - test-conan2-libs.3
   pull_request:
     branches:
       - develop
