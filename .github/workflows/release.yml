@@ -47,12 +47,12 @@ jobs:
     - run: git fetch --depth=1 origin +refs/tags/*:refs/tags/*
     - name: Set up container
       run: |
-        export DOCKER_HOST=unix:///Users/`whoami`/.docker/run/docker.sock
+        export DOCKER_HOST=unix://${HOME}/.docker/run/docker.sock
         docker create --name linux_build -i -v /:/host quay.io/pypa/manylinux2014_x86_64:latest /bin/bash
         docker cp . linux_build:/tket/
     - name: Run build
       run: |
-        export DOCKER_HOST=unix:///Users/`whoami`/.docker/run/docker.sock
+        export DOCKER_HOST=unix://${HOME}/.docker/run/docker.sock
         docker start linux_build
         docker exec -e PY_VERS="${PY_VERS}" linux_build /bin/bash -c "/tket/.github/workflows/linuxbuildwheel"
         mkdir wheelhouse
@@ -60,7 +60,7 @@ jobs:
     - name: Remove container
       if: always()
       run:
-        export DOCKER_HOST=unix:///Users/`whoami`/.docker/run/docker.sock
+        export DOCKER_HOST=unix://${HOME}/.docker/run/docker.sock
         docker rm --force -v linux_build
     - uses: actions/upload-artifact@v3
       with:
