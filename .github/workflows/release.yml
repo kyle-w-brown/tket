@@ -227,13 +227,44 @@ jobs:
         run: pip install wheelhouse/${{ matrix.python-version }}.*/pytket-*.whl
       - uses: actions/checkout@v3
         with:
-            path: tket
+          path: tket
       - name: Setup tests
         run: |
           cd tket/pytket/tests
           pip install -r requirements.txt
       - name: Run tests
         run: cd tket/pytket/tests && pytest --ignore=simulator/
+
+  test_Linux_aarch64_wheels:
+    name: Test linux wheels
+    needs: build_Linux_aarch64_wheels
+    runs-on: ['self-hosted', 'macOS', 'ARM64']
+    env:
+      PY_VERS: cp39-cp39 cp310-cp310 cp311-cp311
+    steps:
+    - name: Download wheels
+      uses: actions/download-artifact@v3
+      with:
+        name: Linux_aarch64_wheels
+        path: wheelhouse/
+    - uses: actions/checkout@v3
+      with:
+        path: tket
+    - name: Set up container
+      run: |
+        export DOCKER_HOST=unix://${HOME}/.docker/run/docker.sock
+        docker create --name linux_build -i -v /:/host quay.io/pypa/manylinux2014_x86_64:latest /bin/bash
+        docker cp . linux_build:/tket/
+    - name: Run tests
+      run: |
+        export DOCKER_HOST=unix://${HOME}/.docker/run/docker.sock
+        docker start linux_build
+        docker exec -e PY_VERS="${PY_VERS}" linux_build /bin/bash -c "/tket/.github/workflows/linuxtestwheel"
+    - name: Remove container
+      if: always()
+      run:
+        export DOCKER_HOST=unix://${HOME}/.docker/run/docker.sock
+        docker rm --force -v linux_build
 
   test_macos_wheels:
     name: Test macos wheels
