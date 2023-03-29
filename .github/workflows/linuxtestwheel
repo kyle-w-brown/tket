@@ -28,3 +28,5 @@ do
     ${PYEX} -m pip install -r requirements.txt
     pytest --ignore=simulator/
 done
+
+rm -rf /tket/wheelhouse
