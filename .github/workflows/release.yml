@@ -131,7 +131,7 @@ jobs:
         $conan_cmd = (gcm conan).Path
         echo "CONAN_CMD=${conan_cmd}" >> $GITHUB_ENV
     - name: Build tket
-      run: conan create --profile=tket recipes/tket tket/stable
+      run: conan create --profile=tket recipes/tket tket/stable --build=missing
     - name: Install pybind11
       run: conan create --profile=tket recipes/pybind11
     - name: Set up Python 3.9
