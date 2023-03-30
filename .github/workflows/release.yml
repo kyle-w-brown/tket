@@ -7,6 +7,7 @@ on:
   push:
     branches:
       - 'wheel/**'
+      - test-conan2-tklibs.2
 
 jobs:
   build_Linux_wheels:
