@@ -8,7 +8,6 @@ on:
   push:
     branches:
       - develop
-      - test-conan2-tklibs.2
   schedule:
     # 03:00 every Saturday morning
     - cron: '0 3 * * 6'
