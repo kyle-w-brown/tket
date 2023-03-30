@@ -103,7 +103,7 @@ jobs:
       run: conan profile detect --force
     - name: set remotes
       run: |
-        conan remote remove "*"
+        rm `conan config home`/remotes.json
         conan remote add conancenter https://center.conan.io
         conan remote add tket-libs https://quantinuumsw.jfrog.io/artifactory/api/conan/tket1-libs
     - name: build ${{ matrix.lib }}
