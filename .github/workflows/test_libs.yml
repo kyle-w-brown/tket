@@ -160,14 +160,7 @@ jobs:
     - name: build coverage report
       run: |
         mkdir ${{ matrix.lib }}-coverage
-        echo $GITHUB_WORKSPACE
-        ls $GITHUB_WORKSPACE/build
-        ls $GITHUB_WORKSPACE/build/${{ matrix.lib }}
-        ls $GITHUB_WORKSPACE/build/${{ matrix.lib }}/Debug
-        ls $GITHUB_WORKSPACE/build/${{ matrix.lib }}/Debug/CMakeFiles
-        ls $GITHUB_WORKSPACE/build/${{ matrix.lib }}/Debug/CMakeFiles/${{ matrix.lib }}.dir
-        ls $GITHUB_WORKSPACE/build/${{ matrix.lib }}/Debug/CMakeFiles/${{ matrix.lib }}.dir/src
-        gcovr --print-summary --html --html-details -r $GITHUB_WORKSPACE/libs/${{ matrix.lib }}/src --exclude-lines-by-pattern '.*\bTKET_ASSERT\(.*\);' --object-directory $GITHUB_WORKSPACE/build/${{ matrix.lib }}/Debug/CMakeFiles/${{ matrix.lib }}.dir/src -o ${{ matrix.lib }}-coverage/index.html --decisions > ${{ matrix.lib }}-coverage/summary.txt
+        gcovr --print-summary --html --html-details -r $GITHUB_WORKSPACE/libs/${{ matrix.lib }}/src --exclude-lines-by-pattern '.*\bTKET_ASSERT\(.*\);' --object-directory $GITHUB_WORKSPACE/build/${{ matrix.lib }}/build/Debug/CMakeFiles/${{ matrix.lib }}.dir/src -o ${{ matrix.lib }}-coverage/index.html --decisions > ${{ matrix.lib }}-coverage/summary.txt
     - name: upload artefact
       uses: actions/upload-artifact@v3
       with:
