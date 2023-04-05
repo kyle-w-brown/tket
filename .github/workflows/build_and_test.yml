@@ -8,6 +8,7 @@ on:
   push:
     branches:
       - develop
+      - test-conan2-tket.1
   schedule:
     # 03:00 every Saturday morning
     - cron: '0 3 * * 6'
@@ -122,10 +123,10 @@ jobs:
           [IO.File]::WriteAllText($f, $normalized_file)
         }
     - name: Build tket
-      if: needs.check_changes.outputs.tket_changed == 'true'
+      # if: needs.check_changes.outputs.tket_changed == 'true'
       run: conan create tket --user=tket --channel=stable --build=missing -o boost/*:header_only=True
     - name: Install tket
-      if: needs.check_changes.outputs.tket_changed != 'true'
+      # if: needs.check_changes.outputs.tket_changed != 'true'
       run: conan install tket/${{ needs.check_changes.outputs.tket_ver }}@tket/stable --build=missing -o boost/*:header_only=True
     - name: check that version is consistent
       if: matrix.os == 'ubuntu-22.04' && github.event_name == 'pull_request'
@@ -135,20 +136,20 @@ jobs:
         conan graph info pytket/conanfile.txt --format json > pytket-graph.json 2>/dev/null # TODO ignoring errors is a hack, fix once pybind11 builds with conan 2
         ./.github/workflows/check-tket-reqs  ${{ needs.check_changes.outputs.tket_ver }}
     - name: Install runtime test requirements
-      if: matrix.os == 'ubuntu-22.04' && (needs.check_changes.outputs.tket_changed == 'true' || needs.check_changes.outputs.tket_tests_changed == 'true') && github.event_name == 'schedule'
+      if: matrix.os == 'ubuntu-22.04'
       run: |
         sudo apt install texlive texlive-latex-extra latexmk
         mkdir -p ~/texmf/tex/latex
         wget http://mirrors.ctan.org/graphics/pgf/contrib/quantikz/tikzlibraryquantikz.code.tex -P ~/texmf/tex/latex
     - name: Build and run tket tests
-      if: needs.check_changes.outputs.tket_changed == 'true' || needs.check_changes.outputs.tket_tests_changed == 'true'
+      # if: needs.check_changes.outputs.tket_changed == 'true' || needs.check_changes.outputs.tket_tests_changed == 'true'
       shell: bash
       run: |
         conan create tket/test --build=missing -o boost/*:header_only=True --format json > test-tket.json
         PKGPATH=`./rootpath test-tket.json test-tket`
         cd ${PKGPATH}/bin && ./test-tket `./github/workflows/test-args ${{ matrix.os }} ${{ github.event_name }}`
     - name: Build and run tket proptests
-      if: needs.check_changes.outputs.tket_changed == 'true' || needs.check_changes.outputs.tket_proptests_changed == 'true'
+      # if: needs.check_changes.outputs.tket_changed == 'true' || needs.check_changes.outputs.tket_proptests_changed == 'true'
       shell: bash
       run: |
         conan create tket/proptest --build=missing  -o boost/*:header_only=True --format json > proptest-tket.json
@@ -175,19 +176,19 @@ jobs:
         conan remote add tket-libs https://quantinuumsw.jfrog.io/artifactory/api/conan/tket1-libs --force
         conan cache clean
     - name: Build tket
-      if: needs.check_changes.outputs.tket_changed == 'true'
+      # if: needs.check_changes.outputs.tket_changed == 'true'
       run: conan create tket --user=tket --channel=stable --build=missing -o boost/*:header_only=True
-    - name: Install tket
-      if: needs.check_changes.outputs.tket_changed != 'true'
-      run: conan install tket/${{ needs.check_changes.outputs.tket_ver }}@tket/stable --build=missing -o boost/*:header_only=True
+    # - name: Install tket
+    #   if: needs.check_changes.outputs.tket_changed != 'true'
+    #   run: conan install tket/${{ needs.check_changes.outputs.tket_ver }}@tket/stable --build=missing -o boost/*:header_only=True
     - name: Build and run tket tests
-      if: needs.check_changes.outputs.tket_changed == 'true' || needs.check_changes.outputs.tket_tests_changed == 'true'
+      # if: needs.check_changes.outputs.tket_changed == 'true' || needs.check_changes.outputs.tket_tests_changed == 'true'
       run: |
         conan create tket/test --build=missing -o boost/*:header_only=True --format json > test-tket.json
         PKGPATH=`./rootpath test-tket.json test-tket`
         cd ${PKGPATH}/bin && ./test-tket `./github/workflows/test-args ${{ matrix.os }} ${{ github.event_name }}`
     - name: Build and run tket proptests
-      if: needs.check_changes.outputs.tket_changed == 'true' || needs.check_changes.outputs.tket_proptests_changed == 'true'
+      # if: needs.check_changes.outputs.tket_changed == 'true' || needs.check_changes.outputs.tket_proptests_changed == 'true'
       run: |
         conan create tket/proptest --build=missing  -o boost/*:header_only=True --format json > proptest-tket.json
         PKGPATH=`./rootpath proptest-tket.json proptest-tket`
@@ -266,11 +267,11 @@ jobs:
           [IO.File]::WriteAllText($f, $normalized_file)
         }
     - name: Build tket
-      if: needs.check_changes.outputs.tket_changed == 'true'
+      # if: needs.check_changes.outputs.tket_changed == 'true'
       run: conan create --profile=tket recipes/tket tket/stable --build=missing --build=tket
-    - name: Install tket
-      if: needs.check_changes.outputs.tket_changed != 'true'
-      run: conan install --profile=tket tket/${{ needs.check_changes.outputs.tket_ver }}@tket/stable --build=missing
+    # - name: Install tket
+      # if: needs.check_changes.outputs.tket_changed != 'true'
+      # run: conan install --profile=tket tket/${{ needs.check_changes.outputs.tket_ver }}@tket/stable --build=missing
     - name: check that version is consistent
       if: matrix.os == 'ubuntu-22.04' && github.event_name == 'pull_request'
       run: |
