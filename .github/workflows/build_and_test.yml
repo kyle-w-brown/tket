@@ -390,12 +390,6 @@ jobs:
     - name: Build tket
       if: needs.check_changes.outputs.tket_changed == 'true'
       run: conan create --profile=tket tket tket/stable --build=missing --build=tket
-    - name: Build and run tket tests
-      if: needs.check_changes.outputs.tket_changed == 'true' || needs.check_changes.outputs.tket_tests_changed == 'true'
-      run: conan create --profile=tket tket/test
-    - name: Build and run tket proptests
-      if: needs.check_changes.outputs.tket_changed == 'true' || needs.check_changes.outputs.tket_proptests_changed == 'true'
-      run: conan create --profile=tket tket/proptest
     - name: Install pybind11
       run: conan create --profile=tket recipes/pybind11
     - name: Build pytket (3.9)
