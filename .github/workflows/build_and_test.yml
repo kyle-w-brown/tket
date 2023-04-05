@@ -125,9 +125,9 @@ jobs:
     - name: Build tket
       # if: needs.check_changes.outputs.tket_changed == 'true'
       run: conan create tket --user=tket --channel=stable --build=missing -o boost/*:header_only=True
-    - name: Install tket
-      # if: needs.check_changes.outputs.tket_changed != 'true'
-      run: conan install tket/${{ needs.check_changes.outputs.tket_ver }}@tket/stable --build=missing -o boost/*:header_only=True
+    # - name: Install tket
+    #   # if: needs.check_changes.outputs.tket_changed != 'true'
+    #   run: conan install tket/${{ needs.check_changes.outputs.tket_ver }}@tket/stable --build=missing -o boost/*:header_only=True
     - name: check that version is consistent
       if: matrix.os == 'ubuntu-22.04' && github.event_name == 'pull_request'
       run: |
