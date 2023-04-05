@@ -35,6 +35,10 @@ endif()
 
 if(WIN32)
     set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS yes)
+elseif(APPLE)
+    # set correct install_name
+    set(CMAKE_INSTALL_NAME_DIR "@loader_path")
+    set(CMAKE_BUILD_WITH_INSTALL_NAME_DIR ON)
 endif()
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
