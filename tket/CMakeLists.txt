@@ -379,3 +379,11 @@ target_sources(tket
     )
 
 install(TARGETS tket FILE_SET HEADERS)
+
+if(MSVC)
+    install(TARGETS tket
+        RUNTIME DESTINATION bin
+        RUNTIME DESTINATION lib
+        ARCHIVE DESTINATION lib
+        LIBRARY DESTINATION lib)
+endif()
