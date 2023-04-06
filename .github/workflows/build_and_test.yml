@@ -68,7 +68,8 @@ jobs:
     needs: check_changes
     strategy:
       matrix:
-        os: ['ubuntu-22.04', 'macos-12', 'windows-2022']
+        os: ['ubuntu-22.04', 'macos-12']
+        # TODO Put back windows-2022 when https://github.com/conan-io/conan/issues/13606 fixed (conan 2.0.4).
     runs-on: ${{ matrix.os }}
     steps:
     - uses: actions/checkout@v3
