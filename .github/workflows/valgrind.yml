@@ -3,9 +3,9 @@ on:
   pull_request:
     branches:
       - develop
-  push:
-    branches:
-      - test-conan2-tket.2
+  # push:
+  #   branches:
+  #     - test-conan2-tket.2
 
   schedule:
     # 03:00 every Monday morning
