@@ -251,11 +251,13 @@ jobs:
     - name: Install tket
       if: needs.check_changes.outputs.tket_changed != 'true'
       run: conan install tket/${{ needs.check_changes.outputs.tket_ver }}@tket/stable --build=missing -o boost/*:header_only=True -o tklog/*:shared=True -o tket/*:shared=True
-    - name: check that version is consistent
-      if: matrix.os == 'ubuntu-22.04' && github.event_name == 'pull_request'
+    - name: Install pytket requirements
       run: |
         conan install pybind11@/2.10.1
-        ./.github/workflows/check-tket-reqs  ${{ needs.check_changes.outputs.tket_ver }}
+        conan create recipes/pybind11_json/all --version 0.2.13
+    - name: check that version is consistent
+      if: matrix.os == 'ubuntu-22.04' && github.event_name == 'pull_request'
+      run: ./.github/workflows/check-tket-reqs  ${{ needs.check_changes.outputs.tket_ver }}
     - name: Upload conan cache
       uses: actions/upload-artifact@v3
       with:
@@ -361,6 +363,10 @@ jobs:
     - name: Build tket
       if: needs.check_changes.outputs.tket_changed == 'true'
       run: conan create tket --user tket --channel stable --build=missing -o boost/*:header_only=True -o tklog/*:shared=True -o tket/*:shared=True -tf ""
+    - name: Install pytket requirements
+      run: |
+        conan install pybind11@/2.10.1
+        conan create recipes/pybind11_json/all --version 0.2.13
     - name: Build pytket (3.9)
       if: github.event_name == 'push'
       run: |
