@@ -254,7 +254,7 @@ jobs:
       run: conan install tket --version ${{ needs.check_changes.outputs.tket_ver }} --user tket --channel stable --build=missing -o boost/*:header_only=True -o tklog/*:shared=True -o tket/*:shared=True
     - name: Install pytket requirements
       run: |
-        conan install pybind11 --version 2.10.1
+        conan download pybind11/2.10.1 -r conancenter
         conan create recipes/pybind11_json/all --version 0.2.13
     - name: check that version is consistent
       if: matrix.os == 'ubuntu-22.04' && github.event_name == 'pull_request'
@@ -366,7 +366,7 @@ jobs:
       run: conan create tket --user tket --channel stable --build=missing -o boost/*:header_only=True -o tklog/*:shared=True -o tket/*:shared=True -tf ""
     - name: Install pytket requirements
       run: |
-        conan install pybind11 --version 2.10.1
+        conan download pybind11/2.10.1 -r conancenter
         conan create recipes/pybind11_json/all --version 0.2.13
     - name: Build pytket (3.9)
       if: github.event_name == 'push'
