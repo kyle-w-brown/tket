@@ -357,7 +357,7 @@ jobs:
       uses: turtlebrowser/get-conan@v1.2
     - name: Set up conan
       run: |
-        conan profile detect
+        conan profile detect --force
         conan remote add tket-libs https://quantinuumsw.jfrog.io/artifactory/api/conan/tket1-libs
     - name: Remove tket package from cache
       run: conan remove -c 'tket/*'
