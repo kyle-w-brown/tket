@@ -251,7 +251,7 @@ jobs:
     #   run: conan create tket --user tket --channel stable --build=missing -o boost/*:header_only=True -o tklog/*:shared=True -o tket/*:shared=True -tf ""
     - name: Install tket
       # if: needs.check_changes.outputs.tket_changed != 'true'
-      run: conan install tket/${{ needs.check_changes.outputs.tket_ver }}@tket/stable --build=missing -o boost/*:header_only=True -o tklog/*:shared=True -o tket/*:shared=True
+      run: conan install tket --version ${{ needs.check_changes.outputs.tket_ver }} --user tket --channel stable --build=missing -o boost/*:header_only=True -o tklog/*:shared=True -o tket/*:shared=True
     - name: Install pytket requirements
       run: |
         conan install pybind11@/2.10.1
