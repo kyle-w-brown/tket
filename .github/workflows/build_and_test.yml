@@ -358,7 +358,7 @@ jobs:
     - name: Set up conan
       run: |
         conan profile detect --force
-        conan remote add tket-libs https://quantinuumsw.jfrog.io/artifactory/api/conan/tket1-libs
+        conan remote add tket-libs https://quantinuumsw.jfrog.io/artifactory/api/conan/tket1-libs --force
     - name: Remove tket package from cache
       run: conan remove -c 'tket/*'
     - name: Build tket
