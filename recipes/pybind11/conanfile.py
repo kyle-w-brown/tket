@@ -17,7 +17,6 @@ from conan.tools.cmake import CMake, CMakeToolchain
 from conan.tools.layout import basic_layout
 from conan.tools.files import get, copy, replace_in_file, rm, rmdir
 import os
-import sys
 
 
 class PyBind11Conan(ConanFile):
