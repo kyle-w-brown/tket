@@ -208,6 +208,8 @@ jobs:
       matrix:
         os: ['ubuntu-22.04', 'macos-12', 'windows-2022']
     runs-on: ${{ matrix.os }}
+    outputs:
+      pkg_path: ${{ steps.pkg_path.outputs.pkg_path }}
     steps:
     - uses: actions/checkout@v3
     - name: Get current time
@@ -248,10 +250,16 @@ jobs:
         }
     # - name: Build tket
     #   if: needs.check_changes.outputs.tket_changed == 'true'
-    #   run: conan create tket --user tket --channel stable --build=missing -o boost/*:header_only=True -o tklog/*:shared=True -o tket/*:shared=True -tf ""
+    #   run: conan create tket --user tket --channel stable --build=missing -o boost/*:header_only=True -o tklog/*:shared=True -o tket/*:shared=True -tf "" --format json > tket.json
     - name: Install tket
       # if: needs.check_changes.outputs.tket_changed != 'true'
-      run: conan install tket --version ${{ needs.check_changes.outputs.tket_ver }} --user tket --channel stable --build=missing -o boost/*:header_only=True -o tklog/*:shared=True -o tket/*:shared=True
+      run: conan install tket --version ${{ needs.check_changes.outputs.tket_ver }} --user tket --channel stable --build=missing -o boost/*:header_only=True -o tklog/*:shared=True -o tket/*:shared=True --format json > tket.json
+    - name: Find root path of tket package
+      id: pkg_path
+      shell: bash
+      run: |
+        pkg_path=`./rootpath tket.json tket`
+        echo "pkg_path=${pkg_path}" >> $GITHUB_OUTPUT
     - name: Install pytket requirements
       run: |
         conan download pybind11/2.10.1 -r conancenter
@@ -263,7 +271,7 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: tket_conan_${{ matrix.os }}
-        path: ~/.conan2/p
+        path: ${{ steps.pkg_path.outputs.pkg_path }}
     - name: Upload package
       if: github.event_name == 'push' && github.ref == 'refs/heads/develop' && needs.check_changes.outputs.tket_changed == 'true'
       run: |
@@ -295,7 +303,7 @@ jobs:
       uses: actions/download-artifact@v3
       with:
         name: tket_conan_${{ matrix.os }}
-        path: ~/.conan2/p
+        path: ${{ needs.build_test_tket.outputs.pkg_path }}
     - name: Set up Python
       uses: actions/setup-python@v4
       with:
