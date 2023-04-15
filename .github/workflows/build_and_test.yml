@@ -253,7 +253,7 @@ jobs:
     #   run: conan create tket --user tket --channel stable --build=missing -o boost/*:header_only=True -o tklog/*:shared=True -o tket/*:shared=True -tf "" --format json > tket.json
     - name: Install tket
       # if: needs.check_changes.outputs.tket_changed != 'true'
-      run: conan install tket --version ${{ needs.check_changes.outputs.tket_ver }} --user tket --channel stable --build=missing -o boost/*:header_only=True -o tklog/*:shared=True -o tket/*:shared=True --format json > tket.json
+      run: conan install --requires tket/${{ needs.check_changes.outputs.tket_ver }}@tket/stable --build=missing -o boost/*:header_only=True -o tklog/*:shared=True -o tket/*:shared=True --format json > tket.json
     - name: Find root path of tket package
       id: pkg_path
       shell: bash
