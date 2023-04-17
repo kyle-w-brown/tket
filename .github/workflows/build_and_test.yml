@@ -209,9 +209,9 @@ jobs:
         os: ['ubuntu-22.04', 'macos-12', 'windows-2022']
     runs-on: ${{ matrix.os }}
     outputs:
-      pkg_path_ubuntu-22.04: ${{ steps.pkg_path.outputs.pkg_path_ubuntu-22.04 }}
-      pkg_path_macos-12: ${{ steps.pkg_path.outputs.pkg_path_macos-12 }}
-      pkg_path_windows-2022: ${{ steps.pkg_path.outputs.pkg_path_windows-2022 }}
+      pkg_path_ubuntu: ${{ steps.pkg_path_ubuntu.outputs.pkg_path }}
+      pkg_path_macos: ${{ steps.pkg_path_macos.outputs.pkg_path }}
+      pkg_path_windows: ${{ steps.pkg_path_windows.outputs.pkg_path }}
     steps:
     - uses: actions/checkout@v3
     - name: Get current time
@@ -256,12 +256,25 @@ jobs:
     - name: Install tket
       # if: needs.check_changes.outputs.tket_changed != 'true'
       run: conan install --requires tket/${{ needs.check_changes.outputs.tket_ver }}@tket/stable --build=missing -o boost/*:header_only=True -o tklog/*:shared=True -o tket/*:shared=True --format json > tket.json
-    - name: Find root path of tket package
-      id: pkg_path
+    - name: Find root path of tket package (ubuntu)
+      id: pkg_path_ubuntu
+      if: matrix.os == 'ubuntu-22.04'
+      run: |
+        pkg_path=`./rootpath tket.json tket`
+        echo "pkg_path=${pkg_path}" >> $GITHUB_OUTPUT
+    - name: Find root path of tket package (macos)
+      id: pkg_path_macos
+      if: matrix.os == 'macos-12'
+      run: |
+        pkg_path=`./rootpath tket.json tket`
+        echo "pkg_path=${pkg_path}" >> $GITHUB_OUTPUT
+    - name: Find root path of tket package (windows)
+      id: pkg_path_windows
+      if: matrix.os == 'windows-2022'
       shell: bash
       run: |
         pkg_path=`./rootpath tket.json tket`
-        echo "pkg_path_${{ matrix.os }}=${pkg_path}" >> $GITHUB_OUTPUT
+        echo "pkg_path=${pkg_path}" >> $GITHUB_OUTPUT
     - name: Install pytket requirements
       run: |
         conan create recipes/pybind11
@@ -269,11 +282,24 @@ jobs:
     - name: check that version is consistent
       if: matrix.os == 'ubuntu-22.04' && github.event_name == 'pull_request'
       run: ./.github/workflows/check-tket-reqs  ${{ needs.check_changes.outputs.tket_ver }}
-    - name: Upload conan cache
+    - name: Upload conan cache (ubuntu)
+      if: matrix.os == 'ubuntu-22.04'
       uses: actions/upload-artifact@v3
       with:
         name: tket_conan_${{ matrix.os }}
-        path: ${{ steps.pkg_path.outputs.pkg_path_${{ matrix.os }} }}
+        path: ${{ steps.pkg_path_ubuntu.outputs.pkg_path }}
+    - name: Upload conan cache (macos)
+      if: matrix.os == 'macos-12'
+      uses: actions/upload-artifact@v3
+      with:
+        name: tket_conan_${{ matrix.os }}
+        path: ${{ steps.pkg_path_macos.outputs.pkg_path }}
+    - name: Upload conan cache (windows)
+      if: matrix.os == 'windows-2022'
+      uses: actions/upload-artifact@v3
+      with:
+        name: tket_conan_${{ matrix.os }}
+        path: ${{ steps.pkg_path_windows.outputs.pkg_path }}
     - name: Upload package
       if: github.event_name == 'push' && github.ref == 'refs/heads/develop' && needs.check_changes.outputs.tket_changed == 'true'
       run: |
@@ -301,11 +327,24 @@ jobs:
       run: |
         conan profile detect
         conan remote add tket-libs https://quantinuumsw.jfrog.io/artifactory/api/conan/tket1-libs
-    - name: Download conan cache
+    - name: Download conan cache (ubuntu)
+      if: matrix.os == 'ubuntu-22.04'
       uses: actions/download-artifact@v3
       with:
         name: tket_conan_${{ matrix.os }}
-        path: ${{ needs.build_test_tket.outputs.pkg_path_${{ matrix.os }} }}
+        path: ${{ needs.build_test_tket.outputs.pkg_path_ubuntu }}
+    - name: Download conan cache (macos)
+      if: matrix.os == 'macos-12'
+      uses: actions/download-artifact@v3
+      with:
+        name: tket_conan_${{ matrix.os }}
+        path: ${{ needs.build_test_tket.outputs.pkg_path_macos }}
+    - name: Download conan cache (windows)
+      if: matrix.os == 'windows-2022'
+      uses: actions/download-artifact@v3
+      with:
+        name: tket_conan_${{ matrix.os }}
+        path: ${{ needs.build_test_tket.outputs.pkg_path_windows }}
     - name: Set up Python
       uses: actions/setup-python@v4
       with:
