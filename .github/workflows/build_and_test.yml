@@ -209,7 +209,9 @@ jobs:
         os: ['ubuntu-22.04', 'macos-12', 'windows-2022']
     runs-on: ${{ matrix.os }}
     outputs:
-      pkg_path_${{ matrix.os }}: ${{ steps.pkg_path.outputs.pkg_path }}
+      pkg_path_ubuntu-22.04: ${{ steps.pkg_path.outputs.pkg_path_ubuntu-22.04 }}
+      pkg_path_macos-12: ${{ steps.pkg_path.outputs.pkg_path_macos-12 }}
+      pkg_path_windows-2022: ${{ steps.pkg_path.outputs.pkg_path_windows-2022 }}
     steps:
     - uses: actions/checkout@v3
     - name: Get current time
