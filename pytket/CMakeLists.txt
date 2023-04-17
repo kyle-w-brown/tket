@@ -58,7 +58,7 @@ if (UNIX)
     set(CMAKE_INSTALL_RPATH "\${ORIGIN}")
 endif()
 
-set(LIBS_TO_LINK tket::tket symengine::symengine tktokenswap::tktokenswap tkwsm::tkwsm gmp::gmpxx gmp::gmp tkassert::tkassert tkrng::tkrng tklog::tklog pybind11::headers pybind11_json::pybind11_json)
+set(LIBS_TO_LINK tket::tket symengine tktokenswap::tktokenswap tkwsm::tkwsm gmp::gmpxx gmp::gmp tkassert::tkassert tkrng::tkrng tklog::tklog pybind11::headers pybind11_json::pybind11_json)
 
 pybind11_add_module(circuit
     binders/circuit/main.cpp
