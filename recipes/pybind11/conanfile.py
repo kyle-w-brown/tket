@@ -61,16 +61,12 @@ class PyBind11Conan(ConanFile):
         )
         cmake = CMake(self)
         cmake.install()
-        for filename in [
-            "pybind11Targets.cmake",
-            "pybind11Config.cmake",
-            "pybind11ConfigVersion.cmake",
-        ]:
-            rm(
-                self,
-                filename,
-                os.path.join(self.package_folder, "lib", "cmake", "pybind11"),
-            )
+        lib_folder = os.path.join(self.package_folder, "lib", "cmake", "pybind11")
+        rm(self, "pybind11ConfigVersion.cmake", lib_folder)
+        os.rename(
+            os.path.join(lib_folder, "pybind11Config.cmake"),
+            os.path.join(lib_folder, "pybind11Install.cmake"),
+        )
 
         rmdir(self, os.path.join(self.package_folder, "share"))
 
