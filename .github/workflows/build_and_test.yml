@@ -375,7 +375,7 @@ jobs:
         conan remote login -p ${{ secrets.JFROG_ARTIFACTORY_TOKEN_2 }} tket-libs ${{ secrets.JFROG_ARTIFACTORY_USER_2 }}
         conan upload tket/${{ needs.check_changes.outputs.tket_ver }}@tket/stable -r=tket-libs
 
-build_test_pytket_windows:
+  build_test_pytket_windows:
     name: Build and test pytket (windows)
     needs: check_changes
     runs-on: windows-2022
