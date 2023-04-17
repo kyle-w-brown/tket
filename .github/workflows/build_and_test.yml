@@ -308,6 +308,10 @@ jobs:
       uses: actions/setup-python@v4
       with:
         python-version: ${{ matrix.pyver }}
+    - name: Install pytket requirements
+      run: |
+        conan create recipes/pybind11
+        conan create recipes/pybind11_json/all --version 0.2.13
     - name: Build pytket
       run: |
         cd pytket
