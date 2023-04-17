@@ -209,7 +209,7 @@ jobs:
         os: ['ubuntu-22.04', 'macos-12', 'windows-2022']
     runs-on: ${{ matrix.os }}
     outputs:
-      pkg_path_${{ runner.os }}: ${{ steps.pkg_path.outputs.pkg_path }}
+      pkg_path_${{ matrix.os }}: ${{ steps.pkg_path.outputs.pkg_path }}
     steps:
     - uses: actions/checkout@v3
     - name: Get current time
@@ -259,7 +259,7 @@ jobs:
       shell: bash
       run: |
         pkg_path=`./rootpath tket.json tket`
-        echo "pkg_path_${{ runner.os }}=${pkg_path}" >> $GITHUB_OUTPUT
+        echo "pkg_path_${{ matrix.os }}=${pkg_path}" >> $GITHUB_OUTPUT
     - name: Install pytket requirements
       run: |
         conan create recipes/pybind11
@@ -271,7 +271,7 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: tket_conan_${{ matrix.os }}
-        path: ${{ steps.pkg_path.outputs.pkg_path_${{ runner.os }} }}
+        path: ${{ steps.pkg_path.outputs.pkg_path_${{ matrix.os }} }}
     - name: Upload package
       if: github.event_name == 'push' && github.ref == 'refs/heads/develop' && needs.check_changes.outputs.tket_changed == 'true'
       run: |
@@ -303,7 +303,7 @@ jobs:
       uses: actions/download-artifact@v3
       with:
         name: tket_conan_${{ matrix.os }}
-        path: ${{ needs.build_test_tket.outputs.pkg_path_${{ runner.os }} }}
+        path: ${{ needs.build_test_tket.outputs.pkg_path_${{ matrix.os }} }}
     - name: Set up Python
       uses: actions/setup-python@v4
       with:
