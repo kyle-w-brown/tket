@@ -18,6 +18,9 @@ project(pytket CXX)
 find_package(tket CONFIG REQUIRED)
 find_package(pybind11_json CONFIG REQUIRED)
 find_package(pybind11 CONFIG REQUIRED COMPONENTS headers)
+find_package(symengine CONFIG REQUIRED)
+find_package(gmp CONFIG REQUIRED)
+find_package(tkassert CONFIG REQUIRED)
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_EXTENSIONS OFF)
@@ -62,7 +65,7 @@ pybind11_add_module(circuit
     binders/circuit/Circuit/add_classical_op.cpp)
 target_include_directories(circuit PRIVATE binders/include)
 target_link_libraries(circuit PRIVATE
-    tket::tket symengine::symengine pybind11::headers pybind11_json::pybind11_json)
+    symengine::symengine gmp::gmp tkassert::tkassert tket::tket pybind11::headers pybind11_json::pybind11_json)
 if (WIN32)
     # For boost::uuid:
     target_link_libraries(circuit PRIVATE bcrypt)
@@ -94,7 +97,7 @@ endif()
 pybind11_add_module(passes binders/passes.cpp)
 target_include_directories(passes PRIVATE binders/include)
 target_link_libraries(passes PRIVATE
-    tket::tket symengine::symengine pybind11::headers pybind11_json::pybind11_json)
+    symengine::symengine gmp::gmp tket::tket pybind11::headers pybind11_json::pybind11_json)
 if (WIN32)
     # For boost::uuid:
     target_link_libraries(passes PRIVATE bcrypt)
@@ -137,7 +140,7 @@ target_link_libraries(utils_serialization PRIVATE
 pybind11_add_module(tailoring binders/tailoring.cpp)
 target_include_directories(tailoring PRIVATE binders/include)
 target_link_libraries(tailoring PRIVATE
-    tket::tket symengine::symengine pybind11::headers)
+    symengine::symengine gmp::gmp tket::tket pybind11::headers)
 if (WIN32)
     # For boost::uuid:
     target_link_libraries(tailoring PRIVATE bcrypt)
@@ -157,7 +160,7 @@ pybind11_add_module(zx
     binders/zx/rewrite.cpp)
 target_include_directories(zx PRIVATE binders/include)
 target_link_libraries(zx PRIVATE
-    tket::tket symengine::symengine pybind11::headers)
+    symengine::symengine gmp::gmp tket::tket pybind11::headers)
 
 install(TARGETS
     logging
