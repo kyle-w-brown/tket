@@ -127,14 +127,16 @@ jobs:
       run: |
         conan profile detect --force
         conan remote add tket-libs https://quantinuumsw.jfrog.io/artifactory/api/conan/tket1-libs --force
+    - name: Build pytket dependencies
+      run: |
+        conan remove -c 'tket/*'
+        conan create tket --user tket --channel stable --build=missing -o boost/*:header_only=True -o tklog/*:shared=True -o tket/*:shared=True -tf ""
+        conan create recipes/pybind11
+        conan create recipes/pybind11_json/all --version 0.2.13
     - name: Build wheels
       run: |
         eval "$(pyenv init -)"
         pyenv shell tket-3.9
-        conan remove -c 'tket/*'
-        conan create tket --user tket --channel stable --build=missing -o boost/*:header_only=True -o tklog/*:shared=True -o tket/*:shared=True -tf ""
-        cconan create recipes/pybind11
-        conan create recipes/pybind11_json/all --version 0.2.13
         .github/workflows/build_macos_m1_wheel
         pyenv shell tket-3.10
         .github/workflows/build_macos_m1_wheel
