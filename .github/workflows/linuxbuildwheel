@@ -17,7 +17,7 @@
 set -evu
 
 # Build tket
-pip install -U conan
+/opt/python/cp39-cp39/bin/pip install -U conan
 conan profile detect
 conan remote add tket-libs https://quantinuumsw.jfrog.io/artifactory/api/conan/tket1-libs
 conan create tket --user tket --channel stable --build=missing -o boost/*:header_only=True -o tklog/*:shared=True -o tket/*:shared=True -tf ""
