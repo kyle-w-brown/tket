@@ -110,45 +110,57 @@ jobs:
   #       name: MacOS_${{ matrix.python-version }}_wheel
   #       path: wheelhouse/
 
-  # build_macos_M1_wheels:
-  #   name: Build macos (M1) wheels
-  #   runs-on: ['self-hosted', 'macOS', 'ARM64']
-  #   steps:
-  #   - uses: actions/checkout@v3
-  #     with:
-  #       fetch-depth: '0'
-  #   - run: git fetch --depth=1 origin +refs/tags/*:refs/tags/*
-  #   - name: Install conan
-  #     uses: turtlebrowser/get-conan@v1.2
-  #   - name: Set up conan
-  #     run: |
-  #       conan profile detect --force
-  #       conan remote add tket-libs https://quantinuumsw.jfrog.io/artifactory/api/conan/tket1-libs --force
-  #   - name: Build tket
-  #     run: |
-  #       conan remove -c 'tket/*'
-  #       conan create tket --user tket --channel stable --build=missing -o boost/*:header_only=True -o tklog/*:shared=True -o tket/*:shared=True -tf ""
-  #   - name: Build wheels
-  #     run: |
-  #       eval "$(pyenv init -)"
-  #       pyenv shell tket-3.9
-  #       .github/workflows/build_macos_m1_wheel
-  #       pyenv shell tket-3.10
-  #       .github/workflows/build_macos_m1_wheel
-  #       pyenv shell tket-3.11
-  #       .github/workflows/build_macos_m1_wheel
-  #   - uses: actions/upload-artifact@v3
-  #     with:
-  #       name: MacOS_M1_wheels
-  #       path: wheelhouse/
-  #   - name: Remove directory
-  #     if: always()
-  #     run: rm -rf wheelhouse
-  #   - name: Revert to conan 1
-  #     if: always()
-  #     uses: turtlebrowser/get-conan@v1.2
-  #     with:
-  #       version: '1.59.0'
+  build_macos_M1_wheels:
+    name: Build macos (M1) wheels
+    runs-on: ['self-hosted', 'macOS', 'ARM64']
+    strategy:
+      matrix:
+        python-version: ['3.9', '3.10', '3.11']
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        fetch-depth: '0'
+    - run: git fetch --depth=1 origin +refs/tags/*:refs/tags/*
+
+    - name: Install conan
+      uses: turtlebrowser/get-conan@v1.2
+    - name: Set up conan
+      run: |
+        conan profile detect --force
+        conan remote add tket-libs https://quantinuumsw.jfrog.io/artifactory/api/conan/tket1-libs --force
+    - name: Build tket
+      run: |
+        conan remove -c 'tket/*'
+        conan create tket --user tket --channel stable --build=missing -o boost/*:header_only=True -o tklog/*:shared=True -o tket/*:shared=True -tf ""
+    - name: Build wheels
+      run: |
+        eval "$(pyenv init -)"
+        pyenv shell tket-${{ matrix.python-version }}
+        python -m pip install -U conan
+        conan remove -c "pybind11/*"
+        conan create recipes/pybind11
+        conan create recipes/pybind11_json/all --version 0.2.13
+        cd pytket
+        # Ensure wheels are compatible with MacOS 11.0 and later:
+        export WHEEL_PLAT_NAME=macosx_11_0_arm64
+        python -m pip uninstall -y pytket
+        python -m pip install -U pip build delocate
+        rm -rf dist
+        python -m build
+        delocate-wheel -v -w "$GITHUB_WORKSPACE/wheelhouse/" "dist/pytket-"*".whl"
+        python -m pip install conan~=1.59
+    - uses: actions/upload-artifact@v3
+      with:
+        name: MacOS_M1_${{ matrix.python-version }}_wheel
+        path: wheelhouse/
+    - name: Remove directory
+      if: always()
+      run: rm -rf wheelhouse
+    - name: Revert to conan 1
+      if: always()
+      uses: turtlebrowser/get-conan@v1.2
+      with:
+        version: '1.59.0'
 
   build_Windows_wheels:
     name: Build Windows wheels
@@ -279,41 +291,35 @@ jobs:
   #       pip install -r requirements.txt
   #       pytest --ignore=simulator/
 
-  # test_macos_M1_wheels:
-  #   name: Test macos (M1) wheels
-  #   needs: build_macos_M1_wheels
-  #   runs-on: ['self-hosted', 'macOS', 'ARM64']
-  #   env:
-  #     PRIVATE_PYPI_PASS: ${{ secrets.PRIVATE_PYPI_PASS }}
-  #   strategy:
-  #     matrix:
-  #       python-version: ['3.9', '3.10', '3.11']
-  #   steps:
-  #   - uses: actions/checkout@v3
-  #     with:
-  #       path: tket
-  #   - name: Download wheels
-  #     uses: actions/download-artifact@v3
-  #     with:
-  #       name: MacOS_M1_wheels
-  #       path: wheelhouse/
-  #   - name: Install wheel
-  #     run: |
-  #       eval "$(pyenv init -)"
-  #       pyenv shell tket-${{ matrix.python-version }}
-  #       PKG_CONFIG_PATH="$(brew --prefix openblas)"/lib/pkgconfig pip install -U scipy
-  #       pip uninstall -y pytket
-  #       pip install $GITHUB_WORKSPACE/wheelhouse/${{ matrix.python-version }}.*/pytket-*.whl
-  #   - name: Run tests
-  #     run: |
-  #       eval "$(pyenv init -)"
-  #       pyenv shell tket-${{ matrix.python-version }}
-  #       cd pytket/tests
-  #       pip install -r requirements.txt
-  #       pytest --ignore=simulator/
-  #   - name: Remove directory
-  #     if: always()
-  #     run: rm -rf wheelhouse
+  test_macos_M1_wheels:
+    name: Test macos (M1) wheels
+    needs: build_macos_M1_wheels
+    runs-on: ['self-hosted', 'macOS', 'ARM64']
+    strategy:
+      matrix:
+        python-version: ['3.9', '3.10', '3.11']
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        path: tket
+    - name: Download wheels
+      uses: actions/download-artifact@v3
+      with:
+        name: MacOS_M1_${{ matrix.python-version }}_wheel
+        path: wheelhouse/
+    - name: Install wheel and run tests
+      run: |
+        eval "$(pyenv init -)"
+        pyenv shell tket-${{ matrix.python-version }}
+        PKG_CONFIG_PATH="$(brew --prefix openblas)"/lib/pkgconfig pip install -U scipy
+        pip uninstall -y pytket
+        pip install $GITHUB_WORKSPACE/wheelhouse/pytket-*.whl
+        cd pytket/tests
+        pip install -r requirements.txt
+        pytest --ignore=simulator/
+    - name: Remove directory
+      if: always()
+      run: rm -rf wheelhouse
 
   test_Windows_wheels:
     name: Test Windows wheels
