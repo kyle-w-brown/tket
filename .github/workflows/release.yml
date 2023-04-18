@@ -191,7 +191,7 @@ jobs:
         conan create recipes/pybind11_json/all --version 0.2.13
         cd pytket
         python -m pip install -U pip build
-        python -m build --outdir "$GITHUB_WORKSPACE/wheelhouse"
+        python -m build --outdir "${{ github.workspace }}/wheelhouse"
     - uses: actions/upload-artifact@v3
       with:
         name: Windows_${{ matrix.python-version }}_wheel
