@@ -122,16 +122,20 @@ jobs:
       with:
         fetch-depth: '0'
     - run: git fetch --depth=1 origin +refs/tags/*:refs/tags/*
+    - name: Install conan
+      uses: turtlebrowser/get-conan@v1.2
     - name: Set up conan
-      shell: bash
-      run: ./.github/workflows/conan-setup
+      run: |
+        conan profile detect --force
+        conan remote add tket-libs https://quantinuumsw.jfrog.io/artifactory/api/conan/tket1-libs --force
     - name: Build wheels
       run: |
         eval "$(pyenv init -)"
         pyenv shell tket-3.9
-        conan remove -f 'tket/*'
-        conan create --profile=tket tket tket/stable --build=missing --build=tket
-        conan create --profile=tket recipes/pybind11
+        conan remove -c 'tket/*'
+        conan create tket --user tket --channel stable --build=missing -o boost/*:header_only=True -o tklog/*:shared=True -o tket/*:shared=True -tf ""
+        cconan create recipes/pybind11
+        conan create recipes/pybind11_json/all --version 0.2.13
         .github/workflows/build_macos_m1_wheel
         pyenv shell tket-3.10
         .github/workflows/build_macos_m1_wheel
@@ -144,6 +148,11 @@ jobs:
     - name: Remove directory
       if: always()
       run: rm -rf wheelhouse
+    - name: Revert to conan 1
+      if: always()
+      uses: turtlebrowser/get-conan@v1.2
+      with:
+        version: '1.59.0'
 
   build_Windows_wheels:
     name: Build Windows wheels
