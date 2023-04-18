@@ -66,8 +66,9 @@ pybind11_add_module(circuit
     binders/circuit/Circuit/add_classical_op.cpp)
 target_include_directories(circuit PRIVATE binders/include)
 target_link_libraries(circuit PRIVATE
-    tket::tket symengine gmp::gmpxx gmp::gmp tkassert::tkassert pybind11::headers pybind11_json::pybind11_json)
+    tket::tket pybind11::headers pybind11_json::pybind11_json)
 if (WIN32)
+    target_link_libraries(symengine gmp::gmpxx gmp::gmp tkassert::tkassert)
     # For boost::uuid:
     target_link_libraries(circuit PRIVATE bcrypt)
 endif()
@@ -98,8 +99,9 @@ endif()
 pybind11_add_module(passes binders/passes.cpp)
 target_include_directories(passes PRIVATE binders/include)
 target_link_libraries(passes PRIVATE
-    tket::tket symengine gmp::gmpxx gmp::gmp pybind11::headers pybind11_json::pybind11_json)
+    tket::tket pybind11::headers pybind11_json::pybind11_json)
 if (WIN32)
+    target_link_libraries(symengine gmp::gmpxx gmp::gmp)
     # For boost::uuid:
     target_link_libraries(passes PRIVATE bcrypt)
 endif()
@@ -141,8 +143,9 @@ target_link_libraries(utils_serialization PRIVATE
 pybind11_add_module(tailoring binders/tailoring.cpp)
 target_include_directories(tailoring PRIVATE binders/include)
 target_link_libraries(tailoring PRIVATE
-    tket::tket symengine gmp::gmpxx gmp::gmp pybind11::headers)
+    tket::tket pybind11::headers)
 if (WIN32)
+    target_link_libraries(symengine gmp::gmpxx gmp::gmp)
     # For boost::uuid:
     target_link_libraries(tailoring PRIVATE bcrypt)
 endif()
@@ -161,7 +164,10 @@ pybind11_add_module(zx
     binders/zx/rewrite.cpp)
 target_include_directories(zx PRIVATE binders/include)
 target_link_libraries(zx PRIVATE
-    tket::tket symengine gmp::gmpxx gmp::gmp pybind11::headers)
+    tket::tket pybind11::headers)
+if (WIN32)
+    target_link_libraries(symengine gmp::gmpxx gmp::gmp)
+endif()
 
 install(TARGETS
     logging
