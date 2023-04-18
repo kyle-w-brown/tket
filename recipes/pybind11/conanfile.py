@@ -17,6 +17,7 @@ from conan.tools.cmake import CMake, CMakeToolchain
 from conan.tools.layout import basic_layout
 from conan.tools.files import get, copy, replace_in_file, rm, rmdir
 import os
+import sys
 
 
 class PyBind11Conan(ConanFile):
@@ -45,6 +46,7 @@ class PyBind11Conan(ConanFile):
         tc.variables["PYBIND11_INSTALL"] = True
         tc.variables["PYBIND11_TEST"] = False
         tc.variables["PYBIND11_CMAKECONFIG_INSTALL_DIR"] = "lib/cmake/pybind11"
+        tc.variables["PYTHON_EXECUTABLE"] = sys.executable.replace(os.sep, "/")
         tc.generate()
 
     def build(self):
