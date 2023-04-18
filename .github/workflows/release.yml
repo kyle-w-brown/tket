@@ -86,15 +86,16 @@ jobs:
         python-version: '3.9'
     - name: Install conan
       uses: turtlebrowser/get-conan@v1.2
-      with:
-        version: '1.56.0'
     - name: Set up conan
-      shell: bash
-      run: ./.github/workflows/conan-setup
+      run: |
+        conan profile detect
+        conan remote add tket-libs https://quantinuumsw.jfrog.io/artifactory/api/conan/tket1-libs
     - name: Build tket C++
-      run: conan create --profile=tket tket tket/stable --build=missing --build=tket
-    - name: Install pybind11
-      run: conan create --profile=tket recipes/pybind11
+      run: conan create tket --user tket --channel stable --build=missing -o boost/*:header_only=True -o tklog/*:shared=True -o tket/*:shared=True -tf ""
+    - name: Install pytket requirements
+      run: |
+        conan create recipes/pybind11
+        conan create recipes/pybind11_json/all --version 0.2.13
     - name: Build wheel (3.9)
       run: .github/workflows/build_macos_wheel
     - name: Set up Python 3.10
@@ -159,19 +160,20 @@ jobs:
     - run: git fetch --depth=1 origin +refs/tags/*:refs/tags/*
     - name: Install conan
       uses: turtlebrowser/get-conan@v1.2
-      with:
-        version: '1.56.0'
     - name: Set up conan
-      shell: bash
-      run: ./.github/workflows/conan-setup
+      run: |
+        conan profile detect
+        conan remote add tket-libs https://quantinuumsw.jfrog.io/artifactory/api/conan/tket1-libs
     - name: set CONAN_CMD variable
       run: |
         $conan_cmd = (gcm conan).Path
         echo "CONAN_CMD=${conan_cmd}" >> $GITHUB_ENV
     - name: Build tket
-      run: conan create --profile=tket tket tket/stable --build=missing --build=tket
-    - name: Install pybind11
-      run: conan create --profile=tket recipes/pybind11
+      run: conan create tket --user tket --channel stable --build=missing -o boost/*:header_only=True -o tklog/*:shared=True -o tket/*:shared=True -tf ""
+    - name: Install pytket requirements
+      run: |
+        conan create recipes/pybind11
+        conan create recipes/pybind11_json/all --version 0.2.13
     - name: Set up Python 3.9
       uses: actions/setup-python@v4
       with:
