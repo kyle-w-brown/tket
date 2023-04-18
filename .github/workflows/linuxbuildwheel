@@ -16,6 +16,8 @@
 
 set -evu
 
+cd /tket
+
 # Build tket
 export PYBIN=/opt/python/cp39-cp39/bin
 ${PYBIN}/pip install -U conan
