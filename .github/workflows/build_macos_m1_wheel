@@ -18,6 +18,8 @@ set -evu
 
 cd $GITHUB_WORKSPACE
 
+python -m pip install -U conan
+
 conan remove -c "pybind11/*"
 conan create recipes/pybind11
 conan create recipes/pybind11_json/all --version 0.2.13
@@ -30,3 +32,5 @@ python -m pip uninstall -y pytket
 python -m pip install -U pip build delocate
 python -m build --outdir "$GITHUB_WORKSPACE/tmp/tmpwheel_${PYVER}"
 delocate-wheel -v -w "$GITHUB_WORKSPACE/wheelhouse/${PYVER}/" "$GITHUB_WORKSPACE/tmp/tmpwheel_${PYVER}/pytket-"*".whl"
+
+python -m pip install conan~=1.59

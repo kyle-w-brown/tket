@@ -17,10 +17,12 @@
 set -evu
 
 # Build tket
-/opt/python/cp39-cp39/bin/pip install -U conan
-conan profile detect
-conan remote add tket-libs https://quantinuumsw.jfrog.io/artifactory/api/conan/tket1-libs
-conan create tket --user tket --channel stable --build=missing -o boost/*:header_only=True -o tklog/*:shared=True -o tket/*:shared=True -tf ""
+export PYBIN=/opt/python/cp39-cp39/bin
+${PYBIN}/pip install -U conan
+export CONAN_CMD=${PYBIN}/conan
+${CONAN_CMD} profile detect
+${CONAN_CMD} remote add tket-libs https://quantinuumsw.jfrog.io/artifactory/api/conan/tket1-libs
+${CONAN_CMD} create tket --user tket --channel stable --build=missing -o boost/*:header_only=True -o tklog/*:shared=True -o tket/*:shared=True -tf ""
 
 # Work around https://github.com/pypa/manylinux/issues/1309
 git config --global --add safe.directory "*"
@@ -30,14 +32,16 @@ mkdir /tket/pytket/audited
 
 for pyX in $PY_VERS
 do
-    export PYEX=/opt/python/${pyX}/bin/python
+    export PYBIN=/opt/python/${pyX}/bin
+    export PYEX=${PYBIN}/python
+    export CONAN_CMD=${PYBIN}/conan
     cd /tket
 
     # install pybind11 and pybind11_json
     ${PYEX} -m pip install -U pip build
-    conan remove -c "pybind11/*"
-    conan create recipes/pybind11
-    conan create recipes/pybind11_json/all --version 0.2.13
+    ${CONAN_CMD} remove -c "pybind11/*"
+    ${CONAN_CMD} create recipes/pybind11
+    ${CONAN_CMD} create recipes/pybind11_json/all --version 0.2.13
 
     # build pytket
     cd pytket
