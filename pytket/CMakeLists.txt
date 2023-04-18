@@ -16,15 +16,12 @@ cmake_minimum_required(VERSION 3.23)
 project(pytket CXX)
 
 find_package(tket CONFIG REQUIRED)
-find_package(pybind11_json CONFIG REQUIRED)
-find_package(pybind11 CONFIG REQUIRED COMPONENTS headers)
+find_package(tklog CONFIG REQUIRED)
+find_package(tkassert CONFIG REQUIRED)
 find_package(symengine CONFIG REQUIRED)
 find_package(gmp CONFIG REQUIRED)
-find_package(tkassert CONFIG REQUIRED)
-find_package(tktokenswap CONFIG REQUIRED)
-find_package(tkwsm CONFIG REQUIRED)
-find_package(tkrng CONFIG REQUIRED)
-find_package(tklog CONFIG REQUIRED)
+find_package(pybind11_json CONFIG REQUIRED)
+find_package(pybind11 CONFIG REQUIRED COMPONENTS headers)
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_EXTENSIONS OFF)
@@ -39,7 +36,7 @@ list(APPEND CMAKE_MODULE_PATH "${CMAKE_BINARY_DIR}")
 set(Boost_NO_BOOST_CMAKE ON)
 
 if (WIN32)
-	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /EHsc /WX")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /EHsc /WX")
 else()
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Werror -Wunreachable-code -Wunused")
 endif()
@@ -58,9 +55,6 @@ if (UNIX)
     set(CMAKE_INSTALL_RPATH "\${ORIGIN}")
 endif()
 
-set(LIBS_TO_LINK
-    tket::tket symengine tktokenswap::tktokenswap tkwsm::tkwsm gmp::gmpxx gmp::gmp tkassert::tkassert tkrng::tkrng tklog::tklog pybind11::headers pybind11_json::pybind11_json)
-
 pybind11_add_module(circuit
     binders/circuit/main.cpp
     binders/circuit/unitid.cpp
@@ -71,7 +65,8 @@ pybind11_add_module(circuit
     binders/circuit/Circuit/add_op.cpp
     binders/circuit/Circuit/add_classical_op.cpp)
 target_include_directories(circuit PRIVATE binders/include)
-target_link_libraries(circuit PRIVATE ${LIBS_TO_LINK})
+target_link_libraries(circuit PRIVATE
+    tket::tket symengine gmp::gmpxx gmp::gmp tkassert::tkassert pybind11::headers pybind11_json::pybind11_json)
 if (WIN32)
     # For boost::uuid:
     target_link_libraries(circuit PRIVATE bcrypt)
@@ -102,7 +97,8 @@ endif()
 
 pybind11_add_module(passes binders/passes.cpp)
 target_include_directories(passes PRIVATE binders/include)
-target_link_libraries(passes PRIVATE ${LIBS_TO_LINK})
+target_link_libraries(passes PRIVATE
+    tket::tket symengine gmp::gmpxx gmp::gmp pybind11::headers pybind11_json::pybind11_json)
 if (WIN32)
     # For boost::uuid:
     target_link_libraries(passes PRIVATE bcrypt)
@@ -144,7 +140,8 @@ target_link_libraries(utils_serialization PRIVATE
 
 pybind11_add_module(tailoring binders/tailoring.cpp)
 target_include_directories(tailoring PRIVATE binders/include)
-target_link_libraries(tailoring PRIVATE ${LIBS_TO_LINK})
+target_link_libraries(tailoring PRIVATE
+    tket::tket symengine gmp::gmpxx gmp::gmp pybind11::headers)
 if (WIN32)
     # For boost::uuid:
     target_link_libraries(tailoring PRIVATE bcrypt)
@@ -163,7 +160,8 @@ pybind11_add_module(zx
     binders/zx/diagram.cpp
     binders/zx/rewrite.cpp)
 target_include_directories(zx PRIVATE binders/include)
-target_link_libraries(zx PRIVATE ${LIBS_TO_LINK})
+target_link_libraries(zx PRIVATE
+    tket::tket symengine gmp::gmpxx gmp::gmp pybind11::headers)
 
 install(TARGETS
     logging
