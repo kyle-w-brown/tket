@@ -18,7 +18,7 @@ set -evu
 
 cd $GITHUB_WORKSPACE
 
-python -m pip install -U conan
+python -m pip install -U --force-reinstall conan
 
 conan remove -c "pybind11/*"
 conan create recipes/pybind11
