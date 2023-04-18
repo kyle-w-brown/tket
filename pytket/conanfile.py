@@ -1,5 +1,6 @@
 from conan import ConanFile
 from conan.tools.cmake import CMakeToolchain, CMake, cmake_layout, CMakeDeps
+import sys
 
 
 class pytketRecipe(ConanFile):
@@ -20,6 +21,7 @@ class pytketRecipe(ConanFile):
         deps = CMakeDeps(self)
         deps.generate()
         tc = CMakeToolchain(self)
+        tc.variables["PYTHON_EXECUTABLE"] = sys.executable
         tc.generate()
 
     def build(self):
