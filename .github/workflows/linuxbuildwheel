@@ -19,15 +19,17 @@ set -evu
 cd /tket
 
 # Build tket
-export PYEX=/opt/python/cp39-cp39/bin/python
+export PYEX=/opt/python/${PY_TAG}/bin/python
 ${PYEX} -m venv env
 . env/bin/activate
-pip install -U pip conan
+${PYEX} -m pip install -U pip build conan
+
 conan profile detect
 conan remote add tket-libs https://quantinuumsw.jfrog.io/artifactory/api/conan/tket1-libs
+
+# Build tket
+cd /tket
 conan create tket --user tket --channel stable --build=missing -o boost/*:header_only=True -o tklog/*:shared=True -o tket/*:shared=True -tf ""
-deactivate
-rm -rf env
 
 # Work around https://github.com/pypa/manylinux/issues/1309
 git config --global --add safe.directory "*"
@@ -35,25 +37,11 @@ git config --global --add safe.directory "*"
 mkdir /tket/pytket/wheelhouse
 mkdir /tket/pytket/audited
 
-for pyX in $PY_VERS
-do
-    export PYEX=/opt/python/${pyX}/bin/python
-    ${PYEX} -m venv env
-    . env/bin/activate
-    pip install -U pip build conan
+# Install pybind11 and pybind11_json
+conan create recipes/pybind11
+conan create recipes/pybind11_json/all --version 0.2.13
 
-    # install pybind11 and pybind11_json
-    cd /tket
-    conan remove -c "pybind11/*"
-    conan create recipes/pybind11
-    conan create recipes/pybind11_json/all --version 0.2.13
-
-    # build pytket
-    cd pytket
-    export PYVER=`${PYEX} -c 'import sys; print(".".join(map(str, sys.version_info[:3])))'`
-    ${PYEX} -m build --outdir "tmpwheel_${PYVER}"
-    LD_LIBRARY_PATH=./pytket/_tket auditwheel repair "tmpwheel_${PYVER}/pytket-"*".whl" -w "audited/${PYVER}/"
-
-    deactivate
-    rm -rf env
-done
+# build pytket
+cd pytket
+${PYEX} -m build
+LD_LIBRARY_PATH=./pytket/_tket auditwheel repair "dist/pytket-"*".whl" -w "audited/"
