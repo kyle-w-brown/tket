@@ -91,10 +91,6 @@ jobs:
         conan remote add tket-libs https://quantinuumsw.jfrog.io/artifactory/api/conan/tket1-libs
     - name: Build tket C++
       run: conan create tket --user tket --channel stable --build=missing -o boost/*:header_only=True -o tklog/*:shared=True -o tket/*:shared=True -tf ""
-    - name: Install pytket requirements
-      run: |
-        conan create recipes/pybind11
-        conan create recipes/pybind11_json/all --version 0.2.13
     - name: Build wheel (3.9)
       run: .github/workflows/build_macos_wheel
     - name: Set up Python 3.10
@@ -128,12 +124,10 @@ jobs:
       run: |
         conan profile detect --force
         conan remote add tket-libs https://quantinuumsw.jfrog.io/artifactory/api/conan/tket1-libs --force
-    - name: Build pytket dependencies
+    - name: Build tket
       run: |
         conan remove -c 'tket/*'
         conan create tket --user tket --channel stable --build=missing -o boost/*:header_only=True -o tklog/*:shared=True -o tket/*:shared=True -tf ""
-        conan create recipes/pybind11
-        conan create recipes/pybind11_json/all --version 0.2.13
     - name: Build wheels
       run: |
         eval "$(pyenv init -)"
@@ -176,16 +170,15 @@ jobs:
         echo "CONAN_CMD=${conan_cmd}" >> $GITHUB_ENV
     - name: Build tket
       run: conan create tket --user tket --channel stable --build=missing -o boost/*:header_only=True -o tklog/*:shared=True -o tket/*:shared=True -tf `"`"
-    - name: Install pytket requirements
-      run: |
-        conan create recipes/pybind11
-        conan create recipes/pybind11_json/all --version 0.2.13
     - name: Set up Python 3.9
       uses: actions/setup-python@v4
       with:
         python-version: '3.9'
     - name: Build wheel (3.9)
       run: |
+        conan remove -c "pybind11/*"
+        conan create recipes/pybind11
+        conan create recipes/pybind11_json/all --version 0.2.13
         cd pytket
         python -m pip install -U pip build
         python -m build --outdir "${{ github.workspace }}/wheelhouse/3.9"
@@ -199,6 +192,9 @@ jobs:
         python-version: '3.10'
     - name: Build wheel (3.10)
       run: |
+        conan remove -c "pybind11/*"
+        conan create recipes/pybind11
+        conan create recipes/pybind11_json/all --version 0.2.13
         cd pytket
         python -m pip install -U pip build
         python -m build --outdir "${{ github.workspace }}/wheelhouse/3.10"
@@ -212,6 +208,9 @@ jobs:
         python-version: '3.11'
     - name: Build wheel (3.11)
       run: |
+        conan remove -c "pybind11/*"
+        conan create recipes/pybind11
+        conan create recipes/pybind11_json/all --version 0.2.13
         cd pytket
         python -m pip install -U pip build
         python -m build --outdir "${{ github.workspace }}/wheelhouse/3.11"
