@@ -36,6 +36,7 @@ for pyX in $PY_VERS
 do
     export PYBIN=/opt/python/${pyX}/bin
     export PYEX=${PYBIN}/python
+    ${PYBIN}/pip install -U --force-reinstall conan
     export CONAN_CMD=${PYBIN}/conan
     cd /tket
 
