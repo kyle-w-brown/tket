@@ -170,12 +170,15 @@ jobs:
         echo "CONAN_CMD=${conan_cmd}" >> $GITHUB_ENV
     - name: Build tket
       run: conan create tket --user tket --channel stable --build=missing -o boost/*:header_only=True -o tklog/*:shared=True -o tket/*:shared=True -tf `"`"
+    - name: Uninstall conan
+      run: pip3 uninstall -y conan
     - name: Set up Python 3.9
       uses: actions/setup-python@v4
       with:
         python-version: '3.9'
     - name: Build wheel (3.9)
       run: |
+        pip install -U conan
         conan remove -c "pybind11/*"
         conan create recipes/pybind11
         conan create recipes/pybind11_json/all --version 0.2.13
@@ -192,6 +195,7 @@ jobs:
         python-version: '3.10'
     - name: Build wheel (3.10)
       run: |
+        pip install -U conan
         conan remove -c "pybind11/*"
         conan create recipes/pybind11
         conan create recipes/pybind11_json/all --version 0.2.13
@@ -208,6 +212,7 @@ jobs:
         python-version: '3.11'
     - name: Build wheel (3.11)
       run: |
+        pip install -U conan
         conan remove -c "pybind11/*"
         conan create recipes/pybind11
         conan create recipes/pybind11_json/all --version 0.2.13
