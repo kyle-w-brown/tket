@@ -132,6 +132,8 @@ jobs:
       run: |
         conan remove -c 'tket/*'
         conan create tket --user tket --channel stable --build=missing -o boost/*:header_only=True -o tklog/*:shared=True -o tket/*:shared=True -tf ""
+    - name: Uninstall conan
+      run: pip3 uninstall -y conan
     - name: Build wheels
       run: |
         eval "$(pyenv init -)"
