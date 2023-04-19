@@ -123,6 +123,8 @@ jobs:
     - run: git fetch --depth=1 origin +refs/tags/*:refs/tags/*
     - name: Uninstall conan
       run: pip3 uninstall -y conan
+    - name: Clean directory
+      run: git clean -f -x
     - name: Build wheels
       run: |
         eval "$(pyenv init -)"
