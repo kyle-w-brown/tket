@@ -28,6 +28,10 @@ cd /tket
 ${CONAN_CMD} profile detect
 ${CONAN_CMD} remote add tket-libs https://quantinuumsw.jfrog.io/artifactory/api/conan/tket1-libs
 ${CONAN_CMD} create tket --user tket --channel stable --build=missing -o boost/*:header_only=True -o tklog/*:shared=True -o tket/*:shared=True -tf ""
+
+${CONAN_CMD} remove -c "pybind11/*"
+${CONAN_CMD} remove -c "pytket/*"
+
 ${CONAN_CMD} create recipes/pybind11
 ${CONAN_CMD} create recipes/pybind11_json/all --version 0.2.13
 
