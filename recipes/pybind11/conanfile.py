@@ -46,7 +46,6 @@ class PyBind11Conan(ConanFile):
         tc.variables["PYBIND11_INSTALL"] = True
         tc.variables["PYBIND11_TEST"] = False
         tc.variables["PYBIND11_CMAKECONFIG_INSTALL_DIR"] = "lib/cmake/pybind11"
-        print("pybind11 conanfile: PYTHON_EXECUTABLE =", sys.executable)
         tc.variables["PYTHON_EXECUTABLE"] = sys.executable.replace(os.sep, "/")
         tc.generate()
 

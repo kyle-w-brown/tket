@@ -22,7 +22,6 @@ class pytketRecipe(ConanFile):
         deps = CMakeDeps(self)
         deps.generate()
         tc = CMakeToolchain(self)
-        print("pytket conanfile: PYTHON_EXECUTABLE =", sys.executable)
         tc.variables["PYTHON_EXECUTABLE"] = sys.executable.replace(os.sep, "/")
         tc.generate()
 
