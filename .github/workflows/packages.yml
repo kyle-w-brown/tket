@@ -33,8 +33,9 @@ jobs:
       uses: turtlebrowser/get-conan@v1.2
 
     - name: Set up conan
-      conan profile detect
-      conan remote add tket-libs https://quantinuumsw.jfrog.io/artifactory/api/conan/tket1-libs
+      run: |
+        conan profile detect
+        conan remote add tket-libs https://quantinuumsw.jfrog.io/artifactory/api/conan/tket1-libs
 
     - name: authenticate to repository
       run: conan remote login -p ${{ secrets.JFROG_ARTIFACTORY_TOKEN_2 }} tket-libs ${{ secrets.JFROG_ARTIFACTORY_USER_2 }}
@@ -54,8 +55,9 @@ jobs:
       uses: turtlebrowser/get-conan@v1.2
 
     - name: Set up conan
-      conan profile detect
-      conan remote add tket-libs https://quantinuumsw.jfrog.io/artifactory/api/conan/tket1-libs
+      run: |
+        conan profile detect
+        conan remote add tket-libs https://quantinuumsw.jfrog.io/artifactory/api/conan/tket1-libs
 
     - name: authenticate to repository
       run: conan remote login -p ${{ secrets.JFROG_ARTIFACTORY_TOKEN_2 }} tket-libs ${{ secrets.JFROG_ARTIFACTORY_USER_2 }}
