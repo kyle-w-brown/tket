@@ -124,15 +124,7 @@ jobs:
     - name: Uninstall conan
       run: pip3 uninstall -y conan
     - name: Clean directory
-      run: |
-        pwd
-        ls
-        ls pytket
-        git clean -f -d -x
-        ls
-        ls pytket
-    - name: Debug
-      run: find ~ -type f -name "circuit.cpython-*-darwin.so"
+      run: git clean -f -d -x
     - name: Build wheels
       run: |
         eval "$(pyenv init -)"
