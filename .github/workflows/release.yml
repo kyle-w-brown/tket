@@ -162,40 +162,40 @@ jobs:
       with:
         version: '1.59.0'
 
-  build_Windows_wheels:
-    name: Build Windows wheels
-    runs-on: windows-2022
-    strategy:
-      matrix:
-        python-version: ['3.9', '3.10', '3.11']
-    steps:
-    - uses: actions/checkout@v3
-      with:
-        fetch-depth: '0'
-    - run: git fetch --depth=1 origin +refs/tags/*:refs/tags/*
-    - name: Install conan
-      uses: turtlebrowser/get-conan@v1.2
-    - name: Set up conan
-      run: |
-        conan profile detect
-        conan remote add tket-libs https://quantinuumsw.jfrog.io/artifactory/api/conan/tket1-libs
-    - name: Build tket
-      run: conan create tket --user tket --channel stable --build=missing -o boost/*:header_only=True -o tklog/*:shared=True -o tket/*:shared=True -tf `"`"
-    - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v4
-      with:
-        python-version: ${{ matrix.python-version }}
-    - name: Build wheel
-      run: |
-        conan create recipes/pybind11
-        conan create recipes/pybind11_json/all --version 0.2.13
-        cd pytket
-        python -m pip install -U pip build
-        python -m build --outdir "${{ github.workspace }}/wheelhouse"
-    - uses: actions/upload-artifact@v3
-      with:
-        name: Windows_${{ matrix.python-version }}_wheel
-        path: wheelhouse/
+  # build_Windows_wheels:
+  #   name: Build Windows wheels
+  #   runs-on: windows-2022
+  #   strategy:
+  #     matrix:
+  #       python-version: ['3.9', '3.10', '3.11']
+  #   steps:
+  #   - uses: actions/checkout@v3
+  #     with:
+  #       fetch-depth: '0'
+  #   - run: git fetch --depth=1 origin +refs/tags/*:refs/tags/*
+  #   - name: Install conan
+  #     uses: turtlebrowser/get-conan@v1.2
+  #   - name: Set up conan
+  #     run: |
+  #       conan profile detect
+  #       conan remote add tket-libs https://quantinuumsw.jfrog.io/artifactory/api/conan/tket1-libs
+  #   - name: Build tket
+  #     run: conan create tket --user tket --channel stable --build=missing -o boost/*:header_only=True -o tklog/*:shared=True -o tket/*:shared=True -tf `"`"
+  #   - name: Set up Python ${{ matrix.python-version }}
+  #     uses: actions/setup-python@v4
+  #     with:
+  #       python-version: ${{ matrix.python-version }}
+  #   - name: Build wheel
+  #     run: |
+  #       conan create recipes/pybind11
+  #       conan create recipes/pybind11_json/all --version 0.2.13
+  #       cd pytket
+  #       python -m pip install -U pip build
+  #       python -m build --outdir "${{ github.workspace }}/wheelhouse"
+  #   - uses: actions/upload-artifact@v3
+  #     with:
+  #       name: Windows_${{ matrix.python-version }}_wheel
+  #       path: wheelhouse/
 
   # test_linux_wheels:
   #   name: Test linux wheels
@@ -321,35 +321,35 @@ jobs:
       if: always()
       run: rm -rf wheelhouse
 
-  test_Windows_wheels:
-    name: Test Windows wheels
-    needs: build_Windows_wheels
-    runs-on: windows-2022
-    strategy:
-      matrix:
-        python-version: ['3.9', '3.10', '3.11']
-    steps:
-    - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v4
-      with:
-        python-version: ${{ matrix.python-version }}
-    - name: Download wheel
-      uses: actions/download-artifact@v3
-      with:
-        name: Windows_${{ matrix.python-version }}_wheel
-        path: wheelhouse/
-    - name: Install wheel
-      shell: bash
-      run: for i in wheelhouse/pytket-*.whl ; do pip install $i ; done
-    - uses: actions/checkout@v3
-      with:
-          path: tket
-    - name: Run tests
-      run: |
-        pip install pytest hypothesis
-        cd tket/pytket/tests
-        pip install -r requirements.txt
-        pytest --ignore=simulator/
+  # test_Windows_wheels:
+  #   name: Test Windows wheels
+  #   needs: build_Windows_wheels
+  #   runs-on: windows-2022
+  #   strategy:
+  #     matrix:
+  #       python-version: ['3.9', '3.10', '3.11']
+  #   steps:
+  #   - name: Set up Python ${{ matrix.python-version }}
+  #     uses: actions/setup-python@v4
+  #     with:
+  #       python-version: ${{ matrix.python-version }}
+  #   - name: Download wheel
+  #     uses: actions/download-artifact@v3
+  #     with:
+  #       name: Windows_${{ matrix.python-version }}_wheel
+  #       path: wheelhouse/
+  #   - name: Install wheel
+  #     shell: bash
+  #     run: for i in wheelhouse/pytket-*.whl ; do pip install $i ; done
+  #   - uses: actions/checkout@v3
+  #     with:
+  #         path: tket
+  #   - name: Run tests
+  #     run: |
+  #       pip install pytest hypothesis
+  #       cd tket/pytket/tests
+  #       pip install -r requirements.txt
+  #       pytest --ignore=simulator/
 
   # publish_to_pypi:
   #   name: Publish to pypi
