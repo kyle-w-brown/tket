@@ -104,3 +104,9 @@ jobs:
         export DOCKER_HOST=unix://${HOME}/.docker/run/docker.sock
         docker start linux_build
         docker exec -e JFROG_ARTIFACTORY_TOKEN_2="${{ secrets.JFROG_ARTIFACTORY_TOKEN_2 }}" -e JFROG_ARTIFACTORY_USER_2="${{ secrets.JFROG_ARTIFACTORY_USER_2 }}" linux_build /bin/bash -c "/tket/.github/workflows/linuxbuildpackages"
+
+    - name: Remove container
+      if: always()
+      run: |
+        export DOCKER_HOST=unix://${HOME}/.docker/run/docker.sock
+        docker rm --force -v linux_build
