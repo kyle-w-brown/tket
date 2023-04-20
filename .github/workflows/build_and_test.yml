@@ -483,6 +483,7 @@ jobs:
         PKG_CONFIG_PATH="$(brew --prefix openblas)"/lib/pkgconfig pip install -U scipy
         pip install -U conan
         conan remove -c "pybind11/*"
+        conan remove -c "pytket/*"
         conan create recipes/pybind11
         conan create recipes/pybind11_json/all --version 0.2.13
         cd pytket
@@ -500,6 +501,7 @@ jobs:
         PKG_CONFIG_PATH="$(brew --prefix openblas)"/lib/pkgconfig pip install -U scipy
         pip install -U conan
         conan remove -c "pybind11/*"
+        conan remove -c "pytket/*"
         conan create recipes/pybind11
         conan create recipes/pybind11_json/all --version 0.2.13
         cd pytket
@@ -517,6 +519,7 @@ jobs:
         PKG_CONFIG_PATH="$(brew --prefix openblas)"/lib/pkgconfig pip install -U scipy
         pip install -U conan
         conan remove -c "pybind11/*"
+        conan remove -c "pytket/*"
         conan create recipes/pybind11
         conan create recipes/pybind11_json/all --version 0.2.13
         cd pytket
