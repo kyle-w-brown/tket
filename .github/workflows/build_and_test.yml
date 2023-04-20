@@ -526,9 +526,10 @@ jobs:
         cd tests
         pip install -r requirements.txt
         pytest --ignore=simulator/
+    - name: Install conan
+      uses: turtlebrowser/get-conan@v1.2
     - name: Upload package
       if: github.event_name == 'push' && github.ref == 'refs/heads/develop' && needs.check_changes.outputs.tket_changed == 'true'
-      uses: turtlebrowser/get-conan@v1.2
       run: |
         conan remote login -p ${{ secrets.JFROG_ARTIFACTORY_TOKEN_2 }} tket-libs ${{ secrets.JFROG_ARTIFACTORY_USER_2 }}
         conan upload tket/${{ needs.check_changes.outputs.tket_ver }}@tket/stable -r=tket-libs
