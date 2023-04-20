@@ -473,16 +473,15 @@ jobs:
     - name: Build tket
       if: needs.check_changes.outputs.tket_changed == 'true'
       run: conan create tket --user tket --channel stable --build=missing -o boost/*:header_only=True -o tklog/*:shared=True -o tket/*:shared=True -tf ""
-    - name: Install pytket requirements
-      run: |
-        conan create recipes/pybind11
-        conan create recipes/pybind11_json/all --version 0.2.13
     - name: Build pytket (3.9)
       if: github.event_name == 'pull_request'
       run: |
         eval "$(pyenv init -)"
         pyenv shell tket-3.9
         PKG_CONFIG_PATH="$(brew --prefix openblas)"/lib/pkgconfig pip install -U scipy
+        conan remove -c "pybind11/*"
+        conan create recipes/pybind11
+        conan create recipes/pybind11_json/all --version 0.2.13
         cd pytket
         pip uninstall -y pytket
         pip install -e . -v
@@ -491,6 +490,9 @@ jobs:
       run: |
         eval "$(pyenv init -)"
         pyenv shell tket-3.9
+        conan remove -c "pybind11/*"
+        conan create recipes/pybind11
+        conan create recipes/pybind11_json/all --version 0.2.13
         cd pytket
         pytest --doctest-modules pytket
         cd tests
@@ -502,6 +504,9 @@ jobs:
         eval "$(pyenv init -)"
         pyenv shell tket-3.10
         PKG_CONFIG_PATH="$(brew --prefix openblas)"/lib/pkgconfig pip install -U scipy
+        conan remove -c "pybind11/*"
+        conan create recipes/pybind11
+        conan create recipes/pybind11_json/all --version 0.2.13
         cd pytket
         pip uninstall -y pytket
         pip install -e . -v
