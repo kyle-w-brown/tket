@@ -459,7 +459,6 @@ jobs:
     name: Build and test pytket (macos-arm64)
     runs-on: ['self-hosted', 'macOS', 'ARM64']
     needs: check_changes
-    if: github.event_name == 'push' || github.event_name == 'schedule' || github.event.pull_request.head.repo.full_name == github.repository
     steps:
     - uses: actions/checkout@v3
     - name: Install conan
@@ -473,74 +472,62 @@ jobs:
     - name: Build tket
       if: needs.check_changes.outputs.tket_changed == 'true'
       run: conan create tket --user tket --channel stable --build=missing -o boost/*:header_only=True -o tklog/*:shared=True -o tket/*:shared=True -tf ""
-    - name: Build pytket (3.9)
+    - name: Uninstall conan
+      run: pip3 uninstall -y conan
+    - name: Build and test pytket (3.9)
       if: github.event_name == 'pull_request'
       run: |
         eval "$(pyenv init -)"
         pyenv shell tket-3.9
         PKG_CONFIG_PATH="$(brew --prefix openblas)"/lib/pkgconfig pip install -U scipy
+        pip install -U conan
         conan remove -c "pybind11/*"
         conan create recipes/pybind11
         conan create recipes/pybind11_json/all --version 0.2.13
         cd pytket
         pip uninstall -y pytket
         pip install -e . -v
-    - name: Test pytket (3.9)
-      if: github.event_name == 'pull_request'
-      run: |
-        eval "$(pyenv init -)"
-        pyenv shell tket-3.9
-        cd pytket
         pytest --doctest-modules pytket
         cd tests
         pip install -r requirements.txt
         pytest --ignore=simulator/
-    - name: Build pytket (3.10)
+    - name: Build and test pytket (3.10)
       if: github.event_name == 'push'
       run: |
         eval "$(pyenv init -)"
         pyenv shell tket-3.10
         PKG_CONFIG_PATH="$(brew --prefix openblas)"/lib/pkgconfig pip install -U scipy
+        pip install -U conan
         conan remove -c "pybind11/*"
         conan create recipes/pybind11
         conan create recipes/pybind11_json/all --version 0.2.13
         cd pytket
         pip uninstall -y pytket
         pip install -e . -v
-    - name: Test pytket (3.10)
-      if: github.event_name == 'push'
-      run: |
-        eval "$(pyenv init -)"
-        pyenv shell tket-3.10
-        cd pytket
         pytest --doctest-modules pytket
         cd tests
         pip install -r requirements.txt
         pytest --ignore=simulator/
-    - name: Build pytket (3.11)
+    - name: Build and test pytket (3.11)
       if: github.event_name == 'schedule'
       run: |
         eval "$(pyenv init -)"
         pyenv shell tket-3.11
         PKG_CONFIG_PATH="$(brew --prefix openblas)"/lib/pkgconfig pip install -U scipy
+        pip install -U conan
         conan remove -c "pybind11/*"
         conan create recipes/pybind11
         conan create recipes/pybind11_json/all --version 0.2.13
         cd pytket
         pip uninstall -y pytket
         pip install -e . -v
-    - name: Test pytket (3.11)
-      if: github.event_name == 'schedule'
-      run: |
-        eval "$(pyenv init -)"
-        pyenv shell tket-3.11
-        cd pytket
         pytest --doctest-modules pytket
         cd tests
         pip install -r requirements.txt
         pytest --ignore=simulator/
     - name: Upload package
       if: github.event_name == 'push' && github.ref == 'refs/heads/develop' && needs.check_changes.outputs.tket_changed == 'true'
+      uses: turtlebrowser/get-conan@v1.2
       run: |
         conan remote login -p ${{ secrets.JFROG_ARTIFACTORY_TOKEN_2 }} tket-libs ${{ secrets.JFROG_ARTIFACTORY_USER_2 }}
         conan upload tket/${{ needs.check_changes.outputs.tket_ver }}@tket/stable -r=tket-libs
