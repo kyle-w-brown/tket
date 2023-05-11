@@ -399,7 +399,6 @@ install(TARGETS tket
 
 if(MSVC)
     install(TARGETS tket
-        EXPORT tket-targets
         RUNTIME DESTINATION bin
         RUNTIME DESTINATION lib
         ARCHIVE DESTINATION lib
