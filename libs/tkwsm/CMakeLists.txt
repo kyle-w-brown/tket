@@ -166,7 +166,6 @@ install(TARGETS tkwsm
 
 if(MSVC)
     install(TARGETS tkwsm
-        EXPORT tkwsm-targets
         RUNTIME DESTINATION bin
         RUNTIME DESTINATION lib
         ARCHIVE DESTINATION lib

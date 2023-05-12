@@ -142,7 +142,6 @@ install(TARGETS tktokenswap
 
 if(MSVC)
     install(TARGETS tktokenswap
-        EXPORT tktokenswap-targets
         RUNTIME DESTINATION bin
         RUNTIME DESTINATION lib
         ARCHIVE DESTINATION lib

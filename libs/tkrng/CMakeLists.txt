@@ -77,7 +77,6 @@ install(TARGETS tkrng
 
 if(MSVC)
     install(TARGETS tkrng
-        EXPORT tkrng-targets
         RUNTIME DESTINATION bin
         RUNTIME DESTINATION lib
         ARCHIVE DESTINATION lib

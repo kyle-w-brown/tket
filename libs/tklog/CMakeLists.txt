@@ -77,7 +77,6 @@ install(TARGETS tklog
 
 if(MSVC)
     install(TARGETS tklog
-        EXPORT tklog-targets
         RUNTIME DESTINATION bin
         RUNTIME DESTINATION lib
         ARCHIVE DESTINATION lib

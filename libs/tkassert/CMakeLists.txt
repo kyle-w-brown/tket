@@ -80,7 +80,6 @@ install(TARGETS tkassert
 
 if(MSVC)
     install(TARGETS tkassert
-        EXPORT tkassert-targets
         RUNTIME DESTINATION bin
         RUNTIME DESTINATION lib
         ARCHIVE DESTINATION lib
