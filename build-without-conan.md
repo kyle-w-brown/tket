@@ -91,7 +91,7 @@ cmake --install .
 
 ```
 cd ${TMP_DIR}
-whet https://github.com/catchorg/Catch2/archive/refs/tags/v3.3.2.tar.gz
+wget https://github.com/catchorg/Catch2/archive/refs/tags/v3.3.2.tar.gz
 tar xzvf v3.3.2.tar.gz
 cd Catch2-3.3.2/
 mkdir build
