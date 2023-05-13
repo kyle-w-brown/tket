@@ -173,7 +173,7 @@ cmake --install .
 cd ${TKET_DIR}/libs/tkrng/
 mkdir build
 cd build
-cmake -DCMAKE_INSTALL_PREFIX=${INSTALL_DIR} ..
+cmake -DCMAKE_INSTALL_PREFIX=${INSTALL_DIR} -DCMAKE_POSITION_INDEPENDENT_CODE=ON ..
 cmake --build .
 cmake --install .
 ```
@@ -184,7 +184,7 @@ cmake --install .
 cd ${TKET_DIR}/libs/tkassert/
 mkdir build
 cd build
-cmake -DCMAKE_INSTALL_PREFIX=${INSTALL_DIR} ..
+cmake -DCMAKE_INSTALL_PREFIX=${INSTALL_DIR} -DCMAKE_POSITION_INDEPENDENT_CODE=ON ..
 cmake --build .
 cmake --install .
 ```
@@ -195,7 +195,7 @@ cmake --install .
 cd ${TKET_DIR}/libs/tkwsm/
 mkdir build
 cd build
-cmake -DCMAKE_INSTALL_PREFIX=${INSTALL_DIR} ..
+cmake -DCMAKE_INSTALL_PREFIX=${INSTALL_DIR} -DCMAKE_POSITION_INDEPENDENT_CODE=ON ..
 cmake --build .
 cmake --install .
 ```
@@ -206,7 +206,7 @@ cmake --install .
 cd ${TKET_DIR}/libs/tktokenswap/
 mkdir build
 cd build
-cmake -DCMAKE_INSTALL_PREFIX=${INSTALL_DIR} ..
+cmake -DCMAKE_INSTALL_PREFIX=${INSTALL_DIR} -DCMAKE_POSITION_INDEPENDENT_CODE=ON ..
 cmake --build .
 cmake --install .
 ```
