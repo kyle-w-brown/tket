@@ -3,6 +3,9 @@ on:
   schedule:
     # 01:00 every Monday morning
     - cron: '0 1 * * 1'
+  push:
+    branches:
+      - test-cmake-ci
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
