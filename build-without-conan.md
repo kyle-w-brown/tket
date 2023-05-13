@@ -109,6 +109,7 @@ wget https://github.com/emil-e/rapidcheck/archive/8fafda42e732164db58003e542196e
 unzip 8fafda42e732164db58003e542196e94a28481f9.zip
 cd rapidcheck-8fafda42e732164db58003e542196e94a28481f9/
 mkdir build
+cd build
 cmake -DCMAKE_INSTALL_PREFIX=${INSTALL_DIR} ..
 cmake --build .
 cmake --install .
