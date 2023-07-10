@@ -25,7 +25,6 @@ import setuptools  # type: ignore
 from setuptools import setup, Extension
 from setuptools.command.build_ext import build_ext  # type: ignore
 from sysconfig import get_config_var
-from wheel.bdist_wheel import bdist_wheel as _bdist_wheel
 
 
 class CMakeExtension(Extension):
@@ -130,16 +129,6 @@ class ConanBuild(build_ext):
 
 
 setup_dir = os.path.abspath(os.path.dirname(__file__))
-plat_name = os.getenv("WHEEL_PLAT_NAME")
-
-
-class bdist_wheel(_bdist_wheel):
-    def finalize_options(self):
-        _bdist_wheel.finalize_options(self)
-        if plat_name is not None:
-            print(f"Overriding plat_name to {plat_name}")
-            self.plat_name = plat_name
-            self.plat_name_supplied = True
 
 
 setup(
@@ -181,7 +170,6 @@ setup(
     ],
     cmdclass={
         "build_ext": CMakeBuild if os.getenv("NO_CONAN") else ConanBuild,
-        "bdist_wheel": bdist_wheel,
     },
     classifiers=[
         "Environment :: Console",
