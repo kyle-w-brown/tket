@@ -14,7 +14,13 @@
 
 cmake_minimum_required(VERSION 3.23)
 project(PackageTest CXX)
-
+if(WIN32)
+    set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS yes)
+elseif(APPLE)
+    # set correct install_name
+    set(CMAKE_INSTALL_NAME_DIR "@loader_path")
+    set(CMAKE_BUILD_WITH_INSTALL_NAME_DIR ON)
+endif()
 find_package(tket CONFIG REQUIRED)
 
 set (CMAKE_CXX_STANDARD 20)
