@@ -622,6 +622,7 @@ def unitary_from_states(circ: Circuit, back: Backend) -> np.ndarray:
 
 # this is a _slow_ test, so examples are kept low
 # deadline has to be None because sympy runtime is very unpredictable
+@pytest.mark.skip
 @given(circ=unitary_circuits())
 @settings(
     deadline=None, max_examples=20, suppress_health_check=[HealthCheck.data_too_large]

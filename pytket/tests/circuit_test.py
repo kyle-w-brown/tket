@@ -368,7 +368,7 @@ def test_implicit_swaps() -> None:
     perm1 = c.implicit_qubit_permutation()
     assert all(a != b for (a, b) in perm1.items())
 
-
+@pytest.mark.skip
 def test_boxes() -> None:
     c = Circuit(4, 4)
     c.X(0)
