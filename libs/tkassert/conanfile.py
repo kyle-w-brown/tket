@@ -19,7 +19,7 @@ from conan.errors import ConanInvalidConfiguration
 
 class TkassertConan(ConanFile):
     name = "tkassert"
-    version = "0.3.3"
+    version = "0.4.0"
     package_type = "library"
     license = "Apache 2"
     url = "https://github.com/CQCL/tket"
@@ -27,16 +27,11 @@ class TkassertConan(ConanFile):
     settings = "os", "compiler", "build_type", "arch"
     options = {
         "shared": [True, False],
-        "fPIC": [True, False],
         "profile_coverage": [True, False],
     }
-    default_options = {"shared": False, "fPIC": True, "profile_coverage": False}
+    default_options = {"shared": False, "profile_coverage": False}
     # a hash of the conanfile.py + the files listed here builds the conan revision
     exports_sources = "CMakeLists.txt", "cmake/*", "src/*", "include/*"
-
-    def config_options(self):
-        if self.settings.os == "Windows":
-            del self.options.fPIC
 
     def layout(self):
         cmake_layout(self)
@@ -67,4 +62,4 @@ class TkassertConan(ConanFile):
         self.cpp_info.libs = ["tkassert"]
 
     def requirements(self):
-        self.requires("tklog/0.3.3@tket/stable", transitive_headers=True)
+        self.requires("tklog/0.4.0@tket/stable", transitive_headers=True)

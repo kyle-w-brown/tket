@@ -19,7 +19,7 @@ from conan.errors import ConanInvalidConfiguration
 
 class TkwsmConan(ConanFile):
     name = "tkwsm"
-    version = "0.3.5"
+    version = "0.4.0"
     package_type = "library"
     license = "Apache 2"
     url = "https://github.com/CQCL/tket"
@@ -27,16 +27,11 @@ class TkwsmConan(ConanFile):
     settings = "os", "compiler", "build_type", "arch"
     options = {
         "shared": [True, False],
-        "fPIC": [True, False],
         "profile_coverage": [True, False],
     }
-    default_options = {"shared": False, "fPIC": True, "profile_coverage": False}
+    default_options = {"shared": False, "profile_coverage": False}
     # a hash of the conanfile.py + the files listed here builds the conan revision
     exports_sources = "CMakeLists.txt", "cmake/*", "src/*", "include/*"
-
-    def config_options(self):
-        if self.settings.os == "Windows":
-            del self.options.fPIC
 
     def configure(self):
         self.options["boost"].header_only = True
@@ -70,6 +65,6 @@ class TkwsmConan(ConanFile):
         self.cpp_info.libs = ["tkwsm"]
 
     def requirements(self):
-        self.requires("tkassert/0.3.3@tket/stable")
-        self.requires("tkrng/0.3.3@tket/stable")
+        self.requires("tkassert/0.4.0@tket/stable")
+        self.requires("tkrng/0.4.0@tket/stable")
         self.requires("boost/1.83.0", transitive_headers=True, transitive_libs=False)
