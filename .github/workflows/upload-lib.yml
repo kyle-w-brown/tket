@@ -1,5 +1,8 @@
 name: Upload library
 on:
+  push:
+    branches:
+      test-buildlibs
   workflow_dispatch:
     inputs:
       libname:
