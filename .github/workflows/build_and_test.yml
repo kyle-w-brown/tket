@@ -89,7 +89,6 @@ jobs:
   build_test_tket:
     name: Build and test (tket)
     needs: check_changes
-    if: needs.check_changes.outputs.tket_changed == 'true'
     strategy:
       matrix:
         os: ['ubuntu-22.04', 'macos-12']
@@ -143,7 +142,6 @@ jobs:
   build_test_tket_windows:
     name: Build and test (tket)
     needs: check_changes
-    if: needs.check_changes.outputs.tket_changed == 'true'
     strategy:
       matrix:
         os: ['windows-2022']
@@ -218,7 +216,6 @@ jobs:
     name: Build and test tket (macos-arm64)
     runs-on: ['self-hosted', 'macOS', 'ARM64']
     needs: check_changes
-    if: needs.check_changes.outputs.tket_changed == 'true' && github.repository == 'CQCL/tket'
     steps:
     - uses: actions/checkout@v4
     - name: Install conan
@@ -274,7 +271,6 @@ jobs:
   build_test_pytket_ubuntu:
     name: Build and test pytket (ubuntu)
     needs: check_changes
-    if: needs.check_changes.outputs.tket_changed == 'true' || needs.check_changes.outputs.pytket_changed == 'true'
     runs-on: ubuntu-22.04
     steps:
     - uses: actions/checkout@v4
@@ -373,7 +369,6 @@ jobs:
   build_test_pytket_macos:
     name: Build and test pytket (macos)
     needs: check_changes
-    if: needs.check_changes.outputs.tket_changed == 'true' || needs.check_changes.outputs.pytket_changed == 'true'
     runs-on: macos-12
     steps:
     - uses: actions/checkout@v4
@@ -466,7 +461,6 @@ jobs:
     # See https://ccache.dev/manual/4.8.2.html#_cache_statistics for more info on what that means. I myself haven't fully understood.
     # Giving up for now
     needs: check_changes
-    if: needs.check_changes.outputs.tket_changed == 'true' || needs.check_changes.outputs.pytket_changed == 'true'
     runs-on: windows-2022
     steps:
     - uses: actions/checkout@v4
@@ -544,7 +538,6 @@ jobs:
     name: Build and test pytket (macos-arm64)
     runs-on: ['self-hosted', 'macOS', 'ARM64']
     needs: check_changes
-    if: (needs.check_changes.outputs.tket_changed == 'true' || needs.check_changes.outputs.pytket_changed == 'true') && github.repository == 'CQCL/tket'
     steps:
     - uses: actions/checkout@v4
     - name: Install conan
