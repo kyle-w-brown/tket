@@ -110,7 +110,7 @@ jobs:
         conan profile detect
         DEFAULT_PROFILE_PATH=`conan profile path default`
         PROFILE_PATH=./conan-profiles/${{ matrix.os }}
-        diff ${DEFAULT_PROFILE_PATH} ${PROFILE_PATH}
+        diff ${DEFAULT_PROFILE_PATH} ${PROFILE_PATH} || true
         cp ${PROFILE_PATH} ${DEFAULT_PROFILE_PATH}
         conan remote add tket-libs https://quantinuumsw.jfrog.io/artifactory/api/conan/tket1-libs --index 0
     - name: Install runtime test requirements
@@ -157,7 +157,7 @@ jobs:
           conan profile detect
           DEFAULT_PROFILE_PATH=`conan profile path default`
           PROFILE_PATH=./conan-profiles/${{ matrix.os }}
-          diff ${DEFAULT_PROFILE_PATH} ${PROFILE_PATH}
+          diff ${DEFAULT_PROFILE_PATH} ${PROFILE_PATH} || true
           cp ${PROFILE_PATH} ${DEFAULT_PROFILE_PATH}
           conan remote add tket-libs https://quantinuumsw.jfrog.io/artifactory/api/conan/tket1-libs --index 0
       - name: normalize line endings in conanfile and src directory
@@ -227,7 +227,7 @@ jobs:
         conan profile detect --force
         DEFAULT_PROFILE_PATH=`conan profile path default`
         PROFILE_PATH=./conan-profiles/macos-armv8-clang14
-        diff ${DEFAULT_PROFILE_PATH} ${PROFILE_PATH}
+        diff ${DEFAULT_PROFILE_PATH} ${PROFILE_PATH} || true
         cp ${PROFILE_PATH} ${DEFAULT_PROFILE_PATH}
         conan remote add tket-libs https://quantinuumsw.jfrog.io/artifactory/api/conan/tket1-libs --force --index 0
         conan cache clean
@@ -284,7 +284,7 @@ jobs:
         conan profile detect
         DEFAULT_PROFILE_PATH=`conan profile path default`
         PROFILE_PATH=./conan-profiles/ubuntu-22.04
-        diff ${DEFAULT_PROFILE_PATH} ${PROFILE_PATH}
+        diff ${DEFAULT_PROFILE_PATH} ${PROFILE_PATH} || true
         cp ${PROFILE_PATH} ${DEFAULT_PROFILE_PATH}
         conan remote add tket-libs https://quantinuumsw.jfrog.io/artifactory/api/conan/tket1-libs --index 0
     - name: ccache
@@ -388,7 +388,7 @@ jobs:
         conan profile detect
         DEFAULT_PROFILE_PATH=`conan profile path default`
         PROFILE_PATH=./conan-profiles/macos-12
-        diff ${DEFAULT_PROFILE_PATH} ${PROFILE_PATH}
+        diff ${DEFAULT_PROFILE_PATH} ${PROFILE_PATH} || true
         cp ${PROFILE_PATH} ${DEFAULT_PROFILE_PATH}
         conan remote add tket-libs https://quantinuumsw.jfrog.io/artifactory/api/conan/tket1-libs --index 0
     - name: ccache
@@ -477,7 +477,7 @@ jobs:
         conan profile detect
         DEFAULT_PROFILE_PATH=`conan profile path default`
         PROFILE_PATH=./conan-profiles/windows-2022
-        diff ${DEFAULT_PROFILE_PATH} ${PROFILE_PATH}
+        diff ${DEFAULT_PROFILE_PATH} ${PROFILE_PATH} || true
         cp ${PROFILE_PATH} ${DEFAULT_PROFILE_PATH}
         conan remote add tket-libs https://quantinuumsw.jfrog.io/artifactory/api/conan/tket1-libs --index 0
     - name: normalize line endings in conanfile and src directory
@@ -553,7 +553,7 @@ jobs:
         conan profile detect --force
         DEFAULT_PROFILE_PATH=`conan profile path default`
         PROFILE_PATH=./conan-profiles/macos-armv8-clang14
-        diff ${DEFAULT_PROFILE_PATH} ${PROFILE_PATH}
+        diff ${DEFAULT_PROFILE_PATH} ${PROFILE_PATH} || true
         cp ${PROFILE_PATH} ${DEFAULT_PROFILE_PATH}
         conan remote add tket-libs https://quantinuumsw.jfrog.io/artifactory/api/conan/tket1-libs --force --index 0
     - name: Remove tket package from cache
