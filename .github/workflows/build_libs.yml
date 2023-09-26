@@ -65,6 +65,7 @@ jobs:
     - name: Install conan
       uses: turtlebrowser/get-conan@v1.2
     - name: Set up conan
+      shell: bash
       run: |
         conan profile detect
         DEFAULT_PROFILE_PATH=`conan profile path default`
