@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - develop
+      - run-build-libs-with-macos-13-xlarge
   pull_request:
     branches:
       - develop
