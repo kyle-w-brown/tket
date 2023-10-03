@@ -76,6 +76,7 @@ jobs:
     - name: Install docker
       run: |
         brew install colima docker
+        colima start || true
         codesign --sign - --entitlements .github/workflows/entitlements.xml --force /Users/runner/.colima/_wrapper/3a9197e1ca3cd2da076da2b473d7a7eb118e2cca/bin/qemu-system-aarch64
         colima start
         # For testcontainers to find the Colima socket
