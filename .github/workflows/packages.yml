@@ -81,6 +81,9 @@ jobs:
         # https://github.com/abiosoft/colima/blob/main/docs/FAQ.md#cannot-connect-to-the-docker-daemon-at-unixvarrundockersock-is-the-docker-daemon-running
         sudo ln -sf $HOME/.colima/default/docker.sock /var/run/docker.sock
 
+    - name: Sign QEMU
+      run: codesign --sign - --entitlements .github/workflows/entitlements.xml --force /usr/local/bin/qemu-system-$(uname -m | sed -e s/arm64/aarch64/)
+
     - name: Set up container
       run: |
         docker create --name linux_build -i -v /:/host quay.io/pypa/manylinux2014_aarch64:latest /bin/bash
