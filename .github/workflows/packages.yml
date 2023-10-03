@@ -78,7 +78,9 @@ jobs:
         brew install colima docker
         colima start || true
         codesign --sign - --entitlements .github/workflows/entitlements.xml --force /Users/runner/.colima/_wrapper/3a9197e1ca3cd2da076da2b473d7a7eb118e2cca/bin/qemu-system-aarch64
-        colima start
+        colima start || true
+        cat /Users/runner/.lima/colima/ha.stderr.log
+        exit 1
         # For testcontainers to find the Colima socket
         # https://github.com/abiosoft/colima/blob/main/docs/FAQ.md#cannot-connect-to-the-docker-daemon-at-unixvarrundockersock-is-the-docker-daemon-running
         sudo ln -sf $HOME/.colima/default/docker.sock /var/run/docker.sock
