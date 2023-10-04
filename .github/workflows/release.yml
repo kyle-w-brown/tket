@@ -126,9 +126,13 @@ jobs:
         fetch-depth: '0'
     - run: git fetch --depth=1 origin +refs/tags/*:refs/tags/*
     - name: Set up Python ${{ matrix.python-version }}
+      if: matrix.python-version != '3.9'
       uses: actions/setup-python@v4
       with:
         python-version: ${{ matrix.python-version }}
+    - name: Set up Python 3.9
+      if: matrix.python-version == '3.9'
+      run: brew install python@3.9
     - name: Install conan
       uses: turtlebrowser/get-conan@v1.2
     - name: Set up conan
@@ -299,9 +303,13 @@ jobs:
         python-version: ['3.9', '3.10', '3.11']
     steps:
     - name: Set up Python ${{ matrix.python-version }}
+      if: matrix.python-version != '3.9'
       uses: actions/setup-python@v4
       with:
         python-version: ${{ matrix.python-version }}
+    - name: Set up Python 3.9
+      if: matrix.python-version == '3.9'
+      run: brew install python@3.9
     - name: Download wheels
       uses: actions/download-artifact@v3
       with:
