@@ -152,8 +152,8 @@ jobs:
         cd pytket
         # Ensure wheels are compatible with MacOS 11.0 and later:
         export WHEEL_PLAT_NAME=macosx_11_0_arm64
-        pip install -U pip build delocate
-        python -m build
+        python${{ matrix.python-version }} -m pip install -U pip build delocate
+        python${{ matrix.python-version }} -m build
         delocate-wheel -v -w "$GITHUB_WORKSPACE/wheelhouse/" "dist/pytket-"*".whl"
     - uses: actions/upload-artifact@v3
       with:
@@ -320,12 +320,12 @@ jobs:
         path: tket
     - name: Install wheel
       run: |
-        pip install $GITHUB_WORKSPACE/wheelhouse/pytket-*.whl
+        python${{ matrix.python-version }} -m pip install $GITHUB_WORKSPACE/wheelhouse/pytket-*.whl
     - name: Run tests
       run: |
         cd tket/pytket/tests
-        pip install -r requirements.txt
-        pytest --ignore=simulator/
+        python${{ matrix.python-version }} -m pip install -r requirements.txt
+        python${{ matrix.python-version }} -m pytest --ignore=simulator/
 
   # test_Windows_wheels:
   #   name: Test Windows wheels
