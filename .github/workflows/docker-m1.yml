@@ -1,0 +1,18 @@
+name: docker-m1
+
+on:
+  push:
+    branches:
+      - 'docker-m1'
+
+jobs:
+  docker:
+    name: docker
+    runs-on: macos-13-xlarge
+    steps:
+    - name: install docker
+      run: |
+        brew install docker colima
+        colima start --very-verbose
+    - name: set up container
+      run: docker create --name linux_build -i -v /:/host quay.io/pypa/manylinux2014_aarch64:latest /bin/bash
