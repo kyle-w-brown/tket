@@ -13,6 +13,11 @@ jobs:
     - name: install docker
       run: |
         brew install docker colima
-        colima start --very-verbose
+    - name: try starting colima
+      run: colima start --very-verbose || true
+    - name: sign binary
+      run: codesign --sign - --entitlements .github/workflows/entitlements.xml --force /Users/runner/.colima/_wrapper/3a9197e1ca3cd2da076da2b473d7a7eb118e2cca/bin/qemu-system-aarch64
+    - name: try again starting colima
+      run: colima start --very-verbose
     - name: set up container
       run: docker create --name linux_build -i -v /:/host quay.io/pypa/manylinux2014_aarch64:latest /bin/bash
