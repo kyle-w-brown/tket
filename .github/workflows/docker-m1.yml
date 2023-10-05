@@ -16,8 +16,10 @@ jobs:
     - name: install docker
       run: |
         brew install docker colima
-    - name: start lima
-      run: limactl start template://docker
+    - name: try starting lima
+      run: |
+        limactl start template://docker || true
+        cat /Users/runner/.lima/docker/ha.stderr.log
     # - name: try starting colima
     #   run: colima start --very-verbose || true
     # - name: sign binary
