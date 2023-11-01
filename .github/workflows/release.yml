@@ -37,7 +37,7 @@ jobs:
 
   build_Linux_aarch64_wheels:
     name: Build manylinux aarch64
-    runs-on: ['self-hosted', 'macOS', 'ARM64']
+    runs-on: 'buildjet-4vcpu-ubuntu-2204-arm'
     strategy:
       matrix:
         python3-version: ['9', '10', '11']
@@ -48,28 +48,18 @@ jobs:
     - run: git fetch --depth=1 origin +refs/tags/*:refs/tags/*
     - name: Set up container
       run: |
-        export DOCKER_HOST=unix://${HOME}/.docker/run/docker.sock
         docker create --name linux_build -i -v /:/host quay.io/pypa/manylinux2014_aarch64:latest /bin/bash
         docker cp . linux_build:/tket/
     - name: Run build
       run: |
-        export DOCKER_HOST=unix://${HOME}/.docker/run/docker.sock
         docker start linux_build
         docker exec -e PY_TAG="cp3${{ matrix.python3-version }}-cp3${{ matrix.python3-version }}" -e CONAN_PROFILE=linux-armv8-gcc10-libstdc++ linux_build /bin/bash -c "/tket/.github/workflows/linuxbuildwheel"
         mkdir wheelhouse
         docker cp linux_build:/tket/pytket/audited/. wheelhouse/
-    - name: Remove container
-      if: always()
-      run: |
-        export DOCKER_HOST=unix://${HOME}/.docker/run/docker.sock
-        docker rm --force -v linux_build
     - uses: actions/upload-artifact@v3
       with:
         name: Linux_aarch64_3.${{ matrix.python3-version }}_wheel
         path: wheelhouse/
-    - name: Remove directory
-      if: always()
-      run: rm -rf wheelhouse
 
   build_macos_wheels:
     name: Build macos wheels
@@ -231,37 +221,31 @@ jobs:
   test_Linux_aarch64_wheels:
     name: Test linux aarch64 wheels
     needs: build_Linux_aarch64_wheels
-    runs-on: ['self-hosted', 'macOS', 'ARM64']
+    runs-on: 'buildjet-4vcpu-ubuntu-2204-arm'
     strategy:
       matrix:
         python3-version: ['9', '10', '11']
     steps:
-    - uses: actions/checkout@v4
-      with:
-        path: tket
-    - name: Download wheel
-      uses: actions/download-artifact@v3
-      with:
-        name: Linux_aarch64_3.${{ matrix.python3-version }}_wheel
-        path: wheelhouse/
-    - name: Set up container
-      run: |
-        export DOCKER_HOST=unix://${HOME}/.docker/run/docker.sock
-        docker create --name linux_build -i -v /:/host quay.io/pypa/manylinux2014_aarch64:latest /bin/bash
-        docker cp . linux_build:/tket/
-    - name: Run tests
-      run: |
-        export DOCKER_HOST=unix://${HOME}/.docker/run/docker.sock
-        docker start linux_build
-        docker exec -e PY_TAG="cp3${{ matrix.python3-version }}-cp3${{ matrix.python3-version }}" linux_build /bin/bash -c "/tket/.github/workflows/linuxtestwheel"
-    - name: Remove container
-      if: always()
-      run: |
-        export DOCKER_HOST=unix://${HOME}/.docker/run/docker.sock
-        docker rm --force -v linux_build
-    - name: Remove directory
-      if: always()
-      run: rm -rf wheelhouse
+      - name: Set up Python 3.${{ matrix.python3-version }}
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.${{ matrix.python3-version }}"
+      - name: Download wheels
+        uses: actions/download-artifact@v3
+        with:
+          name: Linux_aarch64_3.${{ matrix.python3-version }}_wheel
+          path: wheelhouse/
+      - name: Install wheel
+        run: pip install wheelhouse/pytket-*.whl
+      - uses: actions/checkout@v4
+        with:
+          path: tket
+      - name: Setup tests
+        run: |
+          cd tket/pytket/tests
+          pip install -r requirements.txt
+      - name: Run tests
+        run: cd tket/pytket/tests && pytest --ignore=simulator/
 
   test_macos_wheels:
     name: Test macos wheels
