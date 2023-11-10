@@ -14,13 +14,13 @@
 
 #include "tket/Circuit/Circuit.hpp"
 
-#include <Assert.hpp>
 #include <algorithm>
 #include <fstream>
 #include <numeric>
 #include <optional>
 #include <set>
 #include <string>
+#include <tkassert/Assert.hpp>
 #include <tklog/TketLog.hpp>
 #include <utility>
 
